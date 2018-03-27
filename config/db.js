@@ -3,6 +3,7 @@ var mongoooseInst = require('mongoose').Mongoose;
 var mongoose = new mongoooseInst();
 var Schema = mongoose.Schema;
 var pool;
+var x = 9;
 
 function connect(){
 	if(pool) return;
