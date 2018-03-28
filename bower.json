@@ -1,0 +1,19 @@
+{
+  "name": "adminpanel",
+  "description": "Bower for admin Panel",
+  "main": "server.js",
+  "authors": [
+    "saurabh.sharma <saurabh.sharma@spicedigital.in>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/SHAPPY0/travelBasera",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/lib",
+    "test",
+    "tests"
+  ]
+}
