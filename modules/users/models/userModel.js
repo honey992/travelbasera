@@ -14,6 +14,11 @@ var userSchema = new db.Schema({
 		required:true,
 		trim:true
 	},
+	username:{
+		type:String,
+		required:true,
+		trim:true
+	},
 	mobile:{
 		type:String, 
 		min:10, 
@@ -21,18 +26,20 @@ var userSchema = new db.Schema({
 		required:true 
 	},
 	password:{
-		type:String,  
-		lowercase:true, 
+		type:String,   
 		required:true 
+	},
+	address:{
+		type:String 
 	},
 	role:{
 		type:String,
-		default: 'SuperAdmin'
+		default: 'Admin'
 	},
 	permissions:{
-		type:String
+		type:Object
 	},
-	is_deleted:{ 
+	is_active:{ 
 		type:Boolean, 
 		default: false 
 	},

@@ -5,6 +5,7 @@ var db = require('../config/db');
 module.exports = function(app){
 	require('./users/routes')(app);
 	require('./country/routes')(app);
+	require('./roles/routes')(app);
 	require('./tickets/routes')(app);
 
 

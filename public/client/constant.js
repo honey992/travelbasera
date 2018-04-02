@@ -12,7 +12,9 @@ app.constant("configuration", (function() {
 
         
         SIGN_UP_URL: "api/signup",
-        LOGIN_URL : "api/login"
+        LOGIN_URL : "api/login",
+        ADD_ROLES_URL : "api/addRoles",
+        FETCH_ROLES_URL : "api/getRoles",
 
     }
 })());

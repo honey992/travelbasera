@@ -23,7 +23,7 @@ var userCtrl = {
 			if(err){
 				return next(err);
 			}
-			res.json({message:'User Loggedin Successfully', data:options.loggedinUser});
+			res.json({message:'User Loggedin Successfully', token:options.token});
 		})
 	},
 

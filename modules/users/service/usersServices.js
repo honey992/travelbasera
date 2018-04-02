@@ -30,8 +30,10 @@ function saveNewUser(){
 	self.password = middlewares.cipher(self.password);
 	let newUser = userModel(self)
 	newUser.save((err, data)=>{
-		if(err)
+		if(err){
+			console.log(err)
 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Register New User"}));
+		}
 		deferred.resolve();
 	})
 	return deferred.promise;
@@ -58,7 +60,8 @@ function userLogin(){
 	let deferred = Q.defer();
 	let user = self.matchedUser._doc;
 	if(self.password == middlewares.decipher(user.password)){
-		self.loggedinUser = user;
+		var token = jwt.sign(user, jwtSecret);
+		self.token = token;
 		deferred.resolve(); 
 	} else{
 		deferred.reject(ec.Error({status:ec.NOT_FOUND, message :"Email/Password missmatched"}));
@@ -67,26 +70,7 @@ function userLogin(){
 	return deferred.promise; 
 
 }
-
-// userModel.findOne({email:options.email}, function(err, result){
-// 			if(err){
-// 				return cb(ec.Error({status:417, message:"Unable to Login."}));
-// 			}
-// 			console.log(result)
-// 			if(result._doc.password !== options.password){
-// 				return cb(ec.Error({status:417, message:"Invalid Email or Password."}));
-// 			}
-// 			var token = jwt.sign({
-// 					  exp: Math.floor(Date.now() / 1000) + (60 * 60),
-// 					  data: result._doc
-// 					},jwtSecret); 
-
-// 			result._doc.token = token;
-// 			// jwt.verify(token, jwtSecret, function(err, decoded) {
-// 			//   console.log(decoded) // bar
-// 			// });
-// 			cb(null, result._doc)
-// 		})
+ 
 
 var userServ = {
 	userSignupService:function(options, cb){
