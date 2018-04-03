@@ -47,7 +47,7 @@ function findUserByEmail(){
 		if(err) 
 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to get user by Email"}));
 		if(!data)
-			return deferred.reject(ec.Error({status:ec.NOT_FOUND, message :"Email/Password missmatched"}));
+			return deferred.reject(ec.Error({status:ec.UNAUTHORIZED_ACCESS, message :"Email/Password missmatched"}));
 		self.matchedUser = data;
 		deferred.resolve();
 	});
@@ -60,15 +60,44 @@ function userLogin(){
 	let deferred = Q.defer();
 	let user = self.matchedUser._doc;
 	if(self.password == middlewares.decipher(user.password)){
+		delete user.password;
 		var token = jwt.sign(user, jwtSecret);
 		self.token = token;
 		deferred.resolve(); 
 	} else{
-		deferred.reject(ec.Error({status:ec.NOT_FOUND, message :"Email/Password missmatched"}));
+		deferred.reject(ec.Error({status:ec.UNAUTHORIZED_ACCESS, message :"Email/Password missmatched"}));
 	}
 	
 	return deferred.promise; 
 
+}
+
+function checkPreviousPassword(){
+	var self =this;
+	var deferred  = Q.defer();
+	userModel.findOne({_id:self._id}, function(err, data){
+		if(err)
+			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch user "}));
+		var decPassword = middlewares.decipher(data.password);
+		if(decPassword === self.oldPassword){
+			deferred.resolve();
+		}else{
+			deferred.reject(ec.Error({status:ec.UNAUTHORIZED_ACCESS, message :"Invalid Current Password"}));
+		}
+	});
+	return deferred.promise;
+};
+
+function updatePassword(){
+	var self = this;
+	var deferred = Q.defer();
+	var encPassword = middlewares.cipher(self.newPassword);
+	userModel.update({_id:self._id}, {$set:{password:encPassword}}, function(err, data){
+		if(err)
+			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Update Password "}));
+		deferred.resolve();
+	});
+	return deferred.promise;
 }
  
 
@@ -76,7 +105,7 @@ var userServ = {
 	userSignupService:function(options, cb){
 
 		 if(!options || !options.firstname || !options.lastname || !options.email || !options.mobile )
-            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create user"}));
+            return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to create user"}));
 
 		checkEmailId.call(options)
             .then(saveNewUser.bind(options)) 
@@ -93,7 +122,7 @@ var userServ = {
 
 	userLoginService: function(options, cb){
 		if(!options || !options.email || !options.password)
-            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to login"}));
+            return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to login"}));
 
         findUserByEmail.call(options)
             .then(userLogin.bind(options)) 
@@ -110,9 +139,22 @@ var userServ = {
 	},
 	getAllUsers: function(options, cb){
 		userModel.find({}, function(err, result){
-			if(err) return cb(ec.Error({status:404, message:'Unable to get results'}));
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
 			cb(null, result);
 		});
-	}
+	},
+	changePasswordService: function(options, cb){
+		checkPreviousPassword.call(options)
+            .then(updatePassword.bind(options)) 
+            .then(cb)
+            .fail(failureCb)
+            .catch(failureCb)
+
+        function failureCb(err){
+            var finalErr = new Error(err.message || 'Some Undefined Error Occurs.');
+            finalErr.status = err.status || 400;
+            return cb(finalErr);
+        } 
+	} 
 };
 module.exports = userServ;

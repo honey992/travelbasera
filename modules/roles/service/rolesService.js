@@ -27,10 +27,10 @@ const middlewares 	= 	lib.middlewares;
  		if(err)
  			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Role"}));
  		
- 			var lastElm = data[data.length-1];
- 		self.r_code = parseInt(lastElm.r_code)+1;
- 		console.log(self);
- 		
+ 		if(data.length){
+            var lastElm = data[data.length-1];
+     		self.r_code = parseInt(lastElm.r_code)+1;
+       } 
  		deferred.resolve();
  	});
  	return deferred.promise;

@@ -15,6 +15,8 @@ app.constant("configuration", (function() {
         LOGIN_URL : "api/login",
         ADD_ROLES_URL : "api/addRoles",
         FETCH_ROLES_URL : "api/getRoles",
+        FETCH_USERS_URL : "api/getAllUsers",
+        CHANGE_PASSWORD_URL : "api/changePassword",
 
     }
 })());

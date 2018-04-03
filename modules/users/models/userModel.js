@@ -41,7 +41,7 @@ var userSchema = new db.Schema({
 	},
 	is_active:{ 
 		type:Boolean, 
-		default: false 
+		default: true 
 	},
 	created_at:{
 		type :Date 

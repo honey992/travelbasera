@@ -5,6 +5,7 @@ var env = process.env.NODE_ENV || 'development';
 module.exports= function(err, req, res, next) {
 console.log("err=",err)
   if(!err) return next();
+  debugger;
   var code = err.status || 500;
   // var response = { error: err.message || err, stack: err.stack?err.stack.split('\n') : '' };
     var response = { status: code, message: err.message || err };

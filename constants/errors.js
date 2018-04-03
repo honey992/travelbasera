@@ -17,12 +17,19 @@ define("PRECONDITION_FAILED", 412);
 define("FORBIDDEN", 403);
 
 var appError = function(obj){
+
 	if(obj){
-		var err = new Error();
-			err.status  = obj.status;
-			err.message = obj.message || 'Internal Error';	
-			return err;	
-	} 
+	    var err = new Error();
+		var err_msg = obj.message || 'Internal Error';
+		err.status = obj.status;
+		err.message = err_msg;
+		return err;
+	}
 };
 
-define('Error', appError);
+var checkError = function(err){
+	if(err) console.log('DB Error:', err);
+};
+
+define("Error",appError);
+define("checkError",checkError);

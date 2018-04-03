@@ -452,3 +452,9 @@ table.dataTable thead .sorting:after {
 .navbar-default .navbar-brand {
     color: #fff !important;
 }
+.alert{
+      width: 400px;
+    right: 0px;
+    bottom: -10px;
+    position: fixed;
+}

@@ -1,6 +1,6 @@
 "use strict";
 
-var app = angular.module('travelBasera', ["ngRoute"]);
+var app = angular.module('travelBasera', ["ngRoute",'angular-jwt']);
 
  
 
@@ -11,6 +11,9 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
         }).when("/dashboard", {
             templateUrl: "/view/dashboard.html",
             controller: "dashboardController"
+        }).when("/profile", {
+            templateUrl: "/view/pages/profile.html",
+            controller: "userController"
         }).when("/users", {
             templateUrl: "/view/pages/users.html",
             controller: "userController"
@@ -31,17 +34,18 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
         });
     }]);
 
-app.run(function ($rootScope, $location, $route,$document) {
+app.run(function ($rootScope, $location, $route,$document,jwtHelper) {
   $rootScope.$on('$routeChangeStart',
     function (event, next, current) { 
-        // var userToekn = sessionStorage.getItem('token');
-        // if(next.$$route.originalPath == "/");
-        // $document[0].getElementById("nav").style.display = "none";
-        //             //$rootScope.hideOnLogin = true;
-        // if(!userToekn){
-        //     $location.path('/');
-        // }else{
-            
-        // }
+        var userToken = sessionStorage.getItem('token');
+        if(next.$$route.originalPath == "/") $rootScope.hideOnLogin = true;
+        else $rootScope.hideOnLogin = false;
+
+        if(userToken){
+             $rootScope.loggedInUser = jwtHelper.decodeToken(userToken);
+             console.log( $rootScope.loggedInUser) 
+        }else{
+            $location.path('/');
+        }
   });
 });
