@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 if (app.get('env') === 'development') {
     app.use(errorHandler());
 }
-require('./routes')(app);
+require('./modules')(app);
  
 app.all('*', function(req, res) {
     res.sendfile('public/view/index.html');  

@@ -3,10 +3,9 @@
 var db = require('../config/db');
 
 module.exports = function(app){
-	require('./users/routes')(app);
-	require('./country/routes')(app);
-	require('./roles/routes')(app);
-	require('./tickets/routes')(app);
+	require('./routes/users')(app);
+	require('./routes/country')(app);
+	require('./routes/roles')(app);
 
 
 	db.mongoose.connection.on('connected', function (err) {

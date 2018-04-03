@@ -1,6 +1,6 @@
 'use strict';
 
-var userServices = require('../service/usersServices');
+var userServices = require('../../services').usersServices;
 var _ = require('lodash');
 
 var userCtrl = {

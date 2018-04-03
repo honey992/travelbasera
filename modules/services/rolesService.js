@@ -1,8 +1,8 @@
 var _ 				= 	require('lodash');
 var Q 				=	require('q');
 var rolesModel 		= 	require('../models/rolesModel');
-var ec 				= 	require('../../../constants').errors;
-const lib 			=	require('../../../lib');
+var ec 				= 	require('../../constants').errors;
+const lib 			=	require('../../lib');
 const middlewares 	= 	lib.middlewares; 
 
  

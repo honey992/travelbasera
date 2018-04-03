@@ -2,8 +2,8 @@ var _ 				= 	require('lodash');
 var jwt				=	require('jsonwebtoken');
 var Q 				=	require('q');
 var userModel 		= 	require('../models/userModel');
-var ec 				= 	require('../../../constants').errors;
-const lib 			=	require('../../../lib');
+var ec 				= 	require('../../constants').errors;
+const lib 			=	require('../../lib');
 const middlewares 	= 	lib.middlewares; 
 
 var jwtSecret = '12233425werweertmivncusoskauridjfvnch';

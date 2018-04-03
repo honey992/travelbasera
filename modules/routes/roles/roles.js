@@ -1,6 +1,6 @@
 'use strict';
 
-var rolesServices = require('../service/rolesService');
+var rolesServices = require('../../services').roleServices;
 var _ = require('lodash');
 
 var rolesCtrl = {
@@ -13,7 +13,6 @@ var rolesCtrl = {
 			if(err){
 				return next(err);
 			}
-			debugger;
 			res.json({message:'Role Saved Successfully', data:data});
 		})
 	},

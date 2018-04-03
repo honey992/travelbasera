@@ -1,6 +1,6 @@
 'use strict';
 
-var countryServices = require('../service/countryService');
+var countryServices = require('../../services').countryService;
 var _ = require('lodash');
 
 var userCtrl = {
