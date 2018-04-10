@@ -41,7 +41,35 @@ var userCtrl = {
 			if(err) return next(err);
 			res.json({message:'Password Changed Successfully'});
 		})
+	},
+	fetchUserByIdCtrl: function(req,res,next){
+		var options = {};
+		_.assign(options, req.params);
+		userServices.fetchUserByIdService(options, function(err, data){
+			if(err) return next(err);
+			res.json({result:data});
+		})
+	},
+	userEditCtrl: function(req,res,next){
+		var options = {u:{}};
+		_.assign(options, req.params);
+		_.assign(options.u, req.body);
+		delete req.body._id;
+		userServices.userEditService(options, function(err, data){
+			if(err) return next(err);
+			res.json({message:'User Updated Successfully'});
+		})
+	},
+	deleteUserCtrl: function(req,res,next){
+		var options = {};
+		_.assign(options, req.params);
+		debugger;
+		userServices.deleteUserService(options, function(err, data){
+			if(err) return next(err);
+			res.json({message:'User Deleted Successfully'});
+		})
 	}
+	
 };
 
 module.exports = userCtrl;

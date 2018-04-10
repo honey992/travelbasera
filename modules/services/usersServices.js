@@ -100,6 +100,31 @@ function updatePassword(){
 	return deferred.promise;
 }
  
+// function getUserDetails(){
+// 	var self = this;
+// 	var deferred  = Q.defer();
+// 	userModel.findOne({_id:self.id}, function(err, data){
+// 		if(err)
+// 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Get User "}));
+// 		if(!data)
+// 			return deferred.reject(ec.Error({status:ec.NOT_FOUND, message :"No user found for this id"}));
+// 		self.user = data;
+// 		deferred.resolve();
+// 	});
+// 	return deferred.promise;
+// }
+
+// function updateUserDetails(){
+// 	var self = this;
+// 	var deferred = Q.defer();
+// 	var uDetails = self.user;
+
+// 	userModel.save({})
+// }
+
+
+
+
 
 var userServ = {
 	userSignupService:function(options, cb){
@@ -155,6 +180,31 @@ var userServ = {
             finalErr.status = err.status || 400;
             return cb(finalErr);
         } 
-	} 
+	},
+	fetchUserByIdService: function(options, cb){
+		userModel.findOne({_id:options.id}, function(err, result){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+			delete result.password;
+			cb(null, result);
+		});
+	},
+	userEditService: function(options, cb){
+		 if(!options || !options.u)
+            return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to update user"}));
+		userModel.update({_id:options.id}, options.u, function(err, result){
+			if(err)
+				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update User'}));
+			cb(null, result);
+		}); 
+	},
+	deleteUserService: function(options, cb){
+		debugger;
+		userModel.remove({_id:options.id}, function(err, result){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+			debugger;
+			cb(null, result);
+		});
+	},
+
 };
 module.exports = userServ;

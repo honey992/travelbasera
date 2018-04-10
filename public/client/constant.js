@@ -17,6 +17,11 @@ app.constant("configuration", (function() {
         FETCH_ROLES_URL : "api/getRoles",
         FETCH_USERS_URL : "api/getAllUsers",
         CHANGE_PASSWORD_URL : "api/changePassword",
+        FETCH_SINGLE_USER : "api/fetchSingleUser",
+        DELETE_USER_URL : "api/deleteUser",
+        UPDATE_USER_URL : "api/editUser",
+        UPLOAD_BANNER_URL : "api/uploadBanners",
+        FETCH_BANNERS_URL : "api/getBanners"
 
     }
 })());

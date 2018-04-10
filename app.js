@@ -18,7 +18,8 @@ app.use(bodyParser.json({limit: '100mb'}));
 app.use(errorFn);
 app.set('env','development')  ;
 app.set('views', path.join(__dirname, 'public/view'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'))); 
+app.use(express.static(path.join(__dirname, '/')));
 
  app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
+<base href="/">
     <title>Admin Panel</title>
 
     <!-- Bootstrap Core CSS -->
@@ -242,16 +242,16 @@
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown" ng-controller="userController">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="/profile"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="#!/profile"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="javascript;void(0)" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="#!/" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -273,17 +273,13 @@
                             </div>
                             <!-- /input-group -->
                         </li>
-                        <li>
-                            <a href="/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li ng-if="loggedInUser.permissions.users.view">
-                            <a href="/users"><i class="fa fa-bar-chart-o fa-fw"></i> Users</a> 
-                        </li>
+                        <li> <a href="#!/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> </li>
+                        <li ng-if="loggedInUser.permissions.users.view"> <a href="#!/users"><i class="fa fa-bar-chart-o fa-fw"></i> Users</a></li>
                          <li ng-if="loggedInUser.permissions.roles.view">
-                            <a href="/userRoles"><i class="fa fa-bar-chart-o fa-fw"></i> Roles</a>
-                           
-                             
-                        </li>    
+                            <a href="#!/userRoles"><i class="fa fa-bar-chart-o fa-fw"></i> Roles</a>                               
+                        </li>
+                         <li> <a href="#!/banners"><i class="fa fa-bar-chart-o fa-fw"></i> Banners</a></li> 
+                          <li> <a href="#!/testimonials"><i class="fa fa-bar-chart-o fa-fw"></i> Testimonials</a></li>    
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -322,6 +318,8 @@
      <script src="client/headerController.js"></script>
      <script src="client/dashboardController.js"></script>
      <script src="client/userRolesController.js"></script>
+     <script src="client/bannerController.js"></script>
+     <script src="client/testimonialsController.js"></script>
 
 
 </body>

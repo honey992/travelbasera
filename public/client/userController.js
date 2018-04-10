@@ -1,9 +1,10 @@
 "use strict";
 
-app.controller('userController', function($scope,$rootScope, $http,configuration,$location,jwtHelper,$timeout){
+app.controller('userController', function($scope,$rootScope,$routeParams, $http,configuration,$location,jwtHelper,$timeout){
 $scope.user = {};
 $scope.successPop = false;
 	$scope.viewData = true;
+	var url = $location.url();
 	 $scope.userLogin = function(){ 
 			if($scope.loginForm.$valid){
 		      $http.post(configuration.LOGIN_URL, $scope.user).then(function success(res){
@@ -31,30 +32,33 @@ $scope.successPop = false;
 
                 });
 	 
-	}
-	$scope.fetchRoles();
+	};
 
-	$scope.da = [{name:'Users'},{name:'Packages'},{name:'Roles'}]
+	if(url == '/users' || url.split('/')[1] == 'editUser'){ 
+		$scope.fetchRoles();
+	};
+
+	$scope.da = [{name:'users'},{name:'packages'},{name:'roles'}];
 	$scope.user.permissions = {
-		Users:{
-			add:false,
-			edit:false,
-			view:false,
-			delete:false
-		},
-		Packages:{
-			add:false,
-			edit:false,
-			view:false,
-			delete:false
-		},
-		Roles:{
-			add:false,
-			edit:false,
-			view:false,
-			delete:false
-		}
-	}; 
+						users:{
+							add:false,
+							edit:false,
+							view:false,
+							delete:false
+						},
+						packages:{
+							add:false,
+							edit:false,
+							view:false,
+							delete:false
+						},
+						roles:{
+							add:false,
+							edit:false,
+							view:false,
+							delete:false
+						}
+					}; 
 	
 
 	$scope.addNewUser = function(newUser){
@@ -75,18 +79,19 @@ $scope.successPop = false;
 		}
 	}
 
-	$scope.fetchUsers = function(newUser){
-
+	$scope.fetchUsers = function(newUser){ 
 		      $http.get(configuration.FETCH_USERS_URL).then(function success(res){
 	                   $scope.userData = res.data.users;
 	                }, function errorCallback(err){
 	                    $scope.errorPop = true;
 	                    $scope.successPop = false;
-	                   $scope.errorMsg = err.data;
+	                    $scope.errorMsg = err.data;
 
 	                });
 	}
-	$scope.fetchUsers();
+	if(url == '/users' ){ 
+		$scope.fetchUsers();
+	}
 
 	$scope.logout = function(){
 		var token = sessionStorage.getItem('token');
@@ -128,6 +133,62 @@ $scope.successPop = false;
                $scope.errorMsg = err.data;
 
             });
+	};
+   console.log($location.url())
+
+	$scope.editUser = function(id){
+		$location.path('/editUser/'+id); 
+	};
+
+if($location.url().split('/')[1] == 'editUser'){
+	var userId = $routeParams.id;
+	 $http.get(configuration.FETCH_SINGLE_USER+"/"+userId).then(function success(res){
+              $scope.singleUser  = res.data.result;
+              
+            }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+               $scope.errorMsg = err.data;
+
+            });
+
+	$scope.editUser = function(){
+		 
+		$http.put(configuration.UPDATE_USER_URL+"/"+userId, $scope.singleUser).then(function success(res){
+               $scope.successMsg = res.data.message;
+               $scope.successPop = true;
+               $scope.errorPop = false;
+               $scope.singleUser = {};
+               $scope.singleUser.permissions = $scope.user.permissions;
+            }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+               $scope.errorMsg = err.data;
+
+            });
 	}
+};
+
+
+$scope.deleteConfirmation = function(id){
+	$scope.deleteId = id;
+	$scope.deleteConfirmationModal = true;
+}
+	$scope.deleteUser = function(){ 
+		$scope.id = $scope.deleteId ;
+		$http.delete(configuration.DELETE_USER_URL+"/"+$scope.id).then(function success(res){
+				$scope.successMsg = res.data.message;
+               $scope.successPop = true;
+               $scope.errorPop = false;
+               $scope.fetchUsers();
+		}, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+               $scope.errorMsg = err.data;
+
+            });
+	}
+
+	
 
 });
