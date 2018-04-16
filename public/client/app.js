@@ -35,6 +35,9 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
         }).when("/banners", {
             templateUrl: "/view/pages/banners.html",
             controller: "bannerController"
+        }).when("/country", {
+            templateUrl: "/view/pages/country.html",
+            controller: "countryController"
         })
         .otherwise({
             redirectTo: "/"

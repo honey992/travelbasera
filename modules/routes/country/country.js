@@ -1,6 +1,6 @@
 'use strict';
 
-var countryServices = require('../../services').countryService;
+var countryServices = require('../../services').countryServices;
 var _ = require('lodash');
 
 var userCtrl = {
@@ -9,16 +9,16 @@ var userCtrl = {
 		var options = {};
 		_.assign(options, req.body);
 		var options = req.body;
-		debugger;
+		console.log('options',options);
 
 		countryServices.addCountryService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
-			debugger;
 			res.json({message:'Country Saved Successfully', data:data});
 		})
 	},
+	
 	editCountryCtrl:function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);

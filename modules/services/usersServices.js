@@ -43,11 +43,14 @@ function saveNewUser(){
 function findUserByEmail(){
 	let self = this;
 	let deferred = Q.defer();
+	debugger;
 	userModel.findOne({email:self.email}, function(err, data){
+		debugger;
 		if(err) 
 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to get user by Email"}));
 		if(!data)
 			return deferred.reject(ec.Error({status:ec.UNAUTHORIZED_ACCESS, message :"Email/Password missmatched"}));
+		debugger;
 		self.matchedUser = data;
 		deferred.resolve();
 	});
@@ -59,9 +62,11 @@ function userLogin(){
 	let self = this;
 	let deferred = Q.defer();
 	let user = self.matchedUser._doc;
+	debugger;
 	if(self.password == middlewares.decipher(user.password)){
 		delete user.password;
 		var token = jwt.sign(user, jwtSecret);
+		debugger;
 		self.token = token;
 		deferred.resolve(); 
 	} else{
