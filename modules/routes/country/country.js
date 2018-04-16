@@ -8,6 +8,7 @@ var userCtrl = {
 	addCountryCtrl:function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);
+		var options = req.body;
 		debugger;
 
 		countryServices.addCountryService(options, function(err, data){

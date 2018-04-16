@@ -11,6 +11,12 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
         }).when("/dashboard", {
             templateUrl: "/view/dashboard.html",
             controller: "dashboardController"
+        }).when("/country", {
+            templateUrl: "/view/pages/country.html",
+            controller: "countryController"
+        }).when("/state", {
+            templateUrl: "/view/state.html",
+            controller: "stateController"
         }).when("/profile", {
             templateUrl: "/view/pages/profile.html",
             controller: "userController"

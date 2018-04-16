@@ -1,6 +1,6 @@
 var _ 				= 	require('lodash');
 var Q 				=	require('q');
-var bannersModel    = 	require('../models').bannerModel;
+var bannersModel    = 	require('../models');
 var ec 				= 	require('../../constants').errors;
 const lib 			=	require('../../lib');
 const middlewares 	= 	lib.middlewares; 

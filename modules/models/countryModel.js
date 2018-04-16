@@ -8,12 +8,17 @@ var countrySchema = new db.Schema({
 	c_code:{
 		type:String
 	},
-	is_deleted:{ 
-		type:Boolean, 
-		default: false 
-	},
-	created_at:{
-		type :Date 
+	metadata:{
+		is_active:{ 
+			type:Boolean, 
+			default: true 
+		},
+		created_at:{
+			type :Date 
+		},
+		modified_at:{
+			type:Date
+		}
 	}
 });
 
