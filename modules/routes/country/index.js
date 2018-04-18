@@ -14,4 +14,6 @@ module.exports = function(app){
 		.post(countryCtrl.editCountryCtrl) 
 	app.route('/api/deleteCountry')
 		.post(countryCtrl.deleteCountryCtrl) 
+	app.route('api/fetchSingleCountry')
+		.get(countryCtrl.fetchCountryByIdCtrl)
 }	

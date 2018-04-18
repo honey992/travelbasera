@@ -41,10 +41,19 @@ var countryCtrl = {
 	deleteCountryCtrl: function(req,res,next){
 		var options = {};
 		_.assign(options, req.params);
-		debugger;
+
 		countryServices.deleteCountryService(options, function(err, data){
 			if(err) return next(err);
 			res.json({message:'Country Deleted Successfully'});
+		})
+	},
+
+	fetchCountryByIdCtrl: function(req,res,next){
+		var options = {};
+		_.assign(options, req.params);
+		countryServices.fetchCountryByIdService(options, function(err, data){
+			if(err) return next(err);
+			res.json({result:data});
 		})
 	}
 };

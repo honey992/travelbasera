@@ -53,6 +53,15 @@ var countryService = {
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
 			cb(null, result);
 		});
+	},
+
+	fetchCountryByIdService: function(options, cb){
+		
+		countryModel.findOne({_id:options.id}, function(err, result){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+			delete result.id;
+			cb(null, result);
+		});
 	}
 };
 module.exports = countryService;

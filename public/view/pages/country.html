@@ -55,13 +55,34 @@
                                 <tbody> 
                                     <tr class="gradeA odd" role="row" ng-repeat="x in countryList">
                                         <td class="sorting_1">{{x.c_name}}</td>
-                                        <td>{{x.r_code}}</td>
-                                        <td>{{x.is_active}}</td>
-                                        <td class="center"><i class="fa fa-pencil" ng-click="editRole(x._id)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteRole(x._id)"></i></td> 
+                                        <td>{{x.c_code}}</td>
+                                        <td>{{x.metadata.is_active}}</td>
+                                        <td class="center"><i class="fa fa-pencil" ng-click="editCountry(x._id)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                     </tr></tbody>
                             </table></div></div></div>
                             
                         </div>
                         <!-- /.panel-body -->
                     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" ng-show="deleteConfirmationModal">
+<div class="modal-dialog"> 
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Delete</h4>
+    </div>
+    <div class="modal-body">
+        <p>You really want to delete this user?</p>
+       
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="deleteCountry()">Yes</button>
+      <button type="button" class="btn btn-default" ng-click="deleteConfirmationModal =!deleteConfirmationModal">No</button>
+    </div>
+    </div> 
+</div>
 </div>

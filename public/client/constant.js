@@ -25,6 +25,7 @@ app.constant("configuration", (function() {
         GET_ALL_COUNTRY_URL:"api/getAllCountry",
         ADD_COUNTRY_URL:"api/addCountry",
         EDIT_COUNTRY_URL:"api/editCountry",
-        DELETE_COUNTRY_URL:"api/deleteCountry"
+        DELETE_COUNTRY_URL:"api/deleteCountry",
+        FETCH_SINGLE_COUNTRY:"api/fetchSingleCountry"
     }
 })());
