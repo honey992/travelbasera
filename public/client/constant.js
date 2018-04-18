@@ -22,7 +22,9 @@ app.constant("configuration", (function() {
         UPDATE_USER_URL : "api/editUser",
         UPLOAD_BANNER_URL : "api/uploadBanners",
         FETCH_BANNERS_URL : "api/getBanners",
-        ADD_COUNTRY_URL:"api/addCountry"
-
+        GET_ALL_COUNTRY_URL:"api/getAllCountry",
+        ADD_COUNTRY_URL:"api/addCountry",
+        EDIT_COUNTRY_URL:"api/editCountry",
+        DELETE_COUNTRY_URL:"api/deleteCountry"
     }
 })());

@@ -53,8 +53,8 @@
                                     <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">Country Name</th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Country Code</th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">is_Active</th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Actions</th>  </tr>
                                 </thead>
                                 <tbody> 
-                                    <tr class="gradeA odd" role="row" ng-repeat="x in data">
-                                        <td class="sorting_1">{{x.r_name}}</td>
+                                    <tr class="gradeA odd" role="row" ng-repeat="x in countryList">
+                                        <td class="sorting_1">{{x.c_name}}</td>
                                         <td>{{x.r_code}}</td>
                                         <td>{{x.is_active}}</td>
                                         <td class="center"><i class="fa fa-pencil" ng-click="editRole(x._id)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteRole(x._id)"></i></td> 

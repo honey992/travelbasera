@@ -6,7 +6,7 @@ var countrySchema = new db.Schema({
 		type:String
 	},
 	c_code:{
-		type:String
+		type:Number
 	},
 	metadata:{
 		is_active:{ 
