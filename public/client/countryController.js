@@ -84,6 +84,8 @@ app.controller('countryController', function($scope, $http,configuration,$locati
                $scope.successPop = false;
                $scope.errorMsg = err.data;
 
+               
+
             });
 		};
 	
