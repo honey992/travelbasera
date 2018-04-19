@@ -10,10 +10,10 @@ module.exports = function(app){
 		.get(countryCtrl.getAllCountryCtrl) 
 	app.route('/api/addCountry')
 		.post(countryCtrl.addCountryCtrl)
-	app.route('/api/editCountry')
+	app.route('/api/editCountry/:id')
 		.post(countryCtrl.editCountryCtrl) 
-	app.route('/api/deleteCountry')
+	app.route('/api/deleteCountry/:id')
 		.post(countryCtrl.deleteCountryCtrl) 
-	app.route('api/fetchSingleCountry')
+	app.route('api/fetchSingleCountry/:id')
 		.get(countryCtrl.fetchCountryByIdCtrl)
 }	

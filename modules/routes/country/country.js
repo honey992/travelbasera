@@ -17,7 +17,6 @@ var countryCtrl = {
 		var options = {};
 		_.assign(options, req.body);
 		var options = req.body;
-		console.log('options',options);
 
 		countryServices.addCountryService(options, function(err, data){
 			if(err){
@@ -39,9 +38,10 @@ var countryCtrl = {
 	},
 
 	deleteCountryCtrl: function(req,res,next){
+		console.log(req,"ssssssssssssss");
 		var options = {};
 		_.assign(options, req.params);
-
+		console('delete options',options);
 		countryServices.deleteCountryService(options, function(err, data){
 			if(err) return next(err);
 			res.json({message:'Country Deleted Successfully'});

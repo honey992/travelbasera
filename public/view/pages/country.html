@@ -66,6 +66,15 @@
                     </div>
 </div>
 
+<div class="alert alert-success"  ng-show="successPop">
+    <strong>Success!</strong> {{successMsg}}
+    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+  </div>
+  <div class="alert alert-danger" ng-show="errorPop">
+    <strong>Error!</strong> {{errorMsg}}
+    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+  </div>
+
 <!-- Modal -->
 <div class="modal" ng-show="deleteConfirmationModal">
 <div class="modal-dialog"> 
@@ -86,3 +95,9 @@
     </div> 
 </div>
 </div>
+
+<style>
+.modal{
+    display:block;
+}
+</style>

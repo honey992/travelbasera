@@ -1,7 +1,7 @@
 "use strict";
 
 app.controller('countryController', function($scope, $http,configuration,$location){
-
+		$scope.successPop = false;
 		var url = $location.url();
 		$scope.viewData = true; 
 
@@ -36,7 +36,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 			$location.path('/editCountry/'+id); 
 		};
 
-		if($location.url().split('/')[1] == 'editCountry'){
+		if($location.url== '/editCountry'){
 			var userId = $routeParams.id;
 			$http.get(configuration.FETCH_SINGLE_COUNTRY+"/"+userId).then(function success(res){
               $scope.singleUser  = res.data.result;
@@ -73,17 +73,19 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 		$scope.deleteCountry = function(){ 
 			$scope.id = $scope.deleteId ;
 			$http.delete(configuration.DELETE_COUNTRY_URL+"/"+$scope.id).then(function success(res){
+				alert("abcd");
+
+				console.log('result',res);
 			   $scope.successMsg = res.data.message;
                $scope.successPop = true;
                $scope.errorPop = false;
-               $scope.fetchUsers();
 			}, function errorCallback(err){
-                $scope.errorPop = true;
-                $scope.successPop = false;
+               $scope.errorPop = true;
+               $scope.successPop = false;
                $scope.errorMsg = err.data;
 
             });
-		}
+		};
 	
 
 });

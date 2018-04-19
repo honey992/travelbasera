@@ -11,7 +11,7 @@ var jwtSecret = '12233425werweertmivncusoskauridjfvnch';
 var countryService = {
 
 	getAllCountryService:function(options, cb){
-		console.log('service options',options);
+	
 		if(!options)
             return cb(ec.Error({status:ec.DB_ERROR, message :"No data"}));
 
@@ -23,7 +23,7 @@ var countryService = {
 	},
 
 	addCountryService:function(options, cb){
-		console.log('service options',options);
+		
 		if(!options)
             return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create Country"}));
 
@@ -37,10 +37,10 @@ var countryService = {
 	
 	editCountryService:function(options, cb){
 
-		if(!options || !options.c_name || !options.c_code )
+		if(!options)
             return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create Country"}));
 
-		countryModel.update({name:self.name}, function(err, data){
+		countryModel.update({_id:options.id},{c_name:options.name}, function(err, data){
 			if(err)
 				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update User'}));
 			cb(null, result);
