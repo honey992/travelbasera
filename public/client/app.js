@@ -38,6 +38,9 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
         }).when("/country", {
             templateUrl: "/view/pages/country.html",
             controller: "countryController"
+        }).when("/editCountry/:id", {
+            templateUrl: "/view/pages/edit-coutry.html",
+            controller: "countryController"
         })
         .otherwise({
             redirectTo: "/"

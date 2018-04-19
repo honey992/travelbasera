@@ -13,7 +13,7 @@ module.exports = function(app){
 	app.route('/api/editCountry/:id')
 		.post(countryCtrl.editCountryCtrl) 
 	app.route('/api/deleteCountry/:id')
-		.post(countryCtrl.deleteCountryCtrl) 
+		.delete(countryCtrl.deleteCountryCtrl) 
 	app.route('api/fetchSingleCountry/:id')
 		.get(countryCtrl.fetchCountryByIdCtrl)
 }	
