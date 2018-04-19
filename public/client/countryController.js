@@ -36,7 +36,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 			$location.path('/editCountry/'+id); 
 		};
 
-		if($location.url== '/editCountry'){
+		if($location.url().split('/')[1] == '/editCountry'){
 			var userId = $routeParams.id;
 			$http.get(configuration.FETCH_SINGLE_COUNTRY+"/"+userId).then(function success(res){
               $scope.singleUser  = res.data.result;
@@ -73,9 +73,9 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 		$scope.deleteCountry = function(){ 
 			$scope.id = $scope.deleteId ;
 			$http.delete(configuration.DELETE_COUNTRY_URL+"/"+$scope.id).then(function success(res){
-				alert("abcd");
+			   alert("abcd");
 
-				console.log('result',res);
+			   console.log('result',res);
 			   $scope.successMsg = res.data.message;
                $scope.successPop = true;
                $scope.errorPop = false;
@@ -83,10 +83,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
                $scope.errorPop = true;
                $scope.successPop = false;
                $scope.errorMsg = err.data;
-
-               
-
-            });
+			});
 		};
 	
 
