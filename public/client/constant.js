@@ -21,7 +21,8 @@ app.constant("configuration", (function() {
         DELETE_USER_URL : "api/deleteUser",
         UPDATE_USER_URL : "api/editUser",
         UPLOAD_BANNER_URL : "api/uploadBanners",
-        FETCH_BANNERS_URL : "api/getBanners"
+        FETCH_BANNERS_URL : "api/getBanners",
+        TESTIMONIAL_URL : "api/user-reviews"
 
     }
 })());

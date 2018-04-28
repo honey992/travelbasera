@@ -9,7 +9,12 @@ var uploadFiles 	= lib.uploadFiles('ss');
 
 module.exports = function(app){
 
-	app.route('/api/addNewReview')
+	app.route('/api/user-reviews')
 		.post(uploadFiles.upload, testimonialsCtrl.addReviewCtrl) 
+		.get(testimonialsCtrl.getReviewsCtrl)
+	app.route('/api/getReviewsById')
+		.get(testimonialsCtrl.fetchReviewsByIdCtrl)
+
+
 	 
 }

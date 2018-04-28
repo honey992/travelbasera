@@ -15,12 +15,18 @@ var bannersServ = {
 			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to add Review"}));
 			 
 			options.reviewer_img = options.file.path;
-			var newData = testimonialModel(options); 
+			var newData = new testimonialModel(options); 
 			newData.save(function(err, data){
 				if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable Save Image."}));
 				cb(null, data);
 			}) 
 		 
-	} 
+	} ,
+	fetchReviewsService: function(options, cb){
+		testimonialModel.find({}, function(err, data){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to fetch reviews'}));
+			cb(null, data);
+		})
+	}
 };
 module.exports = bannersServ;

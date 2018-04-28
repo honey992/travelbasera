@@ -1,6 +1,6 @@
 "use strict";
 
-var app = angular.module('travelBasera', ["ngRoute",'angular-jwt']);
+var app = angular.module('travelBasera', ["ngRoute",'angular-jwt','textAngular']);
 
  
 
@@ -29,6 +29,12 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
         }).when("/banners", {
             templateUrl: "/view/pages/banners.html",
             controller: "bannerController"
+        }).when("/testimonials", {
+            templateUrl: "/view/pages/testimonials.html",
+            controller: "testimonialsController"
+        }).when("/packages", {
+            templateUrl: "/view/pages/packages.html",
+            controller: "testimonialsController"
         })
         .otherwise({
             redirectTo: "/"
@@ -74,12 +80,22 @@ app.directive('fileModel', ['$parse', function ($parse) {
         };
      }]);
  app.service('fileUpload', ['$http', function ($http) {
-        this.uploadFileToUrl = function(file, uploadUrl,details, cb){
+        this.uploadFileToUrl = function(file, uploadUrl,details,resource, cb){
         console.log('details=',details) 
            var fd = new FormData();
-           fd.append('file', file);  
-           fd.append('imageTitle', details.imageTitle);
-           fd.append('status', details.status);  
+             fd.append('file', file);
+             fd.append('status', details.status); 
+
+           if(resource == 'banner'){ 
+              fd.append('imageTitle', details.imageTitle); 
+           }
+           if(resource == 'fromTest'){
+              fd.append('reviewer_name', details.name);
+              fd.append('reviewer_title', details.title);
+              fd.append('reviewer_desc', details.description);
+              fd.append('reviewer_rating', details.rating); 
+           }
+            
            $http.post(uploadUrl, fd, {transformRequest: angular.identity,headers: {'Content-Type': undefined} }) 
            .then(function (success){ 
                 cb(success);

@@ -20,6 +20,7 @@ const middlewares 	= 	lib.middlewares;
  	});
  	return deferred.promise;
  }
+ 
  function fetchAllRoles(){
  	var self = this;
  	var deferred = Q.defer();

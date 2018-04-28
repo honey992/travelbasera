@@ -18,7 +18,13 @@ $scope.successPop = false;
 
 	                });
 		 }else{
-			alert('Requires')
+		 	 
+			angular.forEach(loginForm.$error, function(error){
+				               angular.forEach(error, function(control){
+				                   control.$setTouched();
+				               })
+				               
+				           });
 		}
 	}
 	 $scope.fetchRoles = function(role){ 

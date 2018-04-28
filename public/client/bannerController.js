@@ -10,7 +10,7 @@ app.controller('bannerController', function($scope, $http,configuration,$locatio
 	            var details = $scope.b; 
 	            console.log(file);
 	            var uploadUrl = configuration.UPLOAD_BANNER_URL;
-	           fileUpload.uploadFileToUrl(file, uploadUrl,details, function(d){
+	           fileUpload.uploadFileToUrl(file, uploadUrl,details,'banner', function(d){
 	            if(d){
 	               $scope.successMsg = d.data.message;
 	               $scope.successPop = true;

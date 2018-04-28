@@ -17,6 +17,21 @@ var reviewCtrl = {
 			}
 			res.json({message:'Review Saved Successfully', data:data});
 		})
+	},
+	getReviewsCtrl: function(req, res, next){
+		var options = {};
+		testimonialServ.fetchReviewsService(options, function(err, result){
+			if(err) return next(err);
+			res.json({data:result})
+		})
+	}, 
+	fetchReviewsByIdCtrl: function(req, res, next){
+		var options = {};
+		_.assign(options, req.params);
+		testimonialServ.fetchReviewsByIdServ(options, function(err,result){
+			if(err) return next(err);
+			res.json({data:result});
+		})
 	}
 };
 
