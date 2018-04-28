@@ -44,7 +44,7 @@ $scope.successPop = false;
 		$scope.fetchRoles();
 	};
 
-	$scope.da = [{name:'users'},{name:'packages'},{name:'roles'}];
+	$scope.da = [{name:'users'},{name:'packages'},{name:'roles'},{name:'country'}];
 	$scope.user.permissions = {
 						users:{
 							add:false,
@@ -59,6 +59,12 @@ $scope.successPop = false;
 							delete:false
 						},
 						roles:{
+							add:false,
+							edit:false,
+							view:false,
+							delete:false
+						},
+						country:{
 							add:false,
 							edit:false,
 							view:false,

@@ -22,7 +22,11 @@ app.constant("configuration", (function() {
         UPDATE_USER_URL : "api/editUser",
         UPLOAD_BANNER_URL : "api/uploadBanners",
         FETCH_BANNERS_URL : "api/getBanners",
-        TESTIMONIAL_URL : "api/user-reviews"
-
+        TESTIMONIAL_URL : "api/user-reviews",
+        GET_ALL_COUNTRY_URL:"api/getAllCountry",
+        ADD_COUNTRY_URL:"api/addCountry",
+        EDIT_COUNTRY_URL:"api/editCountry",
+        DELETE_COUNTRY_URL:"api/deleteCountry",
+        FETCH_SINGLE_COUNTRY:"api/fetchSingleCountry"
     }
 })());
