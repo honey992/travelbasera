@@ -19,10 +19,13 @@ var userCtrl = {
 	userLoginCtrl: function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);
+		debugger;
 		userServices.userLoginService(options, function(err){
 			if(err){
+				console.log(err)
 				return next(err);
 			}
+			debugger;
 			res.json({message:'User Loggedin Successfully', token:options.token});
 		})
 	}, 

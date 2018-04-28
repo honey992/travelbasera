@@ -274,13 +274,18 @@
                             <!-- /input-group -->
                         </li>
                         <li> <a href="#!/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> </li>
+                        <li ng-if="loggedInUser.permissions.country.view"> <a href="#!/country"><i class="fa fa-bar-chart-o fa-fw"></i> Country</a></li>
+                        <li ng-if="loggedInUser.permissions.state.view"> <a href="#!/state"><i class="fa fa-bar-chart-o fa-fw"></i> State</a></li>
                         <li ng-if="loggedInUser.permissions.users.view"> <a href="#!/users"><i class="fa fa-bar-chart-o fa-fw"></i> Users</a></li>
                          <li ng-if="loggedInUser.permissions.roles.view">
                             <a href="#!/userRoles"><i class="fa fa-bar-chart-o fa-fw"></i> Roles</a>                               
                         </li>
                          <li> <a href="#!/banners"><i class="fa fa-bar-chart-o fa-fw"></i> Banners</a></li> 
                           <li> <a href="#!/testimonials"><i class="fa fa-bar-chart-o fa-fw"></i> Testimonials</a></li>
-                          <li> <a href="#!/packages"><i class="fa fa-bar-chart-o fa-fw"></i> Packages</a></li>    
+ 
+                          <li> <a href="#!/aboutUs"><i class="fa fa-bar-chart-o fa-fw"></i> About Us</a></li>   
+                          <li> <a href="#!/contactDetails"><i class="fa fa-bar-chart-o fa-fw"></i> Contact Details</a></li> 
+                          <li> <a href="#!/packages"><i class="fa fa-bar-chart-o fa-fw"></i> Packages </a></li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -322,6 +327,7 @@
      <script src="client/headerController.js"></script>
      <script src="client/dashboardController.js"></script>
      <script src="client/userRolesController.js"></script>
+     <script src="client/countryController.js"></script>
      <script src="client/bannerController.js"></script>
      <script src="client/testimonialsController.js"></script>
      <script src="client/testimonialsController.js"></script>

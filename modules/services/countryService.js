@@ -7,68 +7,61 @@ const lib 			=	require('../../lib');
 const middlewares 	= 	lib.middlewares; 
 
 var jwtSecret = '12233425werweertmivncusoskauridjfvnch';
- 
-function checkNewCountry(){
-	var self = this;
-	var deferred = Q.defer();
-	countryModel.find({name:self.name}, function(err, data){
-		if(err)
-			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Country"}));
-		if(data.length)
-			 return deferred.reject(ec.Error({status:ec.DATA_ALREADY_EXISTS, message:'This country is already exist'}));
-		deferred.resolve();
-	});
-	return deferred.promise;
-}
 
-function saveNewCountry(){
-	var self = this;
-	var deferred = Q.defer();
-	let newCountry = countryModel(self);
-	newCountry.save(function(err, result){
-		if(err)
-			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Country"}));
-		self.newcountry = result;
-		deferred.resolve();
-	});
-	return deferred.promise;
-}
+var countryService = {
 
+	getAllCountryService:function(options, cb){
+	
+		if(!options)
+            return cb(ec.Error({status:ec.DB_ERROR, message :"No data"}));
 
-var userServ = {
-	addCountryService:function(options, cb){
-
-		 if(!options || !options.c_name || !options.c_code )
-            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create Country"}));
-
-		checkNewCountry.call(options)
-            .then(saveNewCountry.bind(options)) 
-            .then(cb)
-            .fail(failureCb)
-            .catch(failureCb)
-
-        function failureCb(err){
-            var finalErr = new Error(err.message || 'Some Undefined Error Occurs.');
-            finalErr.status = err.status || 400;
-            return cb(finalErr);
-        } 
+		countryModel.find({},function(err, data){
+			if(err)
+				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Insert Country"}));
+				cb(null,data);
+		});
 	},
-		editCountryService:function(options, cb){
 
-		 if(!options || !options.c_name || !options.c_code )
+	addCountryService:function(options, cb){
+		
+		if(!options)
             return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create Country"}));
 
-		fetchCountry.call(options)
-            .then(updateCountry.bind(options)) 
-            .then(cb)
-            .fail(failureCb)
-            .catch(failureCb)
+        var addcountry = new countryModel({c_name:options.c_name});
+		addcountry.save(function(err, data){
+			if(err)
+				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Insert Country"}));
+				cb();
+		});
+	},
+	
+	editCountryService:function(options, cb){
 
-        function failureCb(err){
-            var finalErr = new Error(err.message || 'Some Undefined Error Occurs.');
-            finalErr.status = err.status || 400;
-            return cb(finalErr);
-        } 
+		if(!options)
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create Country"}));
+
+		countryModel.update({_id:options.id},{c_name:options.name}, function(err, data){
+			if(err)
+				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update User'}));
+			cb(null, result);
+		});
+	},
+
+	deleteCountryService: function(options, cb){
+		
+		countryModel.remove({_id:options.id}, function(err, result){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+			cb(null, result);
+		});
+	},
+
+	fetchCountryByIdService: function(options, cb){
+		
+		countryModel.findOne({_id:options.id}, function(err, result){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+			delete result.id;
+			cb(null, result);
+		});
 	}
 };
-module.exports = userServ;
+module.exports = countryService;
