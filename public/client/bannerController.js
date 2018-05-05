@@ -3,7 +3,9 @@
 app.controller('bannerController', function($scope, $http,configuration,$location,fileUpload){
 
 		$scope.viewData = true; 
-
+$scope.toggelView = function(){
+		$scope.viewData = !$scope.viewData;
+	}
 		 $scope.uploadBanners = function(){
 		 	if($scope.uploadBanner.$valid){ 
 	            var file = $scope.myFile;

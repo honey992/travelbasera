@@ -15,10 +15,13 @@ app.controller('countryController', function($scope, $http,configuration,$locati
  			});
 		 
 		};
+		if(url == '/country' ){ 
+			$scope.getAllCountry();
+		}
 
 		$scope.addNewCountry = function(){ 
-			if($scope.newCountry.$valid){
-				var reqObj = {c_name:$scope.role.name};
+			if($scope.newCountryFrom.$valid){
+				var reqObj = {c_name:$scope.coun.name};
 		      	$http.post(configuration.ADD_COUNTRY_URL, reqObj).then(function success(res){
                     console.log(res.data);
                 }, function errorCallback(err){
@@ -26,21 +29,48 @@ app.controller('countryController', function($scope, $http,configuration,$locati
                     $scope.invoiceErrorMsg = err.data.message; 
 
                 });
+			}else{
+				// commonFactory.showFormErrors('$scope.newCountryFrom');
+				angular.forEach($scope.newCountryFrom.$error, function(error){
+				               angular.forEach(error, function(control){
+				                   control.$setTouched();
+				               })
+				               
+				           });
 			}
 		};
-		if(url == '/country' ){ 
-			$scope.getAllCountry();
-		}
+		
 
-		$scope.editCountry = function(id){
-			alert("hjllj");
-			$location.path('#!/editCountry/'+id);
-			$scope.callIt(); 
+		$scope.editCountry = function(editableData){ 
+			$scope.eData = editableData
+			//$location.path('#!/editCountry/'+id);
+			//$scope.callIt(); 
 		};
 
+		$scope.updateCountry = function(upData){
+		if($scope.updateCountryForm.$valid){
+				$http.put(configuration.EDIT_COUNTRY_URL, upData).then(function success(res){
+	               $scope.successMsg = res.data.message;
+	               $scope.successPop = true;
+	               $scope.errorPop = false;
+	            }, function errorCallback(err){
+	                $scope.errorPop = true;
+	                $scope.successPop = false;
+	               $scope.errorMsg = err.data;
 
-		$scope.callIt = function(){
-			alert($location.url());
+	            });
+	           }else{
+				// commonFactory.showFormErrors('$scope.newCountryFrom');
+				angular.forEach($scope.updateCountryForm.$error, function(error){
+				               angular.forEach(error, function(control){
+				                   control.$setTouched();
+				               })
+				               
+				           });
+			}
+		}
+
+		$scope.callIt = function(){ 
 			if($location.url().split('/')[1] == 'editCountry'){
 				var userId = $routeParams.id;
 				$http.get(configuration.FETCH_SINGLE_COUNTRY+"/"+userId).then(function success(res){

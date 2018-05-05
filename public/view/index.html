@@ -273,19 +273,36 @@
                             </div>
                             <!-- /input-group -->
                         </li>
-                        <li> <a href="#!/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> </li>
-                        <li ng-if="loggedInUser.permissions.country.view"> <a href="#!/country"><i class="fa fa-bar-chart-o fa-fw"></i> Country</a></li>
-                        <li ng-if="loggedInUser.permissions.state.view"> <a href="#!/state"><i class="fa fa-bar-chart-o fa-fw"></i> State</a></li>
-                        <li ng-if="loggedInUser.permissions.users.view"> <a href="#!/users"><i class="fa fa-bar-chart-o fa-fw"></i> Users</a></li>
-                         <li ng-if="loggedInUser.permissions.roles.view">
-                            <a href="#!/userRoles"><i class="fa fa-bar-chart-o fa-fw"></i> Roles</a>                               
+                      <li> <a href="#!/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> </li>
+                        <li ng-if="loggedInUser.permissions.country.view"> 
+                            <a href="#!/country"><i class="fa fa-bar-chart-o fa-fw"></i> Country</a>
                         </li>
-                         <li> <a href="#!/banners"><i class="fa fa-bar-chart-o fa-fw"></i> Banners</a></li> 
-                          <li> <a href="#!/testimonials"><i class="fa fa-bar-chart-o fa-fw"></i> Testimonials</a></li>
- 
-                          <li> <a href="#!/aboutUs"><i class="fa fa-bar-chart-o fa-fw"></i> About Us</a></li>   
-                          <li> <a href="#!/contactDetails"><i class="fa fa-bar-chart-o fa-fw"></i> Contact Details</a></li> 
-                          <li> <a href="#!/packages"><i class="fa fa-bar-chart-o fa-fw"></i> Packages </a></li>
+                        <li ng-if="loggedInUser.permissions.state.view"> 
+                            <a href="#!/state"><i class="fa fa-bar-chart-o fa-fw"></i> State</a>
+                        </li>
+                        <li ng-if="loggedInUser.permissions.users.view"> 
+                            <a href="#!/users"><i class="fa fa-bar-chart-o fa-fw"></i> Users</a>
+                        </li>
+                        <li ng-if="loggedInUser.permissions.roles.view">
+                           <a href="#!/userRoles"><i class="fa fa-bar-chart-o fa-fw"></i> Roles</a> 
+                        </li>
+                        <li ng-if="loggedInUser.permissions.banner.view"> 
+                            <a href="#!/banners"><i class="fa fa-bar-chart-o fa-fw"></i> Banners</a>
+                        </li>
+                        <li ng-if="loggedInUser.permissions.testimonials.view"> 
+                            <a href="#!/testimonials"><i class="fa fa-bar-chart-o fa-fw"></i> Testimonials</a></li>
+                        <li ng-if="loggedInUser.permissions.about.view">
+                             <a href="#!/aboutUs"><i class="fa fa-bar-chart-o fa-fw"></i> About Us</a>
+                        </li>
+                        <li ng-if="loggedInUser.permissions.contact.view"> 
+                            <a href="#!/contactDetails"><i class="fa fa-bar-chart-o fa-fw"></i> Contact Details</a>
+                        </li>
+                        <li ng-if="loggedInUser.permissions.inclusions.view"> 
+                            <a href="#!/inclusion"><i class="fa fa-bar-chart-o fa-fw"></i> Inclusion </a>
+                        </li>
+                        <li ng-if="loggedInUser.permissions.packages.view"> 
+                            <a href="#!/packages"><i class="fa fa-bar-chart-o fa-fw"></i> Packages </a>
+                         </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -294,10 +311,21 @@
         </nav>
 
 
-		 <div ng-view></div>
+		 <div ng-view class="ng-cloak"></div>
     <!-- /#wrapper -->
 </div>
-
+<style>
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+</style>
+<script>
+var _url = window.location.toString();
+ var path = _url.split('#')[1] ;
+ 
+if(path == '!/') document.getElementById('nav').style.display = 'none';
+else { document.getElementById('nav').style.display = 'block';}
+</script>
     <!-- jQuery -->
     <script src="view/vendor/jquery/jquery.min.js"></script>
 
@@ -316,21 +344,23 @@
     <script src="view/dist/js/sb-admin-2.js"></script>
     <script src="lib/angular/angular.js"></script>
      <script src="lib/angular-route/angular-route.js"></script>
-     <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular-rangy.min.js'></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular-sanitize.min.js'></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular.min.js'></script>
+     <script src='lib/textAngular-rangy.min.js'></script>
+    <script src='lib/textAngular-sanitize.min.js'></script>
+    <script src='lib/textAngular.min.js'></script>
      <script src="client/app.js"></script>
       <script src="client/constant.js"></script>
       <script src="lib/angular-jwt.js"></script>
-    
+    <script src="client/factory/commonFactory.js"></script>
      <script src="client/userController.js"></script>
      <script src="client/headerController.js"></script>
      <script src="client/dashboardController.js"></script>
      <script src="client/userRolesController.js"></script>
      <script src="client/countryController.js"></script>
+     <script src="client/stateVController.js"></script>
      <script src="client/bannerController.js"></script>
      <script src="client/testimonialsController.js"></script>
-     <script src="client/testimonialsController.js"></script>
+     <script src="client/packageController.js"></script>
+     <script src="client/inclusionController.js"></script>
 
 
 </body>

@@ -1,9 +1,11 @@
 'use strict';
 
-var countryServices = require('../../services').countryServices;
+var stateServices = require('../../services').stateServices;
 var _ = require('lodash');
+var Q 	=	require('q');
 
-var countryCtrl = {
+
+var stateCtrl = {
 
 	getAllCountryCtrl: function(req, res, next){
 		var options = {};
@@ -13,16 +15,16 @@ var countryCtrl = {
 		})
 	},
 
-	addCountryCtrl:function(req, res, next){
+	addStateCtrl:function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);
 		var options = req.body;
 
-		countryServices.addCountryService(options, function(err, data){
+		stateServices.addStateService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
-			res.json({message:'Country Saved Successfully', data:data});
+			res.json({message:'State Saved Successfully'});
 		})
 	},
 
@@ -58,4 +60,4 @@ var countryCtrl = {
 	}
 };
 
-module.exports = countryCtrl;
+module.exports = stateCtrl;

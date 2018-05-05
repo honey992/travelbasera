@@ -6,11 +6,11 @@
         </div>
     </div>
 
- <div ng-show="viewData">
-        <button class="btn btn-primary btn-xs"  ng-click="viewData = !viewData"><i class="fa fa-plus"></i> Add</button>
+ <div ng-show="viewData" ng-if="loggedInUser.permissions.banner.add">
+        <button class="btn btn-primary btn-xs"  ng-click="toggelView()"><i class="fa fa-plus"></i> Add</button>
     </div>
-    <div ng-hide="viewData">
-        <button class="btn btn-success btn-xs" ng-click="viewData = !viewData"><i class="fa fa-arrow-left"></i> View All</button>
+    <div ng-hide="viewData" >
+        <button class="btn btn-success btn-xs" ng-click="toggelView()"><i class="fa fa-arrow-left"></i> View All</button>
     </div>
     <br />
 

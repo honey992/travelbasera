@@ -8,12 +8,25 @@ var rolesSchema = new db.Schema({
 	r_code:{
 		type:String
 	},
-	is_active:{ 
-		type:Boolean, 
-		default: true 
-	},
-	created_at:{
-		type :Date 
+	metadata:{
+		is_active:{ 
+			type:Boolean, 
+			default: true 
+		},
+		created_at:{
+			type :Date 
+		},
+		created_by:{
+			name:{
+				type:String
+			},
+			id:{
+				type:String
+			}
+		},
+		modified_at:{
+			type:Date
+		}
 	}
 });
 

@@ -12,7 +12,7 @@ var userCtrl = {
 			if(err){
 				return next(err);
 			}
-			res.json({message:'User Created Successfully', data:data});
+			res.json({status:1, message:'User Created Successfully', data:data});
 		})
 	},
 
@@ -26,14 +26,14 @@ var userCtrl = {
 				return next(err);
 			}
 			debugger;
-			res.json({message:'User Loggedin Successfully', token:options.token});
+			res.json({status:1,message:'User Loggedin Successfully', token:options.token});
 		})
 	}, 
 	getAllUsersCtrl: function(req, res, next){
 		var options = {};
 		userServices.getAllUsers(options, function(err, data){
 			if(err) return next(err);
-			res.json({ users:data});
+			res.json({status:1, users:data});
 		})
 	},
 	changePasswordCtrl: function(req,res,next){
@@ -42,7 +42,7 @@ var userCtrl = {
 		console.log(options);
 		userServices.changePasswordService(options, function(err, data){
 			if(err) return next(err);
-			res.json({message:'Password Changed Successfully'});
+			res.json({status:1,message:'Password Changed Successfully'});
 		})
 	},
 	fetchUserByIdCtrl: function(req,res,next){
@@ -50,7 +50,7 @@ var userCtrl = {
 		_.assign(options, req.params);
 		userServices.fetchUserByIdService(options, function(err, data){
 			if(err) return next(err);
-			res.json({result:data});
+			res.json({status:1,result:data});
 		})
 	},
 	userEditCtrl: function(req,res,next){
@@ -60,7 +60,7 @@ var userCtrl = {
 		delete req.body._id;
 		userServices.userEditService(options, function(err, data){
 			if(err) return next(err);
-			res.json({message:'User Updated Successfully'});
+			res.json({status:1,message:'User Updated Successfully'});
 		})
 	},
 	deleteUserCtrl: function(req,res,next){
@@ -69,7 +69,7 @@ var userCtrl = {
 		debugger;
 		userServices.deleteUserService(options, function(err, data){
 			if(err) return next(err);
-			res.json({message:'User Deleted Successfully'});
+			res.json({status:1,message:'User Deleted Successfully'});
 		})
 	}
 	

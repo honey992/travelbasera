@@ -9,7 +9,7 @@ function connect(){
 	if(pool) return;
 	var uri = 'mongodb://127.0.0.1:27017/travelBasera';
 
-	 pool = mongoose.connect(uri, {server: {poolSize: 10}});
+	 pool = mongoose.connect(uri, {promiseLibrary: global.Promise,poolSize: 10});
 
 
 

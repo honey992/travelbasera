@@ -132,11 +132,11 @@
                      		<div class="form-group">
                      		<label>Highlights</label>
                      		<div style="display: flex">
-	                     		<input type="text" class="form-control" >
-	                     		<button class="btn btn-primary">+</button>
+	                     		<input type="text" class="form-control" ng-model="pack.highlightsTitle"  >
+	                     		<button class="btn btn-primary" ng-click="addmorehighlights()">+</button>
                      		</div>
                      		<ul class="info-text">
-                     			<li>Added highlights will show here.</li>
+                     			<li ng-repeat="x in pack.highlights">{{x.title}}</li>
                      		</ul>
                      		</div> 
 
@@ -146,16 +146,16 @@
                      		</div>
                      	</div>
                      	<div class="col-md-6">
-                     		 <div class="form-group">
+                     		 <div class="form-group" style="position: relative;">
                             <label>Inclusions</label>
-                            
-                            <select class="form-control">
-	                            <option value="n">Taxi</option>
-	                            <option value="y">Visa</option>
-	                            <option value="y">Scene Shot</option>
-                            </select>
+                            <input type="text" class="form-control" ng-model="selectedIncModel" ng-click="_inclusionList=!_inclusionList">
+                            <div class="" ng-show="_inclusionList" style="background: #fff;border: 1px solid #ddd; position:absolute; width:100%">
+                              <ul>
+                                <li ng-repeat="x in dd" style="cursor: pointer;" ng-click="selectInclusion(x)">{{x.title}}</li> 
+                              </ul>
+                            </div> 
                             <ul class="info-text">
-                             <li>Selected Inclusion will show here.</li>
+                             <li ng-repeat="x in pack.selectedInclusion">{{x.title}} <a href="javascript:void(0)" ng-click="removeInclusion(x)">x</a></li>
                             </ul> 
                              <p class="__errorMsg" ng-show="addReviewerForm.file.$touched && addReviewerForm.file.$invalid ">
                               <span ng-show="addReviewerForm.file.$error.required">File is required.</span>

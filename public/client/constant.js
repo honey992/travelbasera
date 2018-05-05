@@ -25,7 +25,7 @@ app.constant("configuration", (function() {
         TESTIMONIAL_URL : "api/user-reviews", 
         GET_ALL_COUNTRY_URL:"api/getAllCountry",
         ADD_COUNTRY_URL:"api/addCountry",
-        EDIT_COUNTRY_URL:"api/editCountry",
+        EDIT_COUNTRY_URL:"api/updateCountry",
         DELETE_COUNTRY_URL:"api/deleteCountry",
         FETCH_SINGLE_COUNTRY:"api/fetchSingleCountry"
     }

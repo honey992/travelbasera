@@ -11,9 +11,6 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
         }).when("/dashboard", {
             templateUrl: "/view/dashboard.html",
             controller: "dashboardController"
-        }) .when("/state", {
-            templateUrl: "/view/state.html",
-            controller: "stateController"
         }).when("/profile", {
             templateUrl: "/view/pages/profile.html",
             controller: "userController"
@@ -37,13 +34,19 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
             controller: "testimonialsController"
         }).when("/packages", {
             templateUrl: "/view/pages/packages.html",
-            controller: "testimonialsController"
+            controller: "packageController"
+        }).when("/state", {
+            templateUrl: "/view/pages/stateV.html",
+            controller: "stateVController"
         }).when("/country", {
             templateUrl: "/view/pages/country.html",
             controller: "countryController"
         }).when("/editCountry/:id", {
             templateUrl: "/view/pages/edit-coutry.html",
             controller: "countryController"
+        }).when("/inclusion", {
+            templateUrl: "/view/pages/inclusion.html",
+            controller: "inclusionController"
         })
         .otherwise({
             redirectTo: "/"
@@ -52,10 +55,10 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
             enabled: false,
             requireBase: false
         });
+
        
     }]);
  
-
 app.run(function ($rootScope, $location, $route,$document,jwtHelper) {
   $rootScope.$on('$routeChangeStart',
     function (event, next, current) { 
@@ -88,6 +91,7 @@ app.directive('fileModel', ['$parse', function ($parse) {
            }
         };
      }]);
+
  app.service('fileUpload', ['$http', function ($http) {
         this.uploadFileToUrl = function(file, uploadUrl,details,resource, cb){
         console.log('details=',details) 

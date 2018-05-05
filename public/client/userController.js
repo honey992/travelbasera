@@ -4,12 +4,16 @@ app.controller('userController', function($scope,$rootScope,$routeParams, $http,
 $scope.user = {};
 $scope.successPop = false;
 	$scope.viewData = true;
+	$scope.toggelView = function(){
+		$scope.viewData = !$scope.viewData;
+	}
 	var url = $location.url();
 	 $scope.userLogin = function(){ 
 			if($scope.loginForm.$valid){
 		      $http.post(configuration.LOGIN_URL, $scope.user).then(function success(res){
 	                    sessionStorage.setItem('token', res.data.token);
-	                    $location.path('/dashboard');
+	                    document.getElementById('nav').style.display = 'block';
+	                    $location.path('/dashboard').replace();
 	                   
 	                }, function errorCallback(err){
 	                    $scope.errorPop = true;
@@ -19,7 +23,7 @@ $scope.successPop = false;
 	                });
 		 }else{
 		 	 
-			angular.forEach(loginForm.$error, function(error){
+			angular.forEach($scope.loginForm.$error, function(error){
 				               angular.forEach(error, function(control){
 				                   control.$setTouched();
 				               })
@@ -44,33 +48,21 @@ $scope.successPop = false;
 		$scope.fetchRoles();
 	};
 
-	$scope.da = [{name:'users'},{name:'packages'},{name:'roles'},{name:'country'}];
-	$scope.user.permissions = {
-						users:{
-							add:false,
-							edit:false,
-							view:false,
-							delete:false
-						},
-						packages:{
-							add:false,
-							edit:false,
-							view:false,
-							delete:false
-						},
-						roles:{
-							add:false,
-							edit:false,
-							view:false,
-							delete:false
-						},
-						country:{
-							add:false,
-							edit:false,
-							view:false,
-							delete:false
-						}
-					}; 
+	$scope.getMenusList = function(){
+		$http.get('client/menus.json').then(function(res){
+			$scope.da = res.data;
+		})
+	};
+	$scope.getMenusList();
+
+	$scope.getPermissionList = function(){
+		$http.get('client/permissions.json').then(function(res){
+			$scope.user.permissions = res.data;
+			console.log(res.data);
+		})
+	};
+	$scope.getPermissionList();
+	 
 	
 
 	$scope.addNewUser = function(newUser){
@@ -170,7 +162,7 @@ if($location.url().split('/')[1] == 'editUser'){
                $scope.successMsg = res.data.message;
                $scope.successPop = true;
                $scope.errorPop = false;
-               $scope.singleUser = {};
+               // $scope.singleUser = {};
                $scope.singleUser.permissions = $scope.user.permissions;
             }, function errorCallback(err){
                 $scope.errorPop = true;

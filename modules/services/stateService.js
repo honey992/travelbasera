@@ -1,11 +1,39 @@
 var _ 				= 	require('lodash');
 var jwt				=	require('jsonwebtoken');
 var Q 				=	require('q');
-var _country     	= 	require('../models');
-var countryModel    =  _country.countryModel;
+var _models    	   = 	require('../models');
+var stateModel     =  _models.stateModel;
 var ec 				= 	require('../../constants').errors;
 const lib 			=	require('../../lib');
 const middlewares 	= 	lib.middlewares; 
+
+function checkStateName(){
+	var self = this;
+	var deferred = Q.defer();
+	stateServices.find({s_name:self.state}, function(err, data){
+		if(err) 
+			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch State"}));
+		if(data.length)
+			 return deferred.reject(ec.Error({status:ec.DATA_ALREADY_EXISTS, message:'State Already Exist.'}));
+      	
+      	deferred.resolve();
+	});
+	return deferred.promise; 
+};
+
+function saveState(){
+	var self = this;
+	var deferred = Q.defer();
+	console.log(self);
+	return ;
+	var addstateData = new stateModel({c_name:options.c_name});
+		addstateData.save(function(err, data){
+			if(err)
+				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Insert State"}));
+			deferred.resolve();
+		});
+	return deferred.promise;
+}
 
 
 var countryService = {
@@ -22,17 +50,22 @@ var countryService = {
 		});
 	},
 
-	addCountryService:function(options, cb){
+	addStateService:function(options, cb){
 		
 		if(!options)
-            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create Country"}));
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create State"}));
 
-        var addcountry = new countryModel({c_name:options.c_name});
-		addcountry.save(function(err, data){
-			if(err)
-				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Insert Country"}));
-				cb();
-		});
+       checkStateName.call(options)
+            .then(saveState.bind(options)) 
+            .then(cb)
+            .fail(failureCb)
+            .catch(failureCb)
+
+        function failureCb(err){
+            var finalErr = new Error(err.message || 'Some Undefined Error Occurs.');
+            finalErr.status = err.status || 400;
+            return cb(finalErr);
+        } 
 	},
 	
 	editCountryService:function(options, cb){

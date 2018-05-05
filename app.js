@@ -42,3 +42,5 @@ server.on('error', function(err){
 }).listen(app.get('port'), function(){
 	console.log('App is running at: '+app.get('port'))
 });
+
+module.exports = app;

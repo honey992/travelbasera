@@ -29,6 +29,14 @@ var testimonialsSchema = new db.Schema({
 		created_at:{
 			type :Date 
 		},
+		created_by:{
+			name:{
+				type:String
+			},
+			id:{
+				type:String
+			}
+		},
 		modified_at:{
 			type:Date
 		}

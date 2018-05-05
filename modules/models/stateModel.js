@@ -1,11 +1,14 @@
 var db = require('../../config/db');
 //var mongoose = require('mongoose');
 
-var countrySchema = new db.Schema({
-	c_name:{
+var stateSchema = new db.Schema({
+	c_id:{
+		type:Number
+	},
+	s_name:{
 		type:String
 	},
-	c_code:{
+	s_code:{
 		type:Number
 	},
 	metadata:{
@@ -30,17 +33,15 @@ var countrySchema = new db.Schema({
 	}
 });
 
-countrySchema.pre('save', function(next) { 
+stateSchema.pre('save', function(next) { 
 	var currentDate = new Date(); 
     this.metadata.modified_at = currentDate; 
     if (!this.metadata.created_at) this.metadata.created_at = currentDate; 
-     if (this.isNew) this.c_code = 1;
+     if (this.isNew) this.s_code = 1;
      else{
-     	Model.find({}, function(err, d){
-     		console.log(d)
-     	})
+     	 
      }
     next();
 });
 
-module.exports = db.mongoose.model('country', countrySchema);
+module.exports = db.mongoose.model('state', stateSchema);
