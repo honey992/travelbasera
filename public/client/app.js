@@ -47,6 +47,12 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
         }).when("/inclusion", {
             templateUrl: "/view/pages/inclusion.html",
             controller: "inclusionController"
+        }).when("/aboutUs", {
+            templateUrl: "/view/pages/about.html",
+            controller: "aboutController"
+        }).when("/contactDetails", {
+            templateUrl: "/view/pages/contact.html",
+            controller: "contactController"
         })
         .otherwise({
             redirectTo: "/"
@@ -117,3 +123,12 @@ app.directive('fileModel', ['$parse', function ($parse) {
                });
         }
      }]);
+
+app.filter('statusName', function(){
+  return function(str){
+    var val;
+    if(str == true || str == 'true') val = 'Yes'
+      else val = 'No'
+    return val;
+  }
+})

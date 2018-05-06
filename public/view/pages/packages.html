@@ -18,26 +18,22 @@
 	<div class="panel-heading"> Add Package </div>
     	<div class="panel-body">
         	<div class="row">
-            	<form  novalidate enctype= "multipart/form-data">
+            	<form  name="addNewPackageForm" novalidate enctype= "multipart/form-data">
             		<div class="section">
             		<div class="col-md-6">
             			<div class="form-group">
                             <label>Country</label>
-                                <select class="form-control" ng-required="true" name="status" ng-model=b.status>
-	                                <option>--Select--</option>
-	                                <option value="true">Active</option>
-	                                <option value="false">De-Active</option>
+                                <select class="form-control" ng-required="true" name="country" ng-model="pack.country" ng-change="getStateList(pack.country)"> 
+	                                <option ng-repeat="x in countryList" value="{{x.c_code}}-{{x.c_name}}">{{x.c_name}}</option>
                             	</select>
-                                 <p class="__errorMsg" ng-show="uploadBanner.status.$touched && uploadBanner.status.$invalid ">
-                                  	<span ng-show="uploadBanner.status.$error.required">File is required.</span>
+                                 <p class="__errorMsg" ng-show="addNewPackageForm.country.$touched && addNewPackageForm.country.$invalid ">
+                                  	<span ng-show="addNewPackageForm.country.$error.required">*Please select country</span>
                                 </p>
                         </div>
                         <div class="form-group">
                         	<label>City</label>
                                 <select class="form-control" ng-required="true" name="status" ng-model=b.status>
-	                                <option>--Select--</option>
-	                                <option value="true">Active</option>
-	                                <option value="false">De-Active</option>
+	                                <option ng-repeat="x in stateList" value="{{x.s_code}}-{{x.s_name}}">{{x.s_name}}</option>
                                 </select>
                                  <p class="__errorMsg" ng-show="uploadBanner.status.$touched && uploadBanner.status.$invalid ">
                                   <span ng-show="uploadBanner.status.$error.required">File is required.</span>
@@ -49,13 +45,11 @@
             		<div class="col-md-6">
             			<div class="form-group">
                             <label>State</label>
-                                <select class="form-control" ng-required="true" name="status" ng-model=b.status>
-	                                <option>--Select--</option>
-	                                <option value="true">Active</option>
-	                                <option value="false">De-Active</option>
+                               <select class="form-control" ng-required="true" name="state" ng-model="pack.state">
+                                  <option ng-repeat="x in stateList" value="{{x.s_code}}-{{x.s_name}}">{{x.s_name}}</option>
                                 </select>
-                                 <p class="__errorMsg" ng-show="uploadBanner.status.$touched && uploadBanner.status.$invalid ">
-                                  <span ng-show="uploadBanner.status.$error.required">File is required.</span>
+                                <p class="__errorMsg" ng-show="addNewPackageForm.state.$touched && addNewPackageForm.state.$invalid ">
+                                    <span ng-show="addNewPackageForm.state.$error.required">*Please select state</span>
                                 </p>
                         </div>
                         <div class="form-group">

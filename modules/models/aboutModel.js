@@ -1,13 +1,10 @@
 var db = require('../../config/db');
 //var mongoose = require('mongoose');
 
-var rolesSchema = new db.Schema({
-	r_name:{
+var aboutSchema = new db.Schema({
+	description:{
 		type:String
-	},
-	r_code:{
-		type:String
-	},
+	}, 
 	metadata:{
 		is_active:{ 
 			type:Boolean, 
@@ -29,7 +26,7 @@ var rolesSchema = new db.Schema({
 		}
 	}
 });
-rolesSchema.pre('save', function(next) { 
+aboutSchema.pre('save', function(next) { 
 	var currentDate = new Date(); 
     this.metadata.modified_at = currentDate; 
     if (!this.metadata.created_at) this.metadata.created_at = currentDate; 
@@ -37,4 +34,4 @@ rolesSchema.pre('save', function(next) {
     next();
 });
 
-module.exports = db.mongoose.model('roles', rolesSchema);
+module.exports = db.mongoose.model('aboutus', aboutSchema);

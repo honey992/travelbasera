@@ -28,6 +28,28 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			$scope.pack.selectedInclusion = $scope.pack.selectedInclusion.filter(function(c){
 				return c.id !== x.id;
 			})
+		};
+
+		$scope.getAllCountry= function(){ 
+	      	$http.get(configuration.GET_ALL_COUNTRY_URL).then(function success(res){
+               $scope.countryList = res.data.country;
+            }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+                $scope.errorMsg = err.data;
+ 			});
+		 
+		};
+		$scope.getAllCountry();
+
+		$scope.getStateList = function(c_code){
+			$http.get(configuration.STATE_URL+"/"+c_code).then(function success(res){
+               $scope.stateList = res.data.states;
+            }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+                $scope.errorMsg = err.data;
+ 			});
 		}
 		 
 	

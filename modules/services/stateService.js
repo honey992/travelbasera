@@ -10,7 +10,8 @@ const middlewares 	= 	lib.middlewares;
 function checkStateName(){
 	var self = this;
 	var deferred = Q.defer();
-	stateServices.find({s_name:self.state}, function(err, data){
+	self.s_code = 1;
+	stateModel.find({s_name:self.name}, function(err, data){
 		if(err) 
 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch State"}));
 		if(data.length)
@@ -20,32 +21,70 @@ function checkStateName(){
 	});
 	return deferred.promise; 
 };
-
+function fetchLastState(){
+ 	var self = this;
+ 	var deferred = Q.defer();
+ 	stateModel.find(function(err, data){
+ 		if(err)
+ 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Role"}));
+ 		
+ 		if(data.length){
+            var lastElm = data[data.length-1];
+     		self.s_code = parseInt(lastElm.s_code)+1;
+       } 
+ 		deferred.resolve();
+ 	});
+ 	return deferred.promise;
+ }
 function saveState(){
 	var self = this;
 	var deferred = Q.defer();
 	console.log(self);
-	return ;
-	var addstateData = new stateModel({c_name:options.c_name});
+	 var rejObj = {s_name:self.name,s_code:self.s_code, c_id:self.country, 'metadata.is_active':self.status};
+	var addstateData = new stateModel(rejObj);
 		addstateData.save(function(err, data){
 			if(err)
-				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Insert State"}));
+				return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Insert State"}));
 			deferred.resolve();
 		});
 	return deferred.promise;
 }
 
+function checkStateExist(){
+	var self = this;
+	var deferred = Q.defer();
+	stateModel.find({_id:self._id}, function(err, data){
+		if(err) 
+			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch State"}));
+		if(data) 	deferred.resolve();
+	});
+	return deferred.promise; 
+};
+
+function updateStateData(){
+	var self = this;
+	var deferred = Q.defer();
+	var updateData = {s_name:self.s_name, c_id:self.c_id, metadata:{is_active:self.metadata.is_active}};
+	stateModel.update({_id:self._id},{$set:self}, function(err, data){
+		if(err) 
+			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch State"}));
+		if(data) 	
+			deferred.resolve();
+	});
+	return deferred.promise; 
+};
+
 
 var countryService = {
 
-	getAllCountryService:function(options, cb){
+	getStateService:function(options, cb){
 	
 		if(!options)
             return cb(ec.Error({status:ec.DB_ERROR, message :"No data"}));
 
-		countryModel.find({},function(err, data){
+		stateModel.find({},function(err, data){
 			if(err)
-				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch countries"}));
+				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch states"}));
 				cb(null,data);
 		});
 	},
@@ -56,6 +95,7 @@ var countryService = {
             return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create State"}));
 
        checkStateName.call(options)
+       		.then(fetchLastState.bind(options))
             .then(saveState.bind(options)) 
             .then(cb)
             .fail(failureCb)
@@ -68,23 +108,27 @@ var countryService = {
         } 
 	},
 	
-	editCountryService:function(options, cb){
+	updateStateService:function(options, cb){
 debugger;
 		if(!options)
-            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create Country"}));
-        var updateAbleData = {'c_name':options.c_name};
-		countryModel.update({_id:options.id},updateAbleData, function(err, data){
-			if(err)
-				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update User'}));
-			debugger;
-			console.log(data)
-			cb(null, data);
-		});
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create State"}));
+
+       checkStateExist.call(options)
+            .then(updateStateData.bind(options)) 
+            .then(cb)
+            .fail(failureCb)
+            .catch(failureCb)
+
+        function failureCb(err){
+            var finalErr = new Error(err.message || 'Some Undefined Error Occurs.');
+            finalErr.status = err.status || 400;
+            return cb(finalErr);
+        } 
 	},
 
-	deleteCountryService: function(options, cb){
+	deleteStateService: function(options, cb){
 		
-		countryModel.remove({_id:options.id}, function(err, result){
+		stateModel.remove({_id:options.id}, function(err, result){
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
 			cb(null, result);
 		});
@@ -95,6 +139,12 @@ debugger;
 		countryModel.findOne({_id:options.id}, function(err, result){
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
 			delete result.id;
+			cb(null, result);
+		});
+	},
+	stateByIdService: function(options, cb){ 
+		stateModel.find({c_id:options.id}, function(err, result){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
 			cb(null, result);
 		});
 	}

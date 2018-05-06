@@ -5,9 +5,11 @@ var db = require('../config/db');
 module.exports = function(app){
 	require('./routes/users')(app);
 	require('./routes/country')(app);
+	require('./routes/state')(app);
 	require('./routes/roles')(app);
 	require('./routes/banner')(app);
 	require('./routes/testimonials')(app);
+	require('./routes/about')(app);
 
 
 	db.mongoose.connection.on('connected', function (err) {

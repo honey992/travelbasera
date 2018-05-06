@@ -41,6 +41,34 @@ $scope.toggelView = function(){
       }
 
        $scope.fetchBanners();
+
+    $scope.openEditPopup = function(x){
+		x.metadata.is_active = x.metadata.is_active.toString();
+		$scope.eData = x;
+	}
+	$scope.updateState = function(obj){
+		if($scope.updateStateForm.$valid){
+			$http.put(configuration.STATE_URL, obj).then(function success(res){
+               $scope.successPop = true;
+               $scope.errorPop = false;
+               $scope.successMsg = res.data.message;
+               $scope.getStates();
+            }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+                $scope.errorMsg = err.data;
+ 			});
+		}else{
+			angular.forEach($scope.updateStateForm.$error, function(error){
+				               angular.forEach(error, function(control){
+				                   control.$setTouched();
+				               })
+				               
+				           });
+
+		}
+		
+	};
 	
 
 });

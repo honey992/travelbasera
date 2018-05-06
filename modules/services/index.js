@@ -6,5 +6,6 @@ module.exports = {
 	countryServices : require('./countryService'),
 	stateServices   : require('./stateService'),
 	bannerServices  : require('./bannerService'),
-	testimonialsServices : require('./testimonialsService')
+	testimonialsServices : require('./testimonialsService'),
+	aboutServices : require('./aboutService')
 }

@@ -1,38 +1,38 @@
 'use strict';
 
-var rolesServices = require('../../services').roleServices;
+var aboutServices = require('../../services').aboutServices;
 var _ = require('lodash');
 
-var rolesCtrl = {
+var aboutCtrl = {
 
-	addRolesCtrl:function(req, res, next){
+	addAboutCtrl:function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);
 
-		rolesServices.addRolesService(options, function(err, data){
+		aboutServices.addAboutService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
-			res.json({message:'Role Saved Successfully', data:data});
+			res.json({'status':1,'message':'About Saved Successfully', data:data});
 		})
 	},
-	getRolesCtrl:function(req,res,next){
+	getAboutCtrl:function(req,res,next){
 		var options = {};
-		rolesServices.getAllRolesServices(options,function(err, result){
+		aboutServices.getAboutServices(options,function(err, result){
 			if(err)	return next(err);
 
 			res.json({data:result});
 		});
 	},
-	updateRolesCtrl:function(req, res, next){
+	updateAboutCtrl:function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);
-		rolesServices.updateRolesService(options, function(err, data){
+		aboutServices.updateAboutService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
 		
-			res.json({'status':1,'message':'Role Updated Successfully', data:data});
+			res.json({'status':1,'message':'About us Updated Successfully', data:data});
 		})
 	},
 	deleteRolesCtrl:function(req, res, next){
@@ -48,4 +48,4 @@ var rolesCtrl = {
 	}
 };
 
-module.exports = rolesCtrl;
+module.exports = aboutCtrl;

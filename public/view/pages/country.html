@@ -20,7 +20,7 @@
                            <div class="row">
 
                            <form ng-submit="addNewCountry()"  name="newCountryFrom" novalidate >
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Country Name</label>
                                 <input type="text" ng-model="coun.name" name="cname" ng-required="true" class="form-control" placeholder="Enter Country Name" ng-pattern="/^[A-z]+$/">
@@ -31,7 +31,18 @@
                             </div>
                             
                             </div>
-                            <div class="col-md-12">
+                             <div class="col-lg-4"> 
+                                <label>Status</label>
+                                <select class="form-control" ng-required="true" name="status" ng-model='coun.status'>
+                                <option>--Select--</option>
+                                <option value="true">Active</option>
+                                <option value="false">De-Active</option>
+                                </select>
+                                <p class="__errorMsg" ng-show="newCountryFrom.status.$touched && newCountryFrom.status.$invalid ">
+                                    <span ng-show="newCountryFrom.status.$error.required">*Please Enter State Name.</span>
+                                </p> 
+                            </div>
+                            <div class="col-md-12 text-center">
                             <button type="submit" class="btn btn-success"  >Add</button>
                                         <button type="reset" class="btn btn-default">Reset</button>
                             </div>
@@ -60,7 +71,7 @@
                                     <tr class="gradeA odd" role="row" ng-repeat="x in countryList">
                                         <td class="sorting_1">{{x.c_name}}</td>
                                         <td>{{x.c_code}}</td>
-                                        <td>{{x.metadata.is_active}}</td>
+                                        <td>{{x.metadata.is_active | statusName}}</td>
                                         <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#myModal" ng-click="editCountry(x)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                     </tr></tbody>
                             </table></div></div></div>
@@ -80,7 +91,7 @@
   </div>
 
 <!-- Modal -->
-<div class="modal" ng-show="deleteConfirmationModal">
+<div class="modal c" ng-show="deleteConfirmationModal">
 <div class="modal-dialog"> 
     <!-- Modal content-->
     <div class="modal-content">
@@ -101,9 +112,9 @@
 </div>
 
 <style>
-/*.modal{
+.c{
     display:block;
-}*/
+}
 </style>
 
 <!--Edit Modal-->

@@ -7,11 +7,11 @@ var Q 	=	require('q');
 
 var stateCtrl = {
 
-	getAllCountryCtrl: function(req, res, next){
+	getStateCtrl: function(req, res, next){
 		var options = {};
-		countryServices.getAllCountryService(options, function(err, data){
+		stateServices.getStateService(options, function(err, data){
 			if(err) return next(err);
-			res.json({ country:data});
+			res.json({ status:1,states:data});
 		})
 	},
 
@@ -19,20 +19,19 @@ var stateCtrl = {
 		var options = {};
 		_.assign(options, req.body);
 		var options = req.body;
-
 		stateServices.addStateService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
-			res.json({message:'State Saved Successfully'});
+			res.json({status:1,message:'State Saved Successfully'});
 		})
 	},
 
-	editCountryCtrl:function(req, res, next){
+	updateStateCtrl:function(req, res, next){
 		var options = {}; 
 		_.assign(options, req.body);
 		debugger;
-		countryServices.editCountryService(options, function(err, data){
+		stateServices.updateStateService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
@@ -40,13 +39,13 @@ var stateCtrl = {
 		})
 	},
 
-	deleteCountryCtrl: function(req,res,next){
+	deleteStateCtrl: function(req,res,next){
 		var options = {};
 		_.assign(options, req.params);
 		console.log('delete options',options);
-		countryServices.deleteCountryService(options, function(err, data){
+		stateServices.deleteStateService(options, function(err, data){
 			if(err) return next(err);
-			res.json({message:'Country Deleted Successfully'});
+			res.json({message:'State Deleted Successfully'});
 		})
 	},
 
@@ -56,6 +55,15 @@ var stateCtrl = {
 		countryServices.fetchCountryByIdService(options, function(err, data){
 			if(err) return next(err);
 			res.json({result:data});
+		})
+	},
+	
+	stateByIdCtrl: function(req,res,next){
+		var options = {};
+		_.assign(options, req.params);
+		stateServices.stateByIdService(options, function(err, data){
+			if(err) return next(err);
+			res.json({'status':1,states:data});
 		})
 	}
 };
