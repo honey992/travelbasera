@@ -98,7 +98,7 @@ var userServ = {
             if(err) return cb(ec.Error({status:ec.DB_ERROR, message:"Unable to save about."}));
                 cb(null, data);
         })
-	},
+	},  
 	getAboutServices: function(options,cb){
 		aboutModel.findOne( function(err, data){
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:"Unable to get About us."}));
