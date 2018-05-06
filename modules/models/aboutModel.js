@@ -1,4 +1,4 @@
-svar db = require('../../config/db');
+var db = require('../../config/db');
 //var mongoose = require('mongoose');
 
 var aboutSchema = new db.Schema({
