@@ -47,6 +47,9 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
         }).when("/inclusion", {
             templateUrl: "/view/pages/inclusion.html",
             controller: "inclusionController"
+        })..when("/city", {
+            templateUrl: "/view/pages/city.html",
+            controller: "cityController"
         })
         .otherwise({
             redirectTo: "/"
