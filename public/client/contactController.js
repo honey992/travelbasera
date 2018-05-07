@@ -1,9 +1,31 @@
 "use strict";
 
-app.controller('stateVController', function($scope, $http,configuration,$location,$routeParams){
+app.controller('contactController', function($scope, $http,configuration,$location,$routeParams){
 		$scope.successPop = false;
 		var url = $location.url();
 		$scope.viewData = true; 
+
+
+		$scope.addContactDetails = function(){
+			if($scope.addContactusForm.$valid){
+				$http.post(configuration.STATE_URL, reqObj).then(function success(res){
+               $scope.successPop = true;
+               $scope.errorPop = false;
+               $scope.successMsg = res.data.message;
+            }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+                $scope.errorMsg = err.data.message;
+ 			});
+			}else{ 
+				angular.forEach($scope.addStateForm.$error, function(error){
+	               angular.forEach(error, function(control){
+	                   control.$setTouched();
+	               })
+	               
+	           });
+			}
+		}
 
 	$scope.getAllCountry= function(){ 
 	      	$http.get(configuration.GET_ALL_COUNTRY_URL).then(function success(res){
@@ -31,11 +53,11 @@ app.controller('stateVController', function($scope, $http,configuration,$locatio
  			});
 		}else{
 			angular.forEach($scope.addStateForm.$error, function(error){
-				               angular.forEach(error, function(control){
-				                   control.$setTouched();
-				               })
-				               
-				           });
+               angular.forEach(error, function(control){
+                   control.$setTouched();
+               })
+               
+           });
 			
 		}
 		

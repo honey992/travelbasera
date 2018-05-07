@@ -36,7 +36,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-                $scope.errorMsg = err.data;
+                $scope.errorMsg = err.data.message;
  			});
 		 
 		};
@@ -48,7 +48,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-                $scope.errorMsg = err.data;
+                $scope.errorMsg = err.data.message;
  			});
 		}
 		 

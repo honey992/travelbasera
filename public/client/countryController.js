@@ -11,7 +11,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-                $scope.errorMsg = err.data;
+                $scope.errorMsg = err.data.message;
  			});
 		 
 		};
@@ -28,7 +28,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-                $scope.errorMsg = err.data; 
+                $scope.errorMsg = err.data.message; 
 
                 });
 			}else{
@@ -58,7 +58,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 	            }, function errorCallback(err){
 	                $scope.errorPop = true;
 	                $scope.successPop = false;
-	               $scope.errorMsg = err.data;
+	               $scope.errorMsg = err.data.message;
 
 	            });
 	           }else{
@@ -81,7 +81,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 	            }, function errorCallback(err){
 	                $scope.errorPop = true;
 	                $scope.successPop = false;
-	               $scope.errorMsg = err.data;
+	               $scope.errorMsg = err.data.message;
 
 	            });
 
@@ -94,7 +94,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 	            }, function errorCallback(err){
 	                $scope.errorPop = true;
 	                $scope.successPop = false;
-	               $scope.errorMsg = err.data;
+	               $scope.errorMsg = err.data.message;
 
 	            });
 				}
@@ -120,7 +120,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 			}, function errorCallback(err){
                $scope.errorPop = true;
                $scope.successPop = false;
-               $scope.errorMsg = err.data;
+               $scope.errorMsg = err.data.message;
 			});
 		};
 	

@@ -32,6 +32,14 @@ var reviewCtrl = {
 			if(err) return next(err);
 			res.json({data:result});
 		})
+	},
+	deleteReviewsCtrl:function(req, res, next){
+		var options = {};
+		_.assign(options, req.params);
+		testimonialServ.deleteReviewsService(options, function(err,result){
+			if(err) return next(err);
+			res.json({'status':1,message:'Review Deleted Successfully'});
+		})
 	}
 };
 

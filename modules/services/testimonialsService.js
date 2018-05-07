@@ -27,6 +27,12 @@ var bannersServ = {
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to fetch reviews'}));
 			cb(null, data);
 		})
+	},
+	deleteReviewsService:function(options, cb){
+		testimonialModel.remove({_id:options.id}, function(err, data){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to delete reviews'}));
+			cb(null, data);
+		})
 	}
 };
 module.exports = bannersServ;

@@ -7,5 +7,6 @@ module.exports = {
 	stateServices   : require('./stateService'),
 	bannerServices  : require('./bannerService'),
 	testimonialsServices : require('./testimonialsService'),
-	aboutServices : require('./aboutService')
+	aboutServices : require('./aboutService'),
+	contactServices : require('./contactService')
 }

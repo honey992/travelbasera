@@ -13,7 +13,7 @@ app.controller('userRolesController', function($scope, $http,configuration,$loca
 		            }, function errorCallback(err){
 		                $scope.errorPop = true;
 		                $scope.successPop = false;
-		                $scope.errorMsg = err.data;
+		                $scope.errorMsg = err.data.message;
 
 	                });
 		 }else{
@@ -51,7 +51,7 @@ app.controller('userRolesController', function($scope, $http,configuration,$loca
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-                $scope.errorMsg = err.data;
+                $scope.errorMsg = err.data.message;
  			});
 		}else{
 			angular.forEach($scope.updateRoleForm.$error, function(error){
@@ -79,7 +79,7 @@ app.controller('userRolesController', function($scope, $http,configuration,$loca
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-                $scope.errorMsg = err.data;
+                $scope.errorMsg = err.data.message;
  			});
 	}
 	

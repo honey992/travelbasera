@@ -4,9 +4,10 @@ var Q 				=	require('q');
 var userModel 		= 	require('../models/userModel');
 var ec 				= 	require('../../constants').errors;
 const lib 			=	require('../../lib');
+const commonConf 			=	require('../../config/common');
 const middlewares 	= 	lib.middlewares; 
 
-var jwtSecret = '12233425werweertmivncusoskauridjfvnch';
+var jwtSecret = commonConf.JWTKEY;
  
 function checkEmailId(){
 	var self = this;

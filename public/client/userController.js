@@ -75,7 +75,7 @@ $scope.successPop = false;
 	                }, function errorCallback(err){
 	                    $scope.errorPop = true;
 	                    $scope.successPop = false;
-	                   $scope.errorMsg = err.data;
+	                   $scope.errorMsg = err.data.message;
 
 	                });
 		 }else{
@@ -89,7 +89,7 @@ $scope.successPop = false;
 	                }, function errorCallback(err){
 	                    $scope.errorPop = true;
 	                    $scope.successPop = false;
-	                    $scope.errorMsg = err.data;
+	                    $scope.errorMsg = err.data.message;
 
 	                });
 	}
@@ -134,7 +134,7 @@ $scope.successPop = false;
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-               $scope.errorMsg = err.data;
+               $scope.errorMsg = err.data.message;
 
             });
 	};
@@ -152,7 +152,7 @@ if($location.url().split('/')[1] == 'editUser'){
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-               $scope.errorMsg = err.data;
+               $scope.errorMsg = err.data.message;
 
             });
 
@@ -167,7 +167,7 @@ if($location.url().split('/')[1] == 'editUser'){
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-               $scope.errorMsg = err.data;
+               $scope.errorMsg = err.data.message;
 
             });
 	}
@@ -188,7 +188,7 @@ $scope.deleteConfirmation = function(id){
 		}, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-               $scope.errorMsg = err.data;
+               $scope.errorMsg = err.data.message;
 
             });
 	}

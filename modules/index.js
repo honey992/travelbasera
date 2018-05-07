@@ -10,6 +10,7 @@ module.exports = function(app){
 	require('./routes/banner')(app);
 	require('./routes/testimonials')(app);
 	require('./routes/about')(app);
+	require('./routes/contact')(app);
 
 
 	db.mongoose.connection.on('connected', function (err) {

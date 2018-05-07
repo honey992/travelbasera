@@ -1,6 +1,6 @@
 "use strict";
 
-app.controller('aboutController', function($scope, $http,configuration,$location,fileUpload){
+app.controller('aboutController', function($scope, $http,configuration,$location,fileUpload,$sce){
 
 		$scope.viewData = true; 
 	$scope.toggelView = function(){
@@ -19,7 +19,7 @@ $scope.about = {};
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-                $scope.errorMsg = err.data;
+                $scope.errorMsg = err.data.message;
  			});
 		 	}else{
 		 		$scope.requiredDesc = true;
@@ -30,6 +30,7 @@ $scope.about = {};
 		 $scope.getAboutus= function(){ 
 	      	$http.get(configuration.ABOUT_US_URL).then(function success(res){
                $scope.aboutUsData = res.data.data;
+               $scope.aboutCb = $sce.trustAsHtml($scope.aboutUsData.description);
                $scope.editAbout = false;
                for(var k in $scope.aboutUsData){
                	if( k == 'description' && $scope.aboutUsData[k]){
@@ -40,7 +41,7 @@ $scope.about = {};
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-                $scope.errorMsg = err.data;
+                $scope.errorMsg = err.data.message;
  			});
 		 
 		};
@@ -57,7 +58,7 @@ $scope.about = {};
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-                $scope.errorMsg = err.data;
+                $scope.errorMsg = err.data.message;
  			});
 		 	}else{
 		 		$scope.requiredDesc = true;

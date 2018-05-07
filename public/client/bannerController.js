@@ -7,10 +7,10 @@ $scope.toggelView = function(){
 		$scope.viewData = !$scope.viewData;
 	}
 		 $scope.uploadBanners = function(){
-		 	if($scope.uploadBanner.$valid){ 
+		 	if($scope.uploadBannerForm.$valid){ 
 	            var file = $scope.myFile;
 	            var details = $scope.b; 
-	            console.log(file);
+	            
 	            var uploadUrl = configuration.UPLOAD_BANNER_URL;
 	           fileUpload.uploadFileToUrl(file, uploadUrl,details,'banner', function(d){
 	            if(d){
@@ -21,12 +21,17 @@ $scope.toggelView = function(){
 	            }else{
 	            	 $scope.errorPop = true;
 	                $scope.successPop = false;
-	               $scope.errorMsg = err.data
+	               $scope.errorMsg = err.data.message;
 	            }
 	           }); 
           }
           else{
-          	$scope.emptyForm=true
+          	angular.forEach($scope.uploadBannerForm.$error, function(error){
+               angular.forEach(error, function(control){
+                   control.$setTouched();
+               })
+               
+           });
           }
       };
 
@@ -46,29 +51,53 @@ $scope.toggelView = function(){
 		x.metadata.is_active = x.metadata.is_active.toString();
 		$scope.eData = x;
 	}
-	$scope.updateState = function(obj){
-		if($scope.updateStateForm.$valid){
-			$http.put(configuration.STATE_URL, obj).then(function success(res){
+	$scope.updateBanners = function(){
+		 	if($scope.updateBannerForm.$valid){ 
+	            var file = $scope.myFile;
+	            var details = $scope.eData; 
+	            
+	            var uploadUrl = configuration.UPLOAD_BANNER_URL;
+	           fileUpload.uploadFileToUrl(file, uploadUrl,details,'banner', function(d){
+	            if(d){
+	               $scope.successMsg = d.data.message;
+	               $scope.successPop = true;
+	               $scope.errorPop = false;
+	               $scope.b = {};
+	            }else{
+	            	 $scope.errorPop = true;
+	                $scope.successPop = false;
+	               $scope.errorMsg = err.data.message;
+	            }
+	           }); 
+          }
+          else{
+          	angular.forEach($scope.updateBannerForm.$error, function(error){
+               angular.forEach(error, function(control){
+                   control.$setTouched();
+               })
+               
+           });
+          }
+      };
+
+      $scope.deleteConfirmation = function(id){
+		$scope.deleteId = id;
+		$scope.deleteConfirmationModal = true;
+	}
+	$scope.deleteBanner = function(){
+		var obj = {id:$scope.deleteId};
+		$http.delete(configuration.UPLOAD_BANNER_URL+"/"+$scope.deleteId).then(function success(res){
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;
-               $scope.getStates();
+               $scope.deleteConfirmationModal = false;
+               $scope.fetchBanners();
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-                $scope.errorMsg = err.data;
+                $scope.errorMsg = err.data.message;
  			});
-		}else{
-			angular.forEach($scope.updateStateForm.$error, function(error){
-				               angular.forEach(error, function(control){
-				                   control.$setTouched();
-				               })
-				               
-				           });
-
-		}
-		
-	};
+	}
 	
 
 });

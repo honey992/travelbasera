@@ -4,7 +4,7 @@ var app = angular.module('travelBasera', ["ngRoute",'angular-jwt','textAngular']
 
  
 
-app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
+app.config(["$routeProvider", "$locationProvider", "$httpProvider",function ($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider.when("/", {
             templateUrl: "/view/pages/login.html",
             controller: "userController"
@@ -51,7 +51,7 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
             templateUrl: "/view/pages/about.html",
             controller: "aboutController"
         }).when("/contactDetails", {
-            templateUrl: "/view/pages/contact.html",
+            templateUrl: "/view/pages/contactus.html",
             controller: "contactController"
         })
         .otherwise({
@@ -62,7 +62,7 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
             requireBase: false
         });
 
-       
+       $httpProvider.interceptors.push('authInterceptor');
     }]);
  
 app.run(function ($rootScope, $location, $route,$document,jwtHelper) {
@@ -131,4 +131,33 @@ app.filter('statusName', function(){
       else val = 'No'
     return val;
   }
-})
+});
+
+app.factory('authInterceptor', authInterceptor);
+
+authInterceptor.$inject = ["$q","$location"];
+function authInterceptor($q, $location) {
+        return {
+          // Add authorization token to headers
+            request: function (config) {
+             // get token from a cookie or local storage
+            var token = sessionStorage.getItem('token');
+            config.headers = config.headers || {};
+            config.headers.Authorization = "Bearer " + token;
+            return config;
+          },
+          // Intercept 401s and redirect you to login
+          responseError: function(response) {
+
+            if(response.status === 401) {
+             // redirect to some page
+
+              // remove any stale tokens
+              return $q.reject(response);
+            }
+            else {
+              return $q.reject(response);
+            }
+          }
+        };
+      }
