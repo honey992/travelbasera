@@ -8,5 +8,10 @@ module.exports={
 	bannerModel  : require('./bannerModel'),
 	testimonialModel : require('./testimonialsModel'),
 	aboutModel : require('./aboutModel'),
-	contactModel : require('./contactModel')
+	contactModel : require('./contactModel'),
+	inclusionModel : require('./inclusionModel'),
+	packageModel : require('./packageModel'),
+	rateModel : require('./rateModel'),
+	imagesModel : require('./imagesModel'),
+	itenaryModel : require('./itenaryModel')
 }

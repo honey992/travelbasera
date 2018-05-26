@@ -18,7 +18,7 @@ var stateCtrl = {
 	addStateCtrl:function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);
-		var options = req.body;
+		// var options = req.body;
 		stateServices.addStateService(options, function(err, data){
 			if(err){
 				return next(err);

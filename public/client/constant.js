@@ -29,6 +29,10 @@ app.constant("configuration", (function() {
         DELETE_COUNTRY_URL:"api/deleteCountry",
         FETCH_SINGLE_COUNTRY:"api/fetchSingleCountry",
         STATE_URL : "api/state",
-        ABOUT_US_URL : "/api/aboutus"
+        ABOUT_US_URL : "/api/aboutus",
+        CONTACT_US_URL : "/api/contactus",
+        INCLUSION_URL :"/api/inclusions",
+        PACKAGE_URL : "/api/packages",
+        PACKAGE_IMAGES_URL : "/api/uploadImages",
     }
 })());

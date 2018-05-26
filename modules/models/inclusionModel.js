@@ -1,16 +1,16 @@
 var db = require('../../config/db');
 //var mongoose = require('mongoose');
 
-var stateSchema = new db.Schema({
-	c_id:{
+var inclusionSchema = new db.Schema({
+	i_name:{
 		type:String
 	},
-	s_name:{
+	i_code:{
 		type:String
 	},
-	s_code:{
-		type:Number
-	},
+	i_icon:{
+		type:String
+	}, 
 	metadata:{
 		is_active:{ 
 			type:Boolean, 
@@ -33,7 +33,7 @@ var stateSchema = new db.Schema({
 	}
 });
 
-stateSchema.pre('save', function(next) { 
+inclusionSchema.pre('save', function(next) { 
 	var currentDate = new Date(); 
     this.metadata.modified_at = currentDate; 
     if (!this.metadata.created_at) this.metadata.created_at = currentDate; 
@@ -41,4 +41,4 @@ stateSchema.pre('save', function(next) {
     next();
 });
 
-module.exports = db.mongoose.model('ADMIN_State', stateSchema);
+module.exports = db.mongoose.model('ADMIN_Inclusions', inclusionSchema);

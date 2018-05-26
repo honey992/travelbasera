@@ -18,7 +18,7 @@
 	<div class="panel-heading"> Add Package </div>
     	<div class="panel-body">
         	<div class="row">
-            	<form  name="addNewPackageForm" novalidate enctype= "multipart/form-data">
+            	<form  name="addNewPackageForm" novalidate >
             		<div class="section">
             		<div class="col-md-6">
             			<div class="form-group">
@@ -32,11 +32,11 @@
                         </div>
                         <div class="form-group">
                         	<label>City</label>
-                                <select class="form-control" ng-required="true" name="status" ng-model=b.status>
-	                                <option ng-repeat="x in stateList" value="{{x.s_code}}-{{x.s_name}}">{{x.s_name}}</option>
+                                <select class="form-control" ng-required="true" name="city" ng-model="pack.city">
+	                                <option ng-repeat="x in cityList" value="{{x.city_code}}-{{x.city_name}}">{{x.city_name}}</option>
                                 </select>
-                                 <p class="__errorMsg" ng-show="uploadBanner.status.$touched && uploadBanner.status.$invalid ">
-                                  <span ng-show="uploadBanner.status.$error.required">File is required.</span>
+                                 <p class="__errorMsg" ng-show="addNewPackageForm.city.$touched && addNewPackageForm.city.$invalid ">
+                                  <span ng-show="addNewPackageForm.city.$error.required">*City is required.</span>
                                 </p>
 						</div>
                          
@@ -44,7 +44,8 @@
 
             		<div class="col-md-6">
             			<div class="form-group">
-                            <label>State</label>
+
+                            <label>State</label> 
                                <select class="form-control" ng-required="true" name="state" ng-model="pack.state">
                                   <option ng-repeat="x in stateList" value="{{x.s_code}}-{{x.s_name}}">{{x.s_name}}</option>
                                 </select>
@@ -53,13 +54,12 @@
                                 </p>
                         </div>
                         <div class="form-group">
-                                <label>Source City</label>
-                                <select class="form-control">
-                                	<option value="delhi">Delhi</option>
-                                	<option value="mumbai">Mumbai</option>
+                                <label>Source City</label> 
+                                <select class="form-control" ng-model="pack.sourceCity" name="sourceCity" required>
+                                	<option ng-repeat="x in sourceCity" value="{{x.code}}-{{x.name}}">{{x.name}}</option> 
                                 </select>
-                                <p class="__errorMsg" ng-show="uploadBanner.title.$touched && uploadBanner.title.$invalid ">
-                                  <span ng-show="uploadBanner.title.$error.required">Title is required.</span>
+                                <p class="__errorMsg" ng-show="addNewPackageForm.sourceCity.$touched && addNewPackageForm.sourceCity.$invalid ">
+                                  <span ng-show="addNewPackageForm.sourceCity.$error.required">*Source City is required.</span>
                                 </p>
                         </div> 
 
@@ -72,32 +72,28 @@
                 	<div class="col-lg-6">
 						 <div class="form-group">
                             <label>Package Title</label>
-                            <input type="text" ng-model="p.title"  name="title" required  class="form-control" placeholder="Enter Image Title">
-                            <p class="__errorMsg" ng-show="uploadBanner.title.$touched && uploadBanner.title.$invalid ">
-                              <span ng-show="uploadBanner.title.$error.required">Title is required.</span>
+                            <input type="text" ng-model="pack.title"  name="title" required  class="form-control" placeholder="Enter Title">
+                            <p class="__errorMsg" ng-show="addNewPackageForm.title.$touched && addNewPackageForm.title.$invalid ">
+                              <span ng-show="addNewPackageForm.title.$error.required">*Title is required.</span>
                             </p>
                         </div> 
                           <div class="form-group">
                             <label>Package Images</label>
-                            <input type="file" name="file"  class="form-control" file-model="myFile" multiple="trues" />
-                             <p class="info-text">* You can choose multiple images.</p>
-                             <p class="__errorMsg" ng-show="addReviewerForm.file.$touched && addReviewerForm.file.$invalid ">
-                              <span ng-show="addReviewerForm.file.$error.required">File is required.</span>
+                             <input type="file" ngf-multiple="true" ngf-select ng-model="imagesFile" name="file"  
+             accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile"> 
+                             <p class="info-text">*You can choose multiple images.</p>
+                             <p class="__errorMsg" ng-show="addNewPackageForm.file.$touched && addNewPackageForm.file.$invalid ">
+                              <span ng-show="addNewPackageForm.file.$error.required">File is required.</span>
                             </p>
                           </div>
                     </div> 
 
-					<div class="col-lg-6">  
+					<div class="col-lg-6">   
                           <div class="form-group">
                             <label>Rate</label>
-                            <input type="text" class="form-control" />
-                           <!--  <select class="form-control">
-	                            <option value="n">Taxi</option>
-	                            <option value="y">Visa</option>
-	                            <option value="y">Scene Shot</option>
-                            </select> --> 
-                             <p class="__errorMsg" ng-show="addReviewerForm.file.$touched && addReviewerForm.file.$invalid ">
-                              <span ng-show="addReviewerForm.file.$error.required">File is required.</span>
+                            <input type="text" class="form-control" ng-model="pack.rate" name="rate" required /> 
+                             <p class="__errorMsg" ng-show="addNewPackageForm.rate.$touched && addNewPackageForm.file.$invalid ">
+                              <span ng-show="addNewPackageForm.rate.$error.required">*Rate is required.</span>
                             </p>
                           </div>
                         <div class="form-group">
@@ -105,13 +101,19 @@
                             	<div class="col-md-6">
                             		<div class="form-group">
                             			<label>Days</label>
-                            			<input  type="number" class="form-control" min="1" />
+                            			<input  type="number" class="form-control" min="1" ng-model="pack.days" required name="days" />
+                                          <p class="__errorMsg" ng-show="addNewPackageForm.days.$touched && addNewPackageForm.days.$invalid ">
+                              <span ng-show="addNewPackageForm.days.$error.required">*Package Days is required.</span>
+                            </p>
                             		</div>
                             	</div>
                             	<div class="col-md-6">
                             		<div class="form-group">
                             			<label>Nights</label>
-                            			<input  type="number" class="form-control" min="1" />
+                            			<input  type="number" class="form-control" min="1" required ng-model="pack.nights" name="nights" />
+                                          <p class="__errorMsg" ng-show="addNewPackageForm.nights.$touched && addNewPackageForm.nights.$invalid ">
+                              <span ng-show="addNewPackageForm.nights.$error.required">*Package Nights is required.</span>
+                            </p>
                             		</div>
                             	</div>
                             </div>
@@ -122,43 +124,87 @@
                      <div class="divider"></div>
 
                      <div class="section">
-                     	<div class="col-md-6">
+                     	<div class="col-md-6"> 
                      		<div class="form-group">
                      		<label>Highlights</label>
                      		<div style="display: flex">
-	                     		<input type="text" class="form-control" ng-model="pack.highlightsTitle"  >
+	                     		<input type="text" class="form-control" ng-model="pack.highlightsTitle" name="highlightsTitle"  >
 	                     		<button class="btn btn-primary" ng-click="addmorehighlights()">+</button>
                      		</div>
+                             <p class="__errorMsg" ng-show="pack.highlights.length<=0">
+                              <span ng-show="addNewPackageForm.nights.$error.required">*Hightlights are required.</span>
+                            </p>
                      		<ul class="info-text">
-                     			<li ng-repeat="x in pack.highlights">{{x.title}}</li>
+                     			<li ng-repeat="x in pack.highlights">{{x.title}}&nbsp;<a href="javascript:void(0)" style="color:red" ng-click="removeHighlights(x, $index)">X</a></li>
                      		</ul>
                      		</div> 
 
-                     		<div class="form-group editorr">
-                     		<label>Destination Overview</label>
-	                     		<div text-angular ng-model="htmlVariable"></div>
-                     		</div>
+                     		
                      	</div>
                      	<div class="col-md-6">
                      		 <div class="form-group" style="position: relative;">
                             <label>Inclusions</label>
-                            <input type="text" class="form-control" ng-model="selectedIncModel" ng-click="_inclusionList=!_inclusionList">
-                            <div class="" ng-show="_inclusionList" style="background: #fff;border: 1px solid #ddd; position:absolute; width:100%">
+                            <input type="text" class="form-control" ng-model="selectedIncModel" ng-click="_inclusionList=!_inclusionList" readonly="true">
+                            <p class="__errorMsg" ng-show="pack.selectedInclusion<=0">
+                              <span ng-show="addNewPackageForm.nights.$error.required">*Inclusions are required.</span>
+                            </p>
+                            <div class="" ng-show="_inclusionList" style="background: #fff;z-index: 9;top: 59px;border: 1px solid #ddd; position:absolute; width:100%">
                               <ul>
-                                <li ng-repeat="x in dd" style="cursor: pointer;" ng-click="selectInclusion(x)">{{x.title}}</li> 
+                                <li ng-repeat="x in incList" style="cursor: pointer;" ng-click="selectInclusion(x)">{{x.i_name}}</li> 
                               </ul>
                             </div> 
                             <ul class="info-text">
-                             <li ng-repeat="x in pack.selectedInclusion">{{x.title}} <a href="javascript:void(0)" ng-click="removeInclusion(x)">x</a></li>
-                            </ul> 
-                             <p class="__errorMsg" ng-show="addReviewerForm.file.$touched && addReviewerForm.file.$invalid ">
-                              <span ng-show="addReviewerForm.file.$error.required">File is required.</span>
-                            </p>
+                             <li ng-repeat="x in pack.selectedInclusion">{{x.i_name}} <a href="javascript:void(0)" ng-click="removeInclusion(x)">x</a></li>
+                            </ul>  
                           </div>
                      	</div>
+                       
+                     </div>
+                     <div class="divider"></div>
+
+                     <div class="section">
+                     <div class="col-md-6">
+                      
+                         <label>Add Itenary</label>
+                         <div ng-repeat="x in pack.itenary" style="margin-top:5px">
+                         <div class="text-right" ng-hide="$first"><button class="btn btn-danger btn-xs" ng-click="removeItenary($index)">x</button></div>
+                         <input type="text" class="form-control" placeholder="Itenary Title" ng-model="x.title"/><br />
+                         <textarea rows="3" placeholder="Itenary Description" class="form-control" ng-model="x.description"></textarea> 
+                         </div> 
+                         <div class="text-right"><button class="btn btn-primary" ng-click="addItenary()">+</button></div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Add Inclusions</label>
+                            <div style="display: flex">
+                                <input type="text" class="form-control" ng-model="inclusionTxt" name="inclusionTxt"  >
+                                <button class="btn btn-primary" ng-click="addmoreInclusions()">+</button>
+                            </div>
+                            <ul class="info-text">
+                                <li ng-repeat="x in pack.inclusionList">{{x.title}}&nbsp;<a href="javascript:void(0)" ng-click="removeInclusionList(x)" style="color:red">X</a></li>
+                            </ul>
+                            </div> 
+                            <br />
+                        <div class="form-group">
+                            <label>Add Exclusions</label>
+                            <div style="display: flex">
+                                <input type="text" class="form-control" ng-model="excluionTxt" name="excluionTxt"  >
+                                <button class="btn btn-primary" ng-click="addmoreExclusion()">+</button>
+                            </div>
+                            <ul class="info-text">
+                                <li ng-repeat="x in pack.exclusionList">{{x.title}}&nbsp;<a href="javascript:void(0)" ng-click="removeExclusionList(x)" style="color:red">X</a></li>
+                            </ul>
+                            </div> 
+                     </div>
+                      <div class="col-md-12">
+                            <div class="form-group editorr">
+                            <label>Destination Overview</label>
+                                <div text-angular ng-model="pack.description" ></div>
+                            </div>
+                        </div>
                      </div>
                             <div class="col-md-12">
-                            <button type="submit" class="btn btn-success">Add</button>
+                            <button type="submit" class="btn btn-success" ng-click="saveNewPackage(imagesFile)">Add</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                             </div>
                            </form> 

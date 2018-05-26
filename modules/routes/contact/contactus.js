@@ -16,18 +16,19 @@ var rolesCtrl = {
 			res.json({'status':1,'message':'Contacts Saved Successfully', data:data});
 		})
 	},
-	getRolesCtrl:function(req,res,next){
+	getContactusCtrl:function(req,res,next){
 		var options = {};
-		contactServices.getAllRolesServices(options,function(err, result){
+		contactServices.getContactusServices(options,function(err, result){
 			if(err)	return next(err);
 
 			res.json({data:result});
 		});
 	},
-	updateRolesCtrl:function(req, res, next){
+	updateContactusCtrl:function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);
-		contactServices.updateRolesService(options, function(err, data){
+		console.log(req.body);
+		contactServices.updateContactusService(options, function(err, data){
 			if(err){
 				return next(err);
 			}

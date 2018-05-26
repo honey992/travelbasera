@@ -1,10 +1,10 @@
 "use strict";
 
-var app = angular.module('travelBasera', ["ngRoute",'angular-jwt','textAngular']);
+var app = angular.module('travelBasera', ["ngRoute",'angular-jwt','textAngular','ngFileUpload']);
 
  
 
-app.config(["$routeProvider", "$locationProvider", "$httpProvider",function ($routeProvider, $locationProvider, $httpProvider) {
+app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',function ($routeProvider, $locationProvider, $httpProvider,$provide) {
         $routeProvider.when("/", {
             templateUrl: "/view/pages/login.html",
             controller: "userController"
@@ -63,6 +63,26 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",function ($ro
         });
 
        $httpProvider.interceptors.push('authInterceptor');
+       $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions) { // $delegate is the taOptions we are decorating
+                    // taRegisterTool('test', {
+                    //     buttontext: 'Test',
+                    //     action: function() {
+                    //         alert('Test Pressed')
+                    //     }
+                    // });
+                    // taOptions.toolbar[1].push('test');
+                    // taRegisterTool('colourRed', {
+                    //     iconclass: "fa fa-square red",
+                    //     action: function() {
+                    //         this.$editor().wrapSelection('forecolor', 'red');
+                    //     }
+                    // });
+                    // add the button to the default toolbar definition
+                    taOptions.toolbar = [['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
+      ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
+      ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent']];
+                    return taOptions;
+                }]);
     }]);
  
 app.run(function ($rootScope, $location, $route,$document,jwtHelper) {
@@ -113,6 +133,9 @@ app.directive('fileModel', ['$parse', function ($parse) {
               fd.append('reviewer_title', details.title);
               fd.append('reviewer_desc', details.description);
               fd.append('reviewer_rating', details.rating); 
+           }else if(resource == 'inclusion'){
+            fd.append('i_name', details.name);
+            fd.append('metadata.is_active', details.status);
            }
             
            $http.post(uploadUrl, fd, {transformRequest: angular.identity,headers: {'Content-Type': undefined} }) 
@@ -128,7 +151,7 @@ app.filter('statusName', function(){
   return function(str){
     var val;
     if(str == true || str == 'true') val = 'Yes'
-      else val = 'No'
+      else if(str == false || str == 'false') val = 'No'
     return val;
   }
 });

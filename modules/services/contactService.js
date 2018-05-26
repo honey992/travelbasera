@@ -54,14 +54,14 @@ function fetchLastCountry(){
 
 var contactServicex = {
 
-	getAllCountryService:function(options, cb){
+	getContactusServices:function(options, cb){
 	
 		if(!options)
-            return cb(ec.Error({status:ec.DB_ERROR, message :"No data"}));
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Insufficient Data to fetch contact us"}));
 
-		countryModel.find({},function(err, data){
+		contactModel.findOne({},function(err, data){
 			if(err)
-				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch countries"}));
+				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Contact us"}));
 				cb(null,data);
 		});
 	},
@@ -79,20 +79,26 @@ var contactServicex = {
         
 	},
 	
-	editCountryService:function(options, cb){
+	updateContactusService:function(options, cb){
 		if(!options)
-            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create Country"}));
-        var updateAbleData =  {  c_name:options.c_name, metadata:{is_active:options.metadata.is_active}};
-		countryModel.update({_id:options._id},{$set:updateAbleData}, function(err, data){
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to Update Contact us"}));
+        var updateAbleData =  {  
+        						contactno:options.contactno,
+        						email:options.email,
+        						address:options.address,
+        						website:options.website, 
+        						metadata:{is_active:options.metadata.is_active}
+        					};
+		contactModel.update({_id:options._id},{$set:updateAbleData}, function(err, data){
 			if(err)
-				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update Country'}));
+				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update Contacts'}));
 			cb(null, data);
 		});
 	},
 
 	deleteCountryService: function(options, cb){
 		
-		countryModel.remove({_id:options.id}, function(err, result){
+		contactModel.remove({_id:options.id}, function(err, result){
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
 			cb(null, result);
 		});

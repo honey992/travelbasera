@@ -34,4 +34,4 @@ aboutSchema.pre('save', function(next) {
     next();
 });
 
-module.exports = db.mongoose.model('aboutus', aboutSchema);
+module.exports = db.mongoose.model('ADMIN_About_Us', aboutSchema);

@@ -61,4 +61,4 @@ var userSchema = new db.Schema({
 	}
 });
 
-module.exports = db.mongoose.model('user', userSchema);
+module.exports = db.mongoose.model('ADMIN_Users', userSchema);

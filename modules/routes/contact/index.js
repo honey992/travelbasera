@@ -9,5 +9,7 @@ module.exports = function(app){
 
 	app.route('/api/contactus')
 		.post(contactusCtrl.addContactusCtrl, error) 
+		.get(contactusCtrl.getContactusCtrl, error) 
+		.put(contactusCtrl.updateContactusCtrl, error)
 	 
 }

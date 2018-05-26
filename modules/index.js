@@ -11,6 +11,8 @@ module.exports = function(app){
 	require('./routes/testimonials')(app);
 	require('./routes/about')(app);
 	require('./routes/contact')(app);
+	require('./routes/inclusions')(app);
+	require('./routes/package')(app);
 
 
 	db.mongoose.connection.on('connected', function (err) {

@@ -38,4 +38,4 @@ countrySchema.pre('save', function(next) {
     next();
 });
 
-module.exports = db.mongoose.model('country', countrySchema);
+module.exports = db.mongoose.model('ADMIN_Country', countrySchema);

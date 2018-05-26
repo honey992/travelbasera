@@ -8,17 +8,18 @@ app.controller('contactController', function($scope, $http,configuration,$locati
 
 		$scope.addContactDetails = function(){
 			if($scope.addContactusForm.$valid){
-				$http.post(configuration.STATE_URL, reqObj).then(function success(res){
+				$http.post(configuration.CONTACT_US_URL, $scope.contactD).then(function success(res){
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;
+               $scope.contactD = {};
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
                 $scope.errorMsg = err.data.message;
  			});
 			}else{ 
-				angular.forEach($scope.addStateForm.$error, function(error){
+				angular.forEach($scope.addContactusForm.$error, function(error){
 	               angular.forEach(error, function(control){
 	                   control.$setTouched();
 	               })
@@ -26,10 +27,15 @@ app.controller('contactController', function($scope, $http,configuration,$locati
 	           });
 			}
 		}
-
-	$scope.getAllCountry= function(){ 
-	      	$http.get(configuration.GET_ALL_COUNTRY_URL).then(function success(res){
-               $scope.countryList = res.data.country;
+ 
+	$scope.getContacts= function(){ 
+	      	$http.get(configuration.CONTACT_US_URL).then(function success(res){
+               $scope.contactusData = res.data.data;
+               $scope.contactD = $scope.contactusData
+               $scope.editContactBtn = false;
+               for(var k in $scope.contactusData){
+               	if(k == 'contactno') $scope.editContactBtn = true;
+               }
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
@@ -37,87 +43,32 @@ app.controller('contactController', function($scope, $http,configuration,$locati
  			});
 		 
 		};
-	$scope.getAllCountry();
-
-	$scope.addNewState = function(){
-		if($scope.addStateForm.$valid){
-			var reqObj = $scope.state;
-			$http.post(configuration.STATE_URL, reqObj).then(function success(res){
+	$scope.getContacts();
+ 
+	 
+	$scope.updateContactDetails = function(obj){
+		if($scope.addContactusForm.$valid){
+			$http.put(configuration.CONTACT_US_URL, obj).then(function success(res){
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;
+               $scope.getContacts();
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
                 $scope.errorMsg = err.data.message;
  			});
 		}else{
-			angular.forEach($scope.addStateForm.$error, function(error){
-               angular.forEach(error, function(control){
-                   control.$setTouched();
-               })
-               
-           });
-			
-		}
-		
-	};
-	$scope.getStates= function(){ 
-	      	$http.get(configuration.STATE_URL).then(function success(res){
-               $scope.stateList = res.data.states;
-            }, function errorCallback(err){
-                $scope.errorPop = true;
-                $scope.successPop = false;
-                $scope.errorMsg = err.data.message;
- 			});
-		 
-		};
-		$scope.getStates(); 
-	$scope.openEditPopup = function(x){
-		x.metadata.is_active = x.metadata.is_active.toString();
-		$scope.eData = x;
-	}
-	$scope.updateState = function(obj){
-		if($scope.updateStateForm.$valid){
-			$http.put(configuration.STATE_URL, obj).then(function success(res){
-               $scope.successPop = true;
-               $scope.errorPop = false;
-               $scope.successMsg = res.data.message;
-               $scope.getStates();
-            }, function errorCallback(err){
-                $scope.errorPop = true;
-                $scope.successPop = false;
-                $scope.errorMsg = err.data.message;
- 			});
-		}else{
-			angular.forEach($scope.updateStateForm.$error, function(error){
-				               angular.forEach(error, function(control){
-				                   control.$setTouched();
-				               })
-				               
-				           });
+			angular.forEach($scope.addContactusForm.$error, function(error){
+	               angular.forEach(error, function(control){
+	                   control.$setTouched();
+	               })
+	               
+	           });
 
 		}
 		
-	};
-	$scope.deleteConfirmation = function(id){
-		$scope.deleteId = id;
-		$scope.deleteConfirmationModal = true;
-	}
-	$scope.deleteState = function(){
-		var obj = {id:$scope.deleteId};
-		$http.delete(configuration.STATE_URL+"/"+$scope.deleteId).then(function success(res){
-               $scope.successPop = true;
-               $scope.errorPop = false;
-               $scope.successMsg = res.data.message;
-               $scope.deleteConfirmationModal = false;
-               $scope.getStates();
-            }, function errorCallback(err){
-                $scope.errorPop = true;
-                $scope.successPop = false;
-                $scope.errorMsg = err.data.message;
- 			});
-	}
+	}; 
 });
 
 app.filter('splitName', function(){

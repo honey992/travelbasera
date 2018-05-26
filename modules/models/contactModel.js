@@ -44,4 +44,4 @@ contactSchema.pre('save', function(next) {
     next();
 });
 
-module.exports = db.mongoose.model('contactdetails', contactSchema);
+module.exports = db.mongoose.model('ADMIN_Contact_Details', contactSchema);

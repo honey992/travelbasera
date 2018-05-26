@@ -37,4 +37,4 @@ rolesSchema.pre('save', function(next) {
     next();
 });
 
-module.exports = db.mongoose.model('roles', rolesSchema);
+module.exports = db.mongoose.model('ADMIN_Roles', rolesSchema);

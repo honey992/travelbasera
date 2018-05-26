@@ -8,5 +8,7 @@ module.exports = {
 	bannerServices  : require('./bannerService'),
 	testimonialsServices : require('./testimonialsService'),
 	aboutServices : require('./aboutService'),
-	contactServices : require('./contactService')
+	contactServices : require('./contactService'),
+	inclusionServices : require('./inclusionService'),
+	packageServices : require('./packagesService')
 }

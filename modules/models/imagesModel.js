@@ -1,16 +1,16 @@
 var db = require('../../config/db');
 //var mongoose = require('mongoose');
 
-var stateSchema = new db.Schema({
-	c_id:{
+var imagesSchema = new db.Schema({
+	package_id:{
 		type:String
 	},
-	s_name:{
+	package_mainImage:{
 		type:String
 	},
-	s_code:{
-		type:Number
-	},
+	package_images:[{
+		type:String
+	}],
 	metadata:{
 		is_active:{ 
 			type:Boolean, 
@@ -33,7 +33,7 @@ var stateSchema = new db.Schema({
 	}
 });
 
-stateSchema.pre('save', function(next) { 
+imagesSchema.pre('save', function(next) { 
 	var currentDate = new Date(); 
     this.metadata.modified_at = currentDate; 
     if (!this.metadata.created_at) this.metadata.created_at = currentDate; 
@@ -41,4 +41,4 @@ stateSchema.pre('save', function(next) {
     next();
 });
 
-module.exports = db.mongoose.model('ADMIN_State', stateSchema);
+module.exports = db.mongoose.model('ADMIN_PackageImages', imagesSchema);

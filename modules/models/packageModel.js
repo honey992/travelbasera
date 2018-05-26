@@ -1,16 +1,30 @@
 var db = require('../../config/db');
 //var mongoose = require('mongoose');
 
-var stateSchema = new db.Schema({
-	c_id:{
-		type:String
-	},
-	s_name:{
-		type:String
-	},
-	s_code:{
+var packageSchema = new db.Schema({
+	category:{
 		type:Number
 	},
+	country:{
+		type:String
+	},
+	state:{
+		type:String
+	},
+	city:{
+		type:String
+	}, 
+	sourceCity:{
+		type:String
+	},
+	title:{
+		type:String
+	}, 
+	highlights:[{
+		title:{
+		type:String
+	}
+	}],  
 	metadata:{
 		is_active:{ 
 			type:Boolean, 
@@ -33,7 +47,7 @@ var stateSchema = new db.Schema({
 	}
 });
 
-stateSchema.pre('save', function(next) { 
+packageSchema.pre('save', function(next) { 
 	var currentDate = new Date(); 
     this.metadata.modified_at = currentDate; 
     if (!this.metadata.created_at) this.metadata.created_at = currentDate; 
@@ -41,4 +55,4 @@ stateSchema.pre('save', function(next) {
     next();
 });
 
-module.exports = db.mongoose.model('ADMIN_State', stateSchema);
+module.exports = db.mongoose.model('ADMIN_Packages', packageSchema);

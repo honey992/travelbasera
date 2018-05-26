@@ -11,7 +11,7 @@ var server 			= require('http').createServer(app);
 var errorFn         = require('./modules/error');
 var middleWare      = require('./lib').middlewares;
 var commonConf      = require('./config/common');
-var jwtSecret = commonConf.JWTKEY;
+var jwtSecret       = commonConf.JWTKEY;
 
 
 app.use(logger('dev'));
@@ -33,16 +33,21 @@ app.use(express.static(path.join(__dirname, '/')));
 });
 
  app.use(function(req, res, next){
- // 	var token = req.headers.authorization;
- // 	 	console.log('sds')
-	// if(token){
-	// 	var currentUser = jwt.verify(token, jwtSecret);
-		 
-	// 		next();
-	// 	}else{
-	// 		res.json({m:'TOken Not Found'})
-	// 	}
-	// }
+ 	var _url = req.url;
+ 	var url_method = req.method;
+ 	var token = req.headers.authorization;
+ 	req.body.metadata = {}
+ 	console.log(req.method+" "+req.url);
+ 	debugger;
+ 	if((_url != '/api/login' && url_method == 'POST' )  && (_url != '/api/signup' && url_method == 'POST')){
+ 		var currentUser = jwt.verify(token.split('Bearer ')[1], jwtSecret);
+ 		req.body.metadata['created_by'] = { id:currentUser._id, name : currentUser.firstname };
+ 		 
+ 		console.log('Yes')
+ 	}else{
+ 		console.log('No')
+ 	}
+ 
 next();
 }
  
