@@ -7,7 +7,8 @@ var x = 9;
 
 function connect(){
 	if(pool) return;
-	var uri = 'mongodb://127.0.0.1:27017/travelBasera';
+	//var uri = 'mongodb://127.0.0.1:27017/travelBasera';
+	var uri = 'mongodb://admin:admin@ds135760.mlab.com:35760/admin_travelbasera';
 
 	 pool = mongoose.connect(uri, {promiseLibrary: global.Promise,poolSize: 10});
 
