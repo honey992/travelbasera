@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha --recursive",
-    "start": "npm run build && node dist/server.js"
+    "start": "node app.js"
+  },
+ "engines": {
+    "node": "6.9.0"
   },
   "author": "",
   "license": "ISC",
