@@ -4,8 +4,8 @@ var Q 				=	require('q');
 var _country     	= 	require('../models');
 var countryModel    =  _country.countryModel;
 var ec 				= 	require('../../constants').errors;
-const lib 			=	require('../../lib');
-const middlewares 	= 	lib.middlewares; 
+var lib 			=	require('../../lib');
+var middlewares 	= 	lib.middlewares; 
 
 
 function checkCountryName(){

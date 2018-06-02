@@ -18,13 +18,20 @@ var packageSchema = new db.Schema({
 		type:String
 	},
 	title:{
-		type:String
+		type:String,
+		unique:true,
+		trim:true
 	}, 
 	highlights:[{
-		title:{
+		title:String 
+	}],
+	description:{
 		type:String
-	}
-	}],  
+	},
+	selectedInclusion:[{
+		i_name:String,
+		i_code:String
+	}],
 	metadata:{
 		is_active:{ 
 			type:Boolean, 
@@ -48,6 +55,8 @@ var packageSchema = new db.Schema({
 });
 
 packageSchema.pre('save', function(next) { 
+	console.log("kkk=", this);
+	debugger;
 	var currentDate = new Date(); 
     this.metadata.modified_at = currentDate; 
     if (!this.metadata.created_at) this.metadata.created_at = currentDate; 

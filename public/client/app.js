@@ -156,6 +156,13 @@ app.filter('statusName', function(){
   }
 });
 
+app.filter('splitId', function(){
+  return function(id){
+    var len = id.length;
+    return id.substr(len-6, len);
+  }
+})
+
 app.factory('authInterceptor', authInterceptor);
 
 authInterceptor.$inject = ["$q","$location"];

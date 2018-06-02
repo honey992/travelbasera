@@ -17,28 +17,28 @@ var packCtrl = {
 		})
 	},
 	uploadImagesCtrl : function(req,res,next){
-		var options = {};
-		_.assign(options, req.file);
-		_.assign(options, req.body);
-		console.log("imaaaaaaaa=", options);
+		var options = {files:{}}; 
+		_.assign(options.files, req.files);
+		_.assign(options, req.body); 
 		packageServices.uploadImagesService(options, function(err, data){
 			if(err) return next(err);
 			res.json({status:1, message:'Package Saved Successfully'});
 		})
 	},
-	getReviewsCtrl: function(req, res, next){
+	getPackageCtrl: function(req, res, next){
 		var options = {};
-		testimonialServ.fetchReviewsService(options, function(err, result){
+		_.assign(options, req.query);
+		packageServices.fetchPackagesService(options, function(err, result){
 			if(err) return next(err);
-			res.json({data:result})
+			res.json({data:options})
 		})
 	}, 
-	fetchReviewsByIdCtrl: function(req, res, next){
+	packDetailsCtrl: function(req, res, next){
 		var options = {};
-		_.assign(options, req.params);
-		testimonialServ.fetchReviewsByIdServ(options, function(err,result){
+		_.assign(options, req.query);
+		packageServices.getPackageDetailsService(options, function(err, result){
 			if(err) return next(err);
-			res.json({data:result});
+			res.json({data:options});
 		})
 	},
 	deleteReviewsCtrl:function(req, res, next){

@@ -13,12 +13,7 @@ var userSchema = new db.Schema({
 		type:String,
 		required:true,
 		trim:true
-	},
-	username:{
-		type:String,
-		required:true,
-		trim:true
-	},
+	}, 
 	mobile:{
 		type:String, 
 		min:10, 

@@ -11,8 +11,11 @@ module.exports = function(app){
 
 	app.route('/api/packages')
 		.post(packagesCtrl.addPackageCtrl, error)
+		.get(packagesCtrl.getPackageCtrl, error)
 	app.route('/api/uploadImages')
-		.post(uploadFiles.upload,packagesCtrl.uploadImagesCtrl, error)
+		.post(uploadFiles.multiUpload,packagesCtrl.uploadImagesCtrl, error)
+	app.route('/api/fetchPackageDetail')
+		.get(packagesCtrl.packDetailsCtrl, error)
 
 
 	 

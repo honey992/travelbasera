@@ -2,8 +2,8 @@ var _ 				= 	require('lodash');
 var Q 				=	require('q');
 var aboutModel 		= 	require('../models').aboutModel;
 var ec 				= 	require('../../constants').errors;
-const lib 			=	require('../../lib');
-const middlewares 	= 	lib.middlewares; 
+var lib 			=	require('../../lib');
+var middlewares 	= 	lib.middlewares; 
 
  
  function checkNewRole(){
