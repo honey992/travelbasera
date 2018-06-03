@@ -67,6 +67,8 @@ function savePackageImages(){
  	var self = this;
  	var otherDetails = self.data; 
  	var reqObj = {
+ 		        'category':otherDetails.category,
+ 		        'type':otherDetails.type,
  				'country':otherDetails.country,
  				'state':otherDetails.state,
  				'city':otherDetails.city,

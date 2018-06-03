@@ -21,10 +21,23 @@
             	<form  name="addNewPackageForm" novalidate >
             		<div class="section">
             		<div class="col-md-6">
+                     <div class="form-group">
+                            <label>Type</label>
+                            <div >
+                                <select ng-init="pack.type = ' '" class="form-control" name="type" ng-model="pack.type">
+                                    <option value=" " disabled>--Select Type--</option>
+                                    <option ng-repeat="x in packageTypes" value="{{x.code}}-{{x.name}}">{{x.name}}</option>
+                                </select>
+                            </div>
+                             <p class="__errorMsg" ng-show="showHighlightError">
+                              <span>*Please choose package type</span>
+                            </p> 
+                            </div> 
             			<div class="form-group">
                             <label>Country</label>
-                                <select class="form-control" ng-required="true" name="country" ng-model="pack.country" ng-change="getStateList(pack.country)"> 
-	                                <option ng-repeat="x in countryList" value="{{x.c_code}}-{{x.c_name}}">{{x.c_name}}</option>
+                                <select class="form-control" ng-init="pack.country=''" ng-required="true" name="country" ng-model="pack.country" ng-change="getStateList(pack.country)"> 
+	                               <option value="" disabled>--Select Country--</option>
+                                    <option ng-repeat="x in countryList" value="{{x.c_code}}-{{x.c_name}}">{{x.c_name}}</option>
                             	</select>
                                  <p class="__errorMsg" ng-show="addNewPackageForm.country.$touched && addNewPackageForm.country.$invalid ">
                                   	<span ng-show="addNewPackageForm.country.$error.required">*Please select country</span>
@@ -32,8 +45,9 @@
                         </div>
                         <div class="form-group">
                         	<label>City</label>
-                                <select class="form-control" ng-required="true" name="city" ng-model="pack.city">
-	                                <option ng-repeat="x in cityList" value="{{x.city_code}}-{{x.city_name}}">{{x.city_name}}</option>
+                                <select class="form-control" ng-init="pack.city=''" ng-required="true" name="city" ng-model="pack.city">
+	                               <option value="" disabled>--Select City--</option>
+                                    <option ng-repeat="x in cityList" value="{{x.city_code}}-{{x.city_name}}">{{x.city_name}}</option>
                                 </select>
                                  <p class="__errorMsg" ng-show="addNewPackageForm.city.$touched && addNewPackageForm.city.$invalid ">
                                   <span ng-show="addNewPackageForm.city.$error.required">*City is required.</span>
@@ -43,10 +57,23 @@
             		</div>
 
             		<div class="col-md-6">
+                     <div class="form-group">
+                            <label>Category</label>
+                            <div >
+                                <select class="form-control" ng-init="pack.category=''" name="type" ng-model="pack.category">
+                                    <option value="" disabled>--Select Category--</option>
+                                    <option ng-repeat="x in catData" value="{{x.cat_code}}-{{x.cat_name}}">{{x.cat_name}}</option>
+                                </select>
+                            </div>
+                             <p class="__errorMsg" ng-show="showHighlightError">
+                              <span>*Please choose package type</span>
+                            </p> 
+                            </div> 
             			<div class="form-group">
 
                             <label>State</label> 
-                               <select class="form-control" ng-required="true" name="state" ng-model="pack.state">
+                               <select class="form-control" ng-init="pack.state=''" ng-required="true" name="state" ng-model="pack.state">
+                                  <option value="" disabled>--Select State--</option>
                                   <option ng-repeat="x in stateList" value="{{x.s_code}}-{{x.s_name}}">{{x.s_name}}</option>
                                 </select>
                                 <p class="__errorMsg" ng-show="addNewPackageForm.state.$touched && addNewPackageForm.state.$invalid ">
@@ -55,8 +82,9 @@
                         </div>
                         <div class="form-group">
                                 <label>Source City</label> 
-                                <select class="form-control" ng-model="pack.sourceCity" name="sourceCity" required>
-                                	<option ng-repeat="x in sourceCity" value="{{x.code}}-{{x.name}}">{{x.name}}</option> 
+                                <select class="form-control" ng-init="pack.sourceCity=''" ng-model="pack.sourceCity" name="sourceCity" required>
+                                	 <option value="" disabled>--Select Source City--</option>
+                                    <option ng-repeat="x in sourceCity" value="{{x.code}}-{{x.name}}">{{x.name}}</option> 
                                 </select>
                                 <p class="__errorMsg" ng-show="addNewPackageForm.sourceCity.$touched && addNewPackageForm.sourceCity.$invalid ">
                                   <span ng-show="addNewPackageForm.sourceCity.$error.required">*Source City is required.</span>
@@ -80,7 +108,7 @@
                           <div class="form-group">
                             <label>Package Images</label>
                              <input type="file" ngf-multiple="true" ngf-select ng-model="imagesFile" name="file"  
-             accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile"> 
+             accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile" class="form-control"> 
                              <p class="info-text">*You can choose multiple images.</p>
                              <p class="__errorMsg" ng-show="addNewPackageForm.file.$touched && addNewPackageForm.file.$invalid ">
                               <span ng-show="addNewPackageForm.file.$error.required">*File is required.</span>
@@ -138,6 +166,7 @@
                      			<li ng-repeat="x in pack.highlights">{{x.title}}&nbsp;<a href="javascript:void(0)" style="color:red" ng-click="removeHighlights(x, $index)">X</a></li>
                      		</ul>
                      		</div> 
+ 
 
                      		
                      	</div>
@@ -157,6 +186,7 @@
                              <li ng-repeat="x in pack.selectedInclusion">{{x.i_name}} <a href="javascript:void(0)" ng-click="removeInclusion(x)">x</a></li>
                             </ul>  
                           </div>
+                       
                      	</div>
                        
                      </div>

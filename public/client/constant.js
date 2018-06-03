@@ -34,5 +34,6 @@ app.constant("configuration", (function() {
         INCLUSION_URL :"/api/inclusions",
         PACKAGE_URL : "/api/packages",
         PACKAGE_IMAGES_URL : "/api/uploadImages",
+        CATEGORY_URL  : "/api/category"
     }
 })());

@@ -5,7 +5,10 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		$scope.viewData = true;
 		$scope.showHighlightError = false;
 		$scope.itenaryError = false;
+		$scope.packageTypes = [{name:'National', code:'1'},{name:'International', code:'2'}];
+		$scope.packageCategogy = [{name:'National', code:'1'},{name:'International', code:'2'}];
 		$scope.pack = {highlights:[], inclusions:[],itenary:[], inclusionList :[], exclusionList:[]};
+
  		$scope.addmorehighlights = function(){
 			if($scope.pack.highlights.length <= 4 && $scope.pack.highlightsTitle){
 				$scope.showHighlightError = false;
@@ -118,10 +121,17 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 				return f.title !== o.title;
 			});
 		};
-		$scope.imagesList
-$scope.addImages = function(){
+      	$scope.fetchCategories = function(){
+      	$http.get(configuration.CATEGORY_URL).then(function success(res){
+      		$scope.catData = res.data.data;
+      	},function errorCallback(err){
+      		      $scope.errorPop = true;
+	                $scope.successPop = false;
+	               $scope.errorMsg = 'Unable to Get Category.'
+      	})
+      }
 
-}
+       $scope.fetchCategories();
 
 
 

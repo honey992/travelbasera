@@ -57,6 +57,9 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',fu
         .when("/package-details", {
             templateUrl: "/view/pages/package-view.html",
             controller: "packageController"
+        }).when("/categories", {
+            templateUrl: "/view/pages/category.html",
+            controller: "categoryController"
         })
         .otherwise({
             redirectTo: "/"

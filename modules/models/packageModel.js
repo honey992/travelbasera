@@ -3,7 +3,10 @@ var db = require('../../config/db');
 
 var packageSchema = new db.Schema({
 	category:{
-		type:Number
+		type:String
+	},
+	type:{
+		type:String
 	},
 	country:{
 		type:String
