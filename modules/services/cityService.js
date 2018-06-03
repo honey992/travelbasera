@@ -2,101 +2,100 @@ var _ 				= 	require('lodash');
 var jwt				=	require('jsonwebtoken');
 var Q 				=	require('q');
 var _models    	   = 	require('../models');
-var stateModel     =  _models.stateModel;
+var cityModel     =  _models.cityModel;
 var ec 				= 	require('../../constants').errors;
 const lib 			=	require('../../lib');
 const middlewares 	= 	lib.middlewares; 
 
-function checkStateName(){
+function checkCityName(){
 	var self = this;
 	var deferred = Q.defer();
-	self.s_code = 1;
-	stateModel.find({s_name:self.name}, function(err, data){
+	self.ci_code = 1;
+	cityModel.find({ci_name:self.name}, function(err, data){
 		if(err) 
-			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch State"}));
+			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch City"}));
 		if(data.length)
-			 return deferred.reject(ec.Error({status:ec.DATA_ALREADY_EXISTS, message:'State Already Exist.'}));
+			 return deferred.reject(ec.Error({status:ec.DATA_ALREADY_EXISTS, message:'City Already Exist.'}));
       	
       	deferred.resolve();
 	});
 	return deferred.promise; 
 };
-function fetchLastState(){
+function fetchLastCity(){
  	var self = this;
  	var deferred = Q.defer();
- 	stateModel.find(function(err, data){
+ 	cityModel.find(function(err, data){
  		if(err)
- 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Role"}));
+ 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch City"}));
  		
  		if(data.length){
             var lastElm = data[data.length-1];
-     		self.s_code = parseInt(lastElm.s_code)+1;
+     		self.ci_code = parseInt(lastElm.ci_code)+1;
        } 
  		deferred.resolve();
  	});
  	return deferred.promise;
  }
-function saveState(){
+function saveCity(){
 	var self = this;
 	var deferred = Q.defer();
 	console.log(self);
-	 var rejObj = {s_name:self.name,s_code:self.s_code, c_id:self.country, 'metadata.is_active':self.status};
-	var addstateData = new stateModel(rejObj);
-		addstateData.save(function(err, data){
+	 var rejObj = {ci_name:self.name,ci_code:self.ci_code, c_id:self.country, s_id:self.state,'metadata.is_active':self.status};
+	var addCityData = new cityModel(rejObj);
+		addCityData.save(function(err, data){
 			if(err)
-				return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Insert State"}));
+				return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Insert City"}));
 			deferred.resolve();
 		});
 	return deferred.promise;
 }
 
-function checkStateExist(){
+function checkCityExist(){
 	var self = this;
 	var deferred = Q.defer();
-	stateModel.find({_id:self._id}, function(err, data){
+	cityModel.find({_id:self._id}, function(err, data){
 		if(err) 
-			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch State"}));
+			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch City"}));
 		if(data) 	deferred.resolve();
 	});
 	return deferred.promise; 
 };
 
-function updateStateData(){
+function updateCityData(){
 	var self = this;
 	var deferred = Q.defer();
-	var updateData = {s_name:self.s_name, c_id:self.c_id, metadata:{is_active:self.metadata.is_active}};
-	stateModel.update({_id:self._id},{$set:self}, function(err, data){
+	var updateData = {ci_name:self.ci_name, c_id:self.c_id, s_id:self.s_id, metadata:{is_active:self.metadata.is_active}};
+	cityModel.update({_id:self._id},{$set:self}, function(err, data){
 		if(err) 
-			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch State"}));
+			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch City"}));
 		if(data) 	
 			deferred.resolve();
 	});
 	return deferred.promise; 
 };
 
+var cityService = {
 
-var stateService = {
-
-	getStateService:function(options, cb){
+	getCityService:function(options, cb){
 	
 		if(!options)
             return cb(ec.Error({status:ec.DB_ERROR, message :"No data"}));
 
-		stateModel.find({},function(err, data){
+		cityModel.find({},function(err, data){
 			if(err)
-				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch states"}));
+				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch cities"}));
 				cb(null,data);
 		});
 	},
 
-	addStateService:function(options, cb){
+	addCityService:function(options, cb){
 		
 		if(!options)
-            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create State"}));
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create City"}));
 
-       checkStateName.call(options)
-       		.then(fetchLastState.bind(options))
-            .then(saveState.bind(options)) 
+       checkCityName.call(options)
+       		.then(fetchLastCity.bind(options))
+            .then(saveCity.bind(options)) 
             .then(cb)
             .fail(failureCb)
             .catch(failureCb)
@@ -108,13 +107,13 @@ var stateService = {
         } 
 	},
 	
-	updateStateService:function(options, cb){
-debugger;
-		if(!options)
-            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create State"}));
+	updateCityService:function(options, cb){
 
-       checkStateExist.call(options)
-            .then(updateStateData.bind(options)) 
+		if(!options)
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create City"}));
+
+       checkCityExist.call(options)
+            .then(updateCityData.bind(options)) 
             .then(cb)
             .fail(failureCb)
             .catch(failureCb)
@@ -126,9 +125,9 @@ debugger;
         } 
 	},
 
-	deleteStateService: function(options, cb){
+	deleteCityService: function(options, cb){
 		
-		stateModel.remove({_id:options.id}, function(err, result){
+		cityModel.remove({_id:options.id}, function(err, result){
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
 			cb(null, result);
 		});
@@ -149,4 +148,4 @@ debugger;
 		});
 	}
 };
-module.exports = stateService;
+module.exports = cityService;

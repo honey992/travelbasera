@@ -280,6 +280,9 @@
                         <li ng-if="loggedInUser.permissions.state.view"> 
                             <a href="#!/state"><i class="fa fa-bar-chart-o fa-fw"></i> State</a>
                         </li>
+                        <li ng-if="loggedInUser.permissions.city.view"> 
+                            <a href="#!/city"><i class="fa fa-bar-chart-o fa-fw"></i> City</a>
+                        </li>
                         <li ng-if="loggedInUser.permissions.users.view"> 
                             <a href="#!/users"><i class="fa fa-bar-chart-o fa-fw"></i> Users</a>
                         </li>
@@ -364,6 +367,7 @@ else { document.getElementById('nav').style.display = 'block';}
      <script src="client/inclusionController.js"></script>
      <script src="client/aboutController.js"></script>
      <script src="client/contactController.js"></script>
+     <script src="client/cityController.js"></script>
 
 
 </body>

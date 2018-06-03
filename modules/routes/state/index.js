@@ -5,7 +5,7 @@ var error 	 = require('../../error');
 
 
 module.exports = function(app){
- 
+
 	app.route('/api/state')
 		.post(stateCtrl.addStateCtrl, error)
 		.get(stateCtrl.getStateCtrl, error)

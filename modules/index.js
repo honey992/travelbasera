@@ -6,6 +6,7 @@ module.exports = function(app){
 	require('./routes/users')(app);
 	require('./routes/country')(app);
 	require('./routes/state')(app);
+	require('./routes/city')(app);
 	require('./routes/roles')(app);
 	require('./routes/banner')(app);
 	require('./routes/testimonials')(app);

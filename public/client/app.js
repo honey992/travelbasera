@@ -53,6 +53,9 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',fu
         }).when("/contactDetails", {
             templateUrl: "/view/pages/contactus.html",
             controller: "contactController"
+        }).when("/city", {
+            templateUrl: "/view/pages/city.html",
+            controller: "cityController"
         })
         .otherwise({
             redirectTo: "/"
