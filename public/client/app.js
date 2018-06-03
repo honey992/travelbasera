@@ -54,6 +54,10 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',fu
             templateUrl: "/view/pages/contactus.html",
             controller: "contactController"
         })
+        .when("/package-details", {
+            templateUrl: "/view/pages/package-view.html",
+            controller: "packageController"
+        })
         .otherwise({
             redirectTo: "/"
         });
@@ -160,6 +164,11 @@ app.filter('splitId', function(){
   return function(id){
     var len = id.length;
     return id.substr(len-6, len);
+  }
+});
+app.filter('splitByName', function(){ 
+  return function(str){
+    return str.split('-')[1]
   }
 })
 

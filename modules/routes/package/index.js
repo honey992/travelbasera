@@ -10,7 +10,7 @@ var error 	 = require('../../error');
 module.exports = function(app){
 
 	app.route('/api/packages')
-		.post(packagesCtrl.addPackageCtrl, error)
+		.post(uploadFiles.multiUpload,packagesCtrl.addPackageCtrl, error)
 		.get(packagesCtrl.getPackageCtrl, error)
 	app.route('/api/uploadImages')
 		.post(uploadFiles.multiUpload,packagesCtrl.uploadImagesCtrl, error)

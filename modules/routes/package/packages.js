@@ -6,8 +6,8 @@ var _ = require('lodash');
 var packCtrl = {
 
 	addPackageCtrl:function(req, res, next){
-		var options = {};  
-		_.assign(options, req.file);
+		var options = {files:{}};  
+		_.assign(options.files, req.files);
 		_.assign(options, req.body); 
 		packageServices.addPackageService(options, function(err, result){
 			if(err){
@@ -28,9 +28,20 @@ var packCtrl = {
 	getPackageCtrl: function(req, res, next){
 		var options = {};
 		_.assign(options, req.query);
-		packageServices.fetchPackagesService(options, function(err, result){
+		var fetchPackageFn = packageServices.fetchPackagesService
+		 
+		if(options.hasOwnProperty('packageId')){
+			fetchPackageFn = packageServices.getPackageDetailsService;
+		}
+
+		fetchPackageFn(options, function(err, result){
 			if(err) return next(err);
+			if(options.hasOwnProperty('packageId')){
+			res.json({data:result})
+		}else{
+
 			res.json({data:options})
+		}
 		})
 	}, 
 	packDetailsCtrl: function(req, res, next){

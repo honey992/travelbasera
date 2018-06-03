@@ -32,6 +32,15 @@ var packageSchema = new db.Schema({
 		i_name:String,
 		i_code:String
 	}],
+	imagesId:{
+		type: db.Schema.Types.ObjectId ,ref: 'ADMIN_PackageImages'
+	},
+	rateId:{
+		type: db.Schema.Types.ObjectId ,ref: 'ADMIN_Rates'
+	},
+	itenaryId:{
+		type: db.Schema.Types.ObjectId ,ref: 'ADMIN_Itenary'
+	},
 	metadata:{
 		is_active:{ 
 			type:Boolean, 
@@ -55,7 +64,6 @@ var packageSchema = new db.Schema({
 });
 
 packageSchema.pre('save', function(next) { 
-	console.log("kkk=", this);
 	debugger;
 	var currentDate = new Date(); 
     this.metadata.modified_at = currentDate; 

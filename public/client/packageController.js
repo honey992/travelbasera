@@ -1,6 +1,6 @@
 "use strict";
 
-app.controller('packageController', function($scope, $http,configuration,$location,Upload){
+app.controller('packageController', function($scope, $http,configuration,$location,Upload,$sce){
 
 		$scope.viewData = true;
 		$scope.showHighlightError = false;
@@ -125,17 +125,28 @@ $scope.addImages = function(){
 
 
 
-		$scope.saveNewPackage = function(file){
-			if($scope.addNewPackageForm.$valid && !$scope.showHighlightError && !$scope.itenaryError){
-				$scope.pack.metadata = {id:'sss',name:'dd'}
-			    $http.post(configuration.PACKAGE_URL, $scope.pack).then(function success(res){  
-			       if(res.data.status)
-			       	$scope.uploadImages(file, res.data.data.packageId);
-			       }, function errorCallback(err){
-                $scope.errorPop = true;
-                $scope.successPop = false;
-                $scope.errorMsg = err.data.message;
- 			}); 
+		$scope.saveNewPackage = function(files){
+			if($scope.addNewPackageForm.$valid ){ 
+			Upload.upload({
+			      url:configuration.PACKAGE_URL, 
+			      arrayKey: '',
+			      data: {data:$scope.pack,file: files} 
+			    }).then(function (resp) {
+            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+        }, function (resp) {
+            console.log('Error status: ' + resp.status);
+        }, function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });
+			 //    $http.post(configuration.PACKAGE_URL, $scope.pack).then(function success(res){  
+			 //       if(res.data.status)
+			 //       	$scope.uploadImages(file, res.data.data.packageId);
+			 //       }, function errorCallback(err){
+    //             $scope.errorPop = true;
+    //             $scope.successPop = false;
+    //             $scope.errorMsg = err.data.message;
+ 			// }); 
 				}else{
 					$scope.showHighlightError = true;
 					$scope.itenaryError = true;
@@ -154,7 +165,7 @@ $scope.addImages = function(){
 			  Upload.upload({
 			      url:configuration.PACKAGE_IMAGES_URL, 
 			      arrayKey: '',
-			      data: {packId:packId,file: files} 
+			      data: {data:packId,file: files} 
 			    }).then(function (resp) {
             console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
         }, function (resp) {
@@ -176,7 +187,7 @@ $scope.addImages = function(){
 	}
 	}
 
-	$scope.fetchAllPackages = function(file){
+	$scope.fetchAllPackages = function(){
 			    $http.get(configuration.PACKAGE_URL).then(function success(res){  
 			       	$scope.packData =  res.data.data || [];
 			       }, function errorCallback(err){
@@ -188,7 +199,19 @@ $scope.addImages = function(){
 					
 		}
 		$scope.fetchAllPackages();
-	 
+ 
+	 var url = $location.path();
+	 if(url == '/package-details'){
+	 	var packId =  ($location.search() || {}).packageId;
+	 	$http.get(configuration.PACKAGE_URL+'?packageId='+packId).then(function success(res){  
+			       	$scope.packageDetails =  res.data.data[0] || {};
+			       $scope.packageDetails.description =	$sce.trustAsHtml($scope.packageDetails.description);
+			       }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+                $scope.errorMsg = err.data.message;
+ 			}); 
+	 }
 	 
 
 });

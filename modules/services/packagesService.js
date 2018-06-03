@@ -1,5 +1,6 @@
 var _ 				= 	require('lodash');
 var Q 				=	require('q');
+var mongoose 				=	require('mongoose');
 var _models 		= 	require('../models');
 var packageModel    = _models.packageModel;
 var rateModel       = _models.rateModel;
@@ -9,20 +10,75 @@ var ec 				= 	require('../../constants').errors;
 var lib 			=	require('../../lib');
 var middlewares 	= 	lib.middlewares; 
 
+
+function savePackageImages(){
+	var deferred = Q.defer();
+	var self = this; 
+	var reqObj = {
+			package_images:[]
+		} 
+		for(var k in self.files){
+			reqObj.package_images.push(self.files[k].path);
+		};
+	 var newPackImages = new imagesModel(reqObj);
+ 	newPackImages.save(function(err, data){
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package images"}));
+ 		self.imagesId = data._id;
+  			deferred.resolve();
+ 			
+	});
+	return deferred.promise;
+}
+  function savePackageRate(){
+ 	var deferred = Q.defer();
+ 	var self = this;
+ 	var otherDetails = self.data; 
+ 	var reqObj = { 
+ 		'package_rate':otherDetails.rate,
+ 		'package_days':otherDetails.days,
+ 		'package_nights':otherDetails.nights
+ 	}
+ 	var newPackRates = new rateModel(reqObj);
+ 	newPackRates.save(function(err, data){
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package rates"}));
+ 		self.rateId = data._id;
+         deferred.resolve();
+	});
+	return deferred.promise; 
+ 
+ }
+ function savePackageItenary(){
+ 	var deferred = Q.defer();
+ 	var self = this;
+ 	var otherDetails = self.data; 
+ 	var reqObj = { 
+ 		'package_intenary':otherDetails.itenary
+ 	};
+ 	var newPackItenary = new itenaryModel(reqObj);
+ 	newPackItenary.save(function(err, data){
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package rates"}));
+ 		self.itenaryId = data._id;
+ 		deferred.resolve();
+ 	});
+ 	return deferred.promise; 
+ }
  function savePackageDetails(){
  	var deferred = Q.defer();
  	var self = this;
- 	console.log(self)
+ 	var otherDetails = self.data; 
  	var reqObj = {
- 				'country':self.country,
- 				'state':self.state,
- 				'city':self.city,
- 				'sourceCity':self.sourceCity,
- 				'title':self.title,
- 				'highlights':self.highlights,
- 				'description':self.description,
- 				'selectedInclusion':self.selectedInclusion
- };
+ 				'country':otherDetails.country,
+ 				'state':otherDetails.state,
+ 				'city':otherDetails.city,
+ 				'sourceCity':otherDetails.sourceCity,
+ 				'title':otherDetails.title,
+ 				'highlights':otherDetails.highlights,
+ 				'description':otherDetails.description,
+ 				'selectedInclusion':otherDetails.selectedInclusion,
+ 				'imagesId':self.imagesId,
+ 				'rateId':self.rateId,
+ 				'itenaryId':self.itenaryId
+    };
  	var newPack = new packageModel(reqObj);
  	newPack.save(function(err, data){
  		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package details"}));
@@ -33,51 +89,11 @@ var middlewares 	= 	lib.middlewares;
 	return deferred.promise; 
  
  }
-
-  function savePackageRate(){
- 	var deferred = Q.defer();
- 	var self = this; 
- 	//var reqObj = _.pick(self, ['package_id','package_rate','package_days','package_nights']);
- 	var reqObj = {
- 		'package_id':self.packageId,
- 		'package_rate':self.rate,
- 		'package_days':self.days,
- 		'package_nights':self.nights,
- 		'metadata.created_by' :self.creator
- 	}
- 	var newPackRates = new rateModel(reqObj);
- 	newPackRates.save(function(err, data){
- 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package rates"}));
-         deferred.resolve();
-	});
-	return deferred.promise; 
- 
- }
-
- function savePackageItenary(){
- 	var deferred = Q.defer();
- 	var self = this;
- 	var reqObj = {
- 		'package_id':self.packageId,
- 		'package_intenary':self.itenary,
- 		'metadata.created_by' :self.creator
- 	};
- 	var newPackItenary = new itenaryModel(reqObj);
- 	newPackItenary.save(function(err, data){
- 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package rates"}));
- 		deferred.resolve();
- 	});
- 	return deferred.promise; 
- }
  
   function getPackageDetails(){
  	var deferred = Q.defer();
- 	var self = this; 
- 	var query = {};
- 	if(self.hasOwnProperty('packageId')){ 
- 		query = {_id:self.packageId};
- 	} 
- 	packageModel.find(query,function(err, data){
+ 	var self = this;  
+ 	packageModel.find({},function(err, data){
  		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Package details"}));
  		self.packages = {};
  		self.packages = data; 
@@ -85,17 +101,7 @@ var middlewares 	= 	lib.middlewares;
 	});
 	return deferred.promise;  
  }
- 
- function getOtherDetails(){
- 	var deferred = Q.defer();
- 	var self = this;
- 	if(!self.hasOwnProperty('packageId')){ 
- 		deferred.resolve();
- 		return deferred.promise; 
- 	} 
-  	
-	return deferred.promise;  
- }
+  
 
 
 var packageServ = {
@@ -103,10 +109,10 @@ var packageServ = {
 	addPackageService: function(options,cb){
 		if(!options)
 			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to add Package"}));
-		savePackageDetails.call(options)
-           //.then(savePackageImages.bind(options))
-            .then(savePackageItenary.bind(options)) 
-            .then(savePackageRate.bind(options)) 
+		savePackageImages.call(options)
+		   .then(savePackageRate.bind(options))
+		   .then(savePackageItenary.bind(options)) 
+           .then(savePackageDetails.bind(options)) 
             .then(cb)
             .fail(failureCb)
             .catch(failureCb)
@@ -136,7 +142,7 @@ var packageServ = {
 	},
 	fetchPackagesService: function(options, cb){
 		getPackageDetails.call(options)
-            .then(getOtherDetails.bind(options)) 
+            //.then(getOtherDetails.bind(options)) 
             .then(cb)
             .fail(failureCb)
             .catch(failureCb) 
@@ -147,7 +153,53 @@ var packageServ = {
         }  
 	},
 	getPackageDetailsService: function(options, cb){
-		console.log(options);
+		if(!options.packageId)
+			return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to fetch package details."}));
+		packageModel.aggregate([
+			{
+				$match:{_id:mongoose.Types.ObjectId(options.packageId)}
+			},{
+				$lookup:{
+				   from: 'admin_packageimages',
+			       localField: 'imagesId',
+			       foreignField: '_id',
+			       as: 'images'
+				}
+			},
+			{
+				$lookup:{
+				   from: 'admin_rates',
+			       localField: 'rateId',
+			       foreignField: '_id',
+			       as: 'rate'
+				}
+			},
+			{
+				$lookup:{
+				   from: 'admin_itenaries',
+			       localField: 'itenaryId',
+			       foreignField: '_id',
+			       as: 'itenaries'
+				}
+			},
+			{
+				$project:{
+					'images._id':0,
+					'images.metadata':0,
+					'images._v':0,
+					'rate._id':0,
+					'rate.metadata':0,
+					'rate._v':0,
+					'itenaries._id':0,
+					'itenaries.metadata':0,
+					'itenaries._v':0,
+				}
+			}
+		], function(err, data){
+			if(err) cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
+			 
+			cb(null,data)
+		});
 	}
 };
 module.exports = packageServ;
