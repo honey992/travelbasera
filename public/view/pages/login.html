@@ -83,11 +83,11 @@
         </div>
     </div>
 
-    <div class="alert alert-success"  ng-show="successPop">
+<div class="alert alert-success"  ng-show="successPop">
     <strong>Success!</strong><br/> {{successMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <a class="close"  ng-click="successPop=!successPop">×</a>
   </div>
   <div class="alert alert-danger" ng-show="errorPop">
     <strong>Error!</strong><br /> {{errorMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
   </div>

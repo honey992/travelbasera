@@ -1,7 +1,7 @@
 var db = require('../../config/db');
 //var mongoose = require('mongoose');
 
-var stateSchema = new db.Schema({
+var citySchema = new db.Schema({
 	c_id:{
 		type:String
 	},

@@ -5,6 +5,7 @@ module.exports={
 	rolesModel : require('./rolesModel'),
 	countryModel : require('./countryModel'),
 	stateModel : require('./stateModel'),
+	cityModel : require('./cityModel'),
 	bannerModel  : require('./bannerModel'),
 	testimonialModel : require('./testimonialsModel'),
 	aboutModel : require('./aboutModel'),

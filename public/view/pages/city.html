@@ -63,8 +63,8 @@
                                 </p> 
                             </div>
                             <div class="col-md-12 text-center">
-                            <button type="submit" class="btn btn-success"  >Add</button>
-                                        <button type="reset" class="btn btn-default">Reset</button>
+                            <button type="submit" class="btn btn-success">Add</button>
+                                        <button type="reset" ng-click="resetAll()" class="btn btn-default">Reset</button>
                             </div>
                            </form> 
                            </div>
@@ -85,8 +85,8 @@
                                 <thead>
                                     <tr role="row">
                                     <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">City</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Country</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">State</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Country</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">City Code</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">is_Active</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Actions</th>  
@@ -109,12 +109,13 @@
 </div>
 
   <div class="alert alert-success"  ng-show="successPop">
+
     <strong>Success!</strong><br/> {{successMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <a class="close"  ng-click="successPop=!successPop">×</a>
   </div>
   <div class="alert alert-danger" ng-show="errorPop">
     <strong>Error!</strong><br /> {{errorMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
   </div>
 
   <!--Edit Modal-->
@@ -130,23 +131,23 @@
       </div>
       <div class="modal-body">
       <lable>Country</lable>
-            <select class="form-control" ng-required="true" ng-model='eData.c_id' name="stateCountry">
+            <select class="form-control" ng-required="true" ng-model='eData.c_id' name="cityCountry">
                                 <option value="{{x.c_code}}-{{x.c_name}}" ng-repeat="x in countryList">{{x.c_name}}</option>
                                 </select>
-                                 <p class="__errorMsg" ng-show="updateStateForm.stateCountry.$touched && updateStateForm.stateCountry.$invalid ">
-                                            <span ng-show="updateStateForm.stateCountry.$error.required">*Please select county to Add State.</span>
+                                 <p class="__errorMsg" ng-show="updateCityForm.cityCountry.$touched && updateCityForm.cityCountry.$invalid ">
+                                            <span ng-show="updateCityForm.cityCountry.$error.required">*Please select county to Add City.</span>
                                 </p> 
-        <lable>Country</lable>
-            <select class="form-control" ng-required="true" ng-model='eData.c_id' name="stateCountry">
-                                <option value="{{x.c_code}}-{{x.c_name}}" ng-repeat="x in countryList">{{x.c_name}}</option>
+        <lable>State</lable>
+            <select class="form-control" ng-required="true" ng-model='eData.s_id' name="cityState">
+                                <option value="{{x.s_code}}-{{x.s_name}}" ng-repeat="x in stateList">{{x.s_name}}</option>
                                 </select>
-                                 <p class="__errorMsg" ng-show="updateStateForm.stateCountry.$touched && updateStateForm.stateCountry.$invalid ">
-                                            <span ng-show="updateStateForm.stateCountry.$error.required">*Please select county to Add State.</span>
+                                 <p class="__errorMsg" ng-show="updateCityForm.cityState.$touched && updateCityForm.cityState.$invalid ">
+                                            <span ng-show="updateCityForm.cityState.$error.required">*Please select State to Add City.</span>
                                 </p> 
-                <lable>State Name</lable>
-            <input type="text" class="form-control" ng-model="eData.s_name" name="stateName"/>
-             <p class="__errorMsg" ng-show="updateStateForm.stateName.$touched && updateStateForm.stateName.$invalid ">
-                        <span ng-show="updateStateForm.stateName.$error.required">*Please Enter State Name.</span>
+                <lable>City Name</lable>
+            <input type="text" class="form-control" ng-model="eData.ci_name" name="cityName"/>
+             <p class="__errorMsg" ng-show="updateCityForm.cityName.$touched && updateCityForm.cityName.$invalid ">
+                        <span ng-show="updateCityForm.cityName.$error.required">*Please Enter City Name.</span>
             </p> 
 
 
@@ -157,14 +158,14 @@
                 <option value=true>Active</option>
                 <option value="false">De Active</option>
             </select>
-            <p class="__errorMsg" ng-show="updateStateForm.status.$touched && updateStateForm.status.$invalid ">
-                        <span ng-show="updateStateForm.status.$error.required">*Please Select Status.</span>
+            <p class="__errorMsg" ng-show="updateCityForm.status.$touched && updateCityForm.status.$invalid ">
+                        <span ng-show="updateCityForm.status.$error.required">*Please Select Status.</span>
             </p> 
 
         
       </div>
       <div class="modal-footer">
-       <button type="button" class="btn btn-success" ng-click="updateState(eData)">Update</button>
+       <button type="button" class="btn btn-success" ng-click="updateCity(eData)">Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
       </form>
@@ -183,11 +184,11 @@
       <h4 class="modal-title">Delete</h4>
     </div>
     <div class="modal-body">
-        <p>You really want to delete this state?</p>
+        <p>You really want to delete this city?</p>
        
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success" ng-click="deleteState()">Yes</button>
+        <button class="btn btn-success" ng-click="deleteCity()">Yes</button>
       <button type="button" class="btn btn-default" ng-click="deleteConfirmationModal =!deleteConfirmationModal">No</button>
     </div>
     </div> 
