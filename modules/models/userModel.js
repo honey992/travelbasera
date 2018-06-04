@@ -55,5 +55,15 @@ var userSchema = new db.Schema({
 		}
 	}
 });
+userSchema.pre('save', function(next) {
+    var currentDate = new Date();
+
+    // change the updated_at field to current date
+    this.metadata.modified_at = currentDate;
+
+    // if created_at doesn't exist, add to that field
+    if (!this.metadata.created_at) this.metadata.created_at = currentDate;
+    next();
+});
 
 module.exports = db.mongoose.model('ADMIN_Users', userSchema);

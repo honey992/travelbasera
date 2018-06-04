@@ -64,8 +64,8 @@
  
                                 <label>Status</label>
                                 <select ng-model="user.status" class="form-control" name="status" required>
-                                    <option value="Yes">Active</option>
-                                    <option value="No">Deactive</option> 
+                                    <option value="true">Active</option>
+                                    <option value="false">Deactive</option> 
                                 </select>
                                 <p class="__errorMsg" ng-show="addnewUserForm.status.$touched && addnewUserForm.status.$invalid ">
                 <span ng-show="addnewUserForm.status.$error.required">Please select status</span>
@@ -155,7 +155,7 @@
                                         <td>{{x.email}}</td>
                                         <td>{{x.mobile}}</td>
                                         <td class="center">{{x.address}}</td>
-                                        <td class="center">{{x.is_active}}</td>
+                                        <td class="center">{{x.metadata.is_active}}</td>
                                          <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#myModal" ng-click="editUser(x._id)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                     </tr></tbody>
                             </table></div></div><div class="row"><div class="col-sm-6"> </div> </div></div>

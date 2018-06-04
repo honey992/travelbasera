@@ -64,11 +64,11 @@ $scope.successPop = false;
 	$scope.getPermissionList();
 	 
 	$scope.matchPassword = function(password, cnfpassword){
-$scope.samePasswordError = false
-	if(password != cnfpassword){
-	$scope.samePasswordError = true 
-}
-}
+     $scope.samePasswordError = false
+	  if(password != cnfpassword){
+		$scope.samePasswordError = true 
+	   }
+    }
 
 	$scope.addNewUser = function(newUser){
 			if($scope.addnewUserForm.$valid && !$scope.samePasswordError){

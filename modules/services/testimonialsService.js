@@ -15,9 +15,11 @@ var bannersServ = {
 			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to add Review"}));
 			 
 			options.reviewer_img = options.file.path;
+			console.log('Review==', options);
 			var newData = new testimonialModel(options); 
 			newData.save(function(err, data){
 				if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable Save Image."}));
+				console.log('===', data);
 				cb(null, data);
 			}) 
 		 

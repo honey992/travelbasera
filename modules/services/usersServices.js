@@ -29,10 +29,8 @@ function saveNewUser(){
 	var self = this;
 	var deferred = Q.defer(); 
 	self.password = middlewares.cipher(self.password);
-var status;
-if(self.status == 'Yes') status = true;
-else status = false;
-	self.metadata= {is_active:status};
+
+	self.metadata['is_active'] = self.status;
 	var newUser = userModel(self)
 	newUser.save((err, data)=>{
 		if(err){
