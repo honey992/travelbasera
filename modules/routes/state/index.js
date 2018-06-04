@@ -2,6 +2,8 @@
 var stateCtrl = require('./state');
 var mongoose  = require('mongoose');
 var error 	 = require('../../error');
+var lib 	   		= require('../../../lib');
+var uploadFiles 	= lib.uploadFiles('ss');
 
 
 module.exports = function(app){

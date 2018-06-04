@@ -22,48 +22,72 @@
                             <div class="col-lg-6">
                             <div class="form-group">
                                             <label>First Name*</label>
-                                            <input type="text" ng-model="user.firstname" name="fname" class="form-control" placeholder="Enter First Name">
+                                            <input type="text" ng-model="user.firstname" name="fname" class="form-control" placeholder="Enter First Name" required>
             <p class="__errorMsg" ng-show="addnewUserForm.fname.$touched && addnewUserForm.fname.$invalid ">
                 <span ng-show="addnewUserForm.fname.$error.required">FirstName is required.</span>
             </p>
                                         </div>
                             <div class="form-group">
                                             <label>Last Name</label>
-                                            <input type="text" ng-model="user.lastname" name = "lname" class="form-control" placeholder="Enter Last Name">
+                                            <input type="text" ng-model="user.lastname" name = "lname" class="form-control" placeholder="Enter Last Name" required>
                                             <p class="__errorMsg" ng-show="addnewUserForm.lname.$touched && addnewUserForm.lname.$invalid ">
                 <span ng-show="addnewUserForm.lname.$error.required">LastName is required.</span>
             </p>
-                                        </div>
-                             <div class="form-group">
-                                            <label>Username*</label>
-                                            <input type="text" ng-model="user.username" class="form-control" placeholder="Enter Password">
-                                        </div>
+                                        </div> 
                             <div class="form-group">
                                             <label>Email Id*</label>
-                                            <input type="text" ng-model="user.email" class="form-control" placeholder="Enter Email Id">
+                                            <input type="text" ng-model="user.email" name="email" class="form-control" placeholder="Enter Email Id" required>
+                                            <p class="__errorMsg" ng-show="addnewUserForm.email.$touched && addnewUserForm.email.$invalid ">
+                <span ng-show="addnewUserForm.email.$error.required">Email is required.</span>
+            </p>
                                         </div>
                             <div class="form-group">
                                             <label>Mobile No*</label>
-                                            <input  type="text" ng-model="user.mobile" class="form-control" placeholder="Enter Mobile No">
+                                            <input  type="text" ng-model="user.mobile" class="form-control" placeholder="Enter Mobile No"  name="mobile" required>
+                                            <p class="__errorMsg" ng-show="addnewUserForm.mobile.$touched && addnewUserForm.mobile.$invalid ">
+                <span ng-show="addnewUserForm.mobile.$error.required">Mobile number is required.</span>
+            </p>
+
                                         </div>
                             
                             <div class="form-group">
 
                                 <label>Role</label>
-                                <select ng-model="user.role" class="form-control">
+                                <select ng-model="user.role" class="form-control" name="role" required>
                                     <option ng-repeat="x in rolesList" value="{{x.r_code}}">{{x.r_name}}</option> 
                                 </select>
+                                <p class="__errorMsg" ng-show="addnewUserForm.role.$touched && addnewUserForm.role.$invalid ">
+                <span ng-show="addnewUserForm.role.$error.required">Please select a role.</span>
+            </p>
+                              </div>
+                              <div class="form-group">
+ 
+                                <label>Status</label>
+                                <select ng-model="user.status" class="form-control" name="status" required>
+                                    <option value="true">Active</option>
+                                    <option value="false">Deactive</option> 
+                                </select>
+                                <p class="__errorMsg" ng-show="addnewUserForm.status.$touched && addnewUserForm.status.$invalid ">
+                <span ng-show="addnewUserForm.status.$error.required">Please select status</span>
+            </p>
                               </div>
                             </div>
                             <div class="col-lg-6">
                             
                             <div class="form-group">
                                             <label>Password*</label>
-                                            <input type="password" ng-model="user.password" class="form-control" placeholder="Enter Password">
+                                            <input type="password" ng-model="user.password" class="form-control" placeholder="Enter Password" name="password" required>
+                                            <p class="__errorMsg" ng-show="addnewUserForm.password.$touched && addnewUserForm.password.$invalid ">
+                <span ng-show="addnewUserForm.password.$error.required">Password is required</span>
+            </p>
                                         </div>
                             <div class="form-group">
                                             <label>Confirm Password*</label>
-                                            <input type="text" ng-model="user.cnfpassword" class="form-control" placeholder="Repeat Password">
+                                            <input type="password" ng-model="user.cnfpassword" class="form-control" placeholder="Repeat Password" ng-blur="matchPassword(user.password, user.cnfpassword)" name="cnfpassword" required>
+                                            <p class="__errorMsg" ng-if="samePasswordError">*Password and confirm password does not matched.</p>
+                                            <p class="__errorMsg" ng-show="addnewUserForm.cnfpassword.$touched && addnewUserForm.cnfpassword.$invalid ">
+                <span ng-show="addnewUserForm.cnfpassword.$error.required">Confirm password is required</span>
+            </p>
                                         </div>
                             <div class="form-group">
                                             <label>Address</label>
@@ -131,7 +155,7 @@
                                         <td>{{x.email}}</td>
                                         <td>{{x.mobile}}</td>
                                         <td class="center">{{x.address}}</td>
-                                        <td class="center">{{x.is_active}}</td>
+                                        <td class="center">{{x.metadata.is_active}}</td>
                                          <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#myModal" ng-click="editUser(x._id)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                     </tr></tbody>
                             </table></div></div><div class="row"><div class="col-sm-6"> </div> </div></div>

@@ -10,5 +10,6 @@ module.exports = {
 	aboutServices : require('./aboutService'),
 	contactServices : require('./contactService'),
 	inclusionServices : require('./inclusionService'),
-	packageServices : require('./packagesService')
+	packageServices : require('./packagesService'),
+	categoryServices : require('./categoryService'),
 }

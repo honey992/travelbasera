@@ -57,6 +57,13 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',fu
             templateUrl: "/view/pages/city.html",
             controller: "cityController"
         })
+        .when("/package-details", {
+            templateUrl: "/view/pages/package-view.html",
+            controller: "packageController"
+        }).when("/categories", {
+            templateUrl: "/view/pages/category.html",
+            controller: "categoryController"
+        })
         .otherwise({
             redirectTo: "/"
         });
@@ -158,6 +165,18 @@ app.filter('statusName', function(){
     return val;
   }
 });
+
+app.filter('splitId', function(){
+  return function(id){
+    var len = id.length;
+    return id.substr(len-6, len);
+  }
+});
+app.filter('splitByName', function(){ 
+  return function(str){
+    return str.split('-')[1]
+  }
+})
 
 app.factory('authInterceptor', authInterceptor);
 

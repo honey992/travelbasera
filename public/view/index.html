@@ -49,9 +49,8 @@
                 </button>
                 <a class="navbar-brand" href="index.html">Admin Panel</a>
             </div>
-            <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
+                <!-- <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
@@ -99,9 +98,7 @@
                             </a>
                         </li>
                     </ul>
-                    <!-- /.dropdown-messages -->
                 </li>
-                <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -178,9 +175,7 @@
                             </a>
                         </li>
                     </ul>
-                    <!-- /.dropdown-tasks -->
                 </li>
-                <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -238,8 +233,7 @@
                             </a>
                         </li>
                     </ul>
-                    <!-- /.dropdown-alerts -->
-                </li>
+                </li> -->
                 <!-- /.dropdown -->
                 <li class="dropdown" ng-controller="userController">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">
@@ -274,6 +268,9 @@
                              
                         </li> -->
                       <li> <a href="#!/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> </li>
+                         <li ng-if="loggedInUser.permissions.category.view"> 
+                            <a href="#!/categories"><i class="fa fa-bar-chart-o fa-fw"></i> Category</a>
+                        </li>
                         <li ng-if="loggedInUser.permissions.country.view"> 
                             <a href="#!/country"><i class="fa fa-bar-chart-o fa-fw"></i> Country</a>
                         </li>
@@ -368,6 +365,7 @@ else { document.getElementById('nav').style.display = 'block';}
      <script src="client/aboutController.js"></script>
      <script src="client/contactController.js"></script>
      <script src="client/cityController.js"></script>
+     <script src="client/categoryController.js"></script>
 
 
 </body>

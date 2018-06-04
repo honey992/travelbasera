@@ -21,10 +21,23 @@
             	<form  name="addNewPackageForm" novalidate >
             		<div class="section">
             		<div class="col-md-6">
+                     <div class="form-group">
+                            <label>Type</label>
+                            <div >
+                                <select ng-init="pack.type = ' '" class="form-control" name="type" ng-model="pack.type">
+                                    <option value=" " disabled>--Select Type--</option>
+                                    <option ng-repeat="x in packageTypes" value="{{x.code}}-{{x.name}}">{{x.name}}</option>
+                                </select>
+                            </div>
+                             <p class="__errorMsg" ng-show="showHighlightError">
+                              <span>*Please choose package type</span>
+                            </p> 
+                            </div> 
             			<div class="form-group">
                             <label>Country</label>
-                                <select class="form-control" ng-required="true" name="country" ng-model="pack.country" ng-change="getStateList(pack.country)"> 
-	                                <option ng-repeat="x in countryList" value="{{x.c_code}}-{{x.c_name}}">{{x.c_name}}</option>
+                                <select class="form-control" ng-init="pack.country=''" ng-required="true" name="country" ng-model="pack.country" ng-change="getStateList(pack.country)"> 
+	                               <option value="" disabled>--Select Country--</option>
+                                    <option ng-repeat="x in countryList" value="{{x.c_code}}-{{x.c_name}}">{{x.c_name}}</option>
                             	</select>
                                  <p class="__errorMsg" ng-show="addNewPackageForm.country.$touched && addNewPackageForm.country.$invalid ">
                                   	<span ng-show="addNewPackageForm.country.$error.required">*Please select country</span>
@@ -32,8 +45,9 @@
                         </div>
                         <div class="form-group">
                         	<label>City</label>
-                                <select class="form-control" ng-required="true" name="city" ng-model="pack.city">
-	                                <option ng-repeat="x in cityList" value="{{x.city_code}}-{{x.city_name}}">{{x.city_name}}</option>
+                                <select class="form-control" ng-init="pack.city=''" ng-required="true" name="city" ng-model="pack.city">
+	                               <option value="" disabled>--Select City--</option>
+                                    <option ng-repeat="x in cityList" value="{{x.city_code}}-{{x.city_name}}">{{x.city_name}}</option>
                                 </select>
                                  <p class="__errorMsg" ng-show="addNewPackageForm.city.$touched && addNewPackageForm.city.$invalid ">
                                   <span ng-show="addNewPackageForm.city.$error.required">*City is required.</span>
@@ -43,10 +57,23 @@
             		</div>
 
             		<div class="col-md-6">
+                     <div class="form-group">
+                            <label>Category</label>
+                            <div >
+                                <select class="form-control" ng-init="pack.category=''" name="type" ng-model="pack.category">
+                                    <option value="" disabled>--Select Category--</option>
+                                    <option ng-repeat="x in catData" value="{{x.cat_code}}-{{x.cat_name}}">{{x.cat_name}}</option>
+                                </select>
+                            </div>
+                             <p class="__errorMsg" ng-show="showHighlightError">
+                              <span>*Please choose package type</span>
+                            </p> 
+                            </div> 
             			<div class="form-group">
 
                             <label>State</label> 
-                               <select class="form-control" ng-required="true" name="state" ng-model="pack.state">
+                               <select class="form-control" ng-init="pack.state=''" ng-required="true" name="state" ng-model="pack.state">
+                                  <option value="" disabled>--Select State--</option>
                                   <option ng-repeat="x in stateList" value="{{x.s_code}}-{{x.s_name}}">{{x.s_name}}</option>
                                 </select>
                                 <p class="__errorMsg" ng-show="addNewPackageForm.state.$touched && addNewPackageForm.state.$invalid ">
@@ -55,8 +82,9 @@
                         </div>
                         <div class="form-group">
                                 <label>Source City</label> 
-                                <select class="form-control" ng-model="pack.sourceCity" name="sourceCity" required>
-                                	<option ng-repeat="x in sourceCity" value="{{x.code}}-{{x.name}}">{{x.name}}</option> 
+                                <select class="form-control" ng-init="pack.sourceCity=''" ng-model="pack.sourceCity" name="sourceCity" required>
+                                	 <option value="" disabled>--Select Source City--</option>
+                                    <option ng-repeat="x in sourceCity" value="{{x.code}}-{{x.name}}">{{x.name}}</option> 
                                 </select>
                                 <p class="__errorMsg" ng-show="addNewPackageForm.sourceCity.$touched && addNewPackageForm.sourceCity.$invalid ">
                                   <span ng-show="addNewPackageForm.sourceCity.$error.required">*Source City is required.</span>
@@ -80,10 +108,10 @@
                           <div class="form-group">
                             <label>Package Images</label>
                              <input type="file" ngf-multiple="true" ngf-select ng-model="imagesFile" name="file"  
-             accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile"> 
+             accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile" class="form-control"> 
                              <p class="info-text">*You can choose multiple images.</p>
                              <p class="__errorMsg" ng-show="addNewPackageForm.file.$touched && addNewPackageForm.file.$invalid ">
-                              <span ng-show="addNewPackageForm.file.$error.required">File is required.</span>
+                              <span ng-show="addNewPackageForm.file.$error.required">*File is required.</span>
                             </p>
                           </div>
                     </div> 
@@ -131,22 +159,23 @@
 	                     		<input type="text" class="form-control" ng-model="pack.highlightsTitle" name="highlightsTitle"  >
 	                     		<button class="btn btn-primary" ng-click="addmorehighlights()">+</button>
                      		</div>
-                             <p class="__errorMsg" ng-show="pack.highlights.length<=0">
-                              <span ng-show="addNewPackageForm.nights.$error.required">*Hightlights are required.</span>
+                             <p class="__errorMsg" ng-show="showHighlightError">
+                              <span>*{{showHighlightErrorMsg}}</span>
                             </p>
                      		<ul class="info-text">
                      			<li ng-repeat="x in pack.highlights">{{x.title}}&nbsp;<a href="javascript:void(0)" style="color:red" ng-click="removeHighlights(x, $index)">X</a></li>
                      		</ul>
                      		</div> 
+ 
 
                      		
                      	</div>
                      	<div class="col-md-6">
                      		 <div class="form-group" style="position: relative;">
                             <label>Inclusions</label>
-                            <input type="text" class="form-control" ng-model="selectedIncModel" ng-click="_inclusionList=!_inclusionList" readonly="true">
-                            <p class="__errorMsg" ng-show="pack.selectedInclusion<=0">
-                              <span ng-show="addNewPackageForm.nights.$error.required">*Inclusions are required.</span>
+                            <input type="text" class="form-control" ng-model="selectedIncModel" ng-click="_inclusionList=!_inclusionList" readonly="true" name="inclusions">
+                            <p class="__errorMsg" ng-show="showInclusionsError">
+                              <span ng-show="addNewPackageForm.inclusions.$error.required">*Inclusions are required.</span>
                             </p>
                             <div class="" ng-show="_inclusionList" style="background: #fff;z-index: 9;top: 59px;border: 1px solid #ddd; position:absolute; width:100%">
                               <ul>
@@ -157,6 +186,7 @@
                              <li ng-repeat="x in pack.selectedInclusion">{{x.i_name}} <a href="javascript:void(0)" ng-click="removeInclusion(x)">x</a></li>
                             </ul>  
                           </div>
+                       
                      	</div>
                        
                      </div>
@@ -168,9 +198,12 @@
                          <label>Add Itenary</label>
                          <div ng-repeat="x in pack.itenary" style="margin-top:5px">
                          <div class="text-right" ng-hide="$first"><button class="btn btn-danger btn-xs" ng-click="removeItenary($index)">x</button></div>
-                         <input type="text" class="form-control" placeholder="Itenary Title" ng-model="x.title"/><br />
+                         <input type="text" class="form-control" placeholder="Itenary Title" name="title" ng-model="x.title"/><br />
                          <textarea rows="3" placeholder="Itenary Description" class="form-control" ng-model="x.description"></textarea> 
                          </div> 
+                           <p class="__errorMsg" ng-show="itenaryError">
+                              <span >*Inclusions are required.</span>
+                            </p>
                          <div class="text-right"><button class="btn btn-primary" ng-click="addItenary()">+</button></div>
                      </div>
                      <div class="col-md-6">
@@ -214,32 +247,50 @@
                         <!-- /.panel-body -->
     </div>
 
-    
+    <div ng-show="viewData">
     <div class="panel panel-default" ng-show="viewData">
                         <div class="panel-heading">
-                            DataTables Advanced Tables
-                        </div>
-                        <!-- /.panel-heading -->
+                            <div class="row">
+                            <div class="col-md-4">View added packages</div>
+                            <div class="col-md-8">
+                            <div class="pull-right">
+                                <input type="search" ng-model="searchPack" class="form-control" placeholder="Search Packages">
+                                    
+                                </div></div>
+                            </div>
+                        </div> 
                         <div class="panel-body">
                             <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             <div class="row">
-                            <div class="col-sm-12">
-                            <table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
-                                <thead>
-                                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">Image </th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Image Title</th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">is_Active</th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Actions</th>  </tr>
-                                </thead>
-                                <tbody> 
-                                    <tr class="gradeA odd" role="row" ng-repeat="x in imageData">
-                                        <td class="sorting_1"><img src="{{x.imageUrl}}" width="70px" height="70px" /></td>
-                                        <td>{{x.imageTitle}}</td>
-                                        <td>{{x.metadata.is_active}}</td>
-                                        <td class="center"><i class="fa fa-pencil" ng-click="editRole(x._id)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteRole(x._id)"></i></td> 
-                                    </tr></tbody>
-                            </table></div></div></div>
+                            <div class="col-sm-12"> 
+                               <table width="100%" class="table table-striped table-bordered table-hover">
+                               <thead>
+                                   <tr>
+                                        <td><b>Id</b></td>
+                                        <td><b>Title</b></td>
+                                        <td><b>Date</b></td>
+                                        <td><b>Added By</b></td>
+                                        <td><b>Action</b></td>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                <tr ng-repeat="x in packData.packages | filter:searchPack">
+                                    <td>{{x._id | splitId}}</td>
+                                    <td><a href="#!/package-details?packageId={{x._id}}">{{x.title}}</a></td>
+                                    <td>{{x.metadata.created_at | date:'dd-MM-yyyy, hh:mm'}}</td>
+                                    <td>{{x.metadata.created_by.name}}</td>
+                                    <td>Edit</td>
+                                </tr>
+                               </tbody>
+                               </table>
+                             </div>
+                             </div>
+                             </div>
                             
                         </div>
                         <!-- /.panel-body -->
                     </div>
+    </div>
 </div>
 
 <div class="alert alert-success"  ng-show="successPop">

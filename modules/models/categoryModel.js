@@ -1,38 +1,17 @@
 var db = require('../../config/db');
 //var mongoose = require('mongoose');
 
-var userSchema = new db.Schema({
-	firstname :{
+var categorySchema = new db.Schema({ 
+	cat_name:{
 		type:String,
-		required:true
-	},
-	lastname :{
-		type:String
-	},
-	email:{
-		type:String,
-		required:true,
 		trim:true
-	}, 
-	mobile:{
-		type:String, 
-		min:10, 
-		max:10, 
-		required:true 
 	},
-	password:{
-		type:String,   
-		required:true 
+	cat_code:{
+		type:Number
 	},
-	address:{
-		type:String 
-	},
-	role:{
-		type:String,
-		default: 'Admin'
-	},
-	permissions:{
-		type:Object
+	cat_image:{
+
+		type:String
 	},
 	metadata:{
 		is_active:{ 
@@ -54,8 +33,11 @@ var userSchema = new db.Schema({
 			type:Date
 		}
 	}
+	
+
 });
-userSchema.pre('save', function(next) {
+
+categorySchema.pre('save', function(next) {
     var currentDate = new Date();
 
     // change the updated_at field to current date
@@ -65,5 +47,4 @@ userSchema.pre('save', function(next) {
     if (!this.metadata.created_at) this.metadata.created_at = currentDate;
     next();
 });
-
-module.exports = db.mongoose.model('ADMIN_Users', userSchema);
+module.exports = db.mongoose.model('ADMIN_Category', categorySchema);

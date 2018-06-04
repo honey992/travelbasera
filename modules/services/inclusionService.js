@@ -4,8 +4,8 @@ var Q 				=	require('q');
 var _models    	   = 	require('../models');
 var inclusionModel     =  _models.inclusionModel;
 var ec 				= 	require('../../constants').errors;
-const lib 			=	require('../../lib');
-const middlewares 	= 	lib.middlewares; 
+var lib 			=	require('../../lib');
+var middlewares 	= 	lib.middlewares; 
 
 function checkInclusion(){
 	var self = this;

@@ -17,7 +17,7 @@ var jwtSecret       = commonConf.JWTKEY;
 app.use(logger('dev'));
 
 app.set('port', process.env.PORT || 3001);
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));   
 app.use(bodyParser.json({limit: '100mb'}));
 
 app.use(errorFn);
@@ -36,13 +36,17 @@ app.use(express.static(path.join(__dirname, '/')));
  	var _url = req.url;
  	var url_method = req.method;
  	var token = req.headers.authorization;
- 	req.body.metadata = {}
+ 	//req.body.metadata = {}
+ 	debugger;
+	if(!req.body.hasOwnProperty('metadata')){
+	  req.body.metadata = {};  	
+	}
  	console.log(req.method+" "+req.url);
  	debugger;
- 	if((_url != '/api/login' && url_method == 'POST' )  && (_url != '/api/signup' && url_method == 'POST')){
+ 	if((_url != '/api/login' && url_method == 'POST' ) ){
  		var currentUser = jwt.verify(token.split('Bearer ')[1], jwtSecret);
  		req.body.metadata['created_by'] = { id:currentUser._id, name : currentUser.firstname };
- 		 
+ 		 debugger;
  		console.log('Yes')
  	}else{
  		console.log('No')

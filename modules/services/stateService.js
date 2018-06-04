@@ -4,8 +4,8 @@ var Q 				=	require('q');
 var _models    	   = 	require('../models');
 var stateModel     =  _models.stateModel;
 var ec 				= 	require('../../constants').errors;
-const lib 			=	require('../../lib');
-const middlewares 	= 	lib.middlewares; 
+var lib 			=	require('../../lib');
+var middlewares 	= 	lib.middlewares; 
 
 function checkStateName(){
 	var self = this;
@@ -150,3 +150,4 @@ debugger;
 	}
 };
 module.exports = stateService;
+

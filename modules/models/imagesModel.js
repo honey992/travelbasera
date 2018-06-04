@@ -3,7 +3,7 @@ var db = require('../../config/db');
 
 var imagesSchema = new db.Schema({
 	package_id:{
-		type:String
+		type: db.Schema.Types.ObjectId ,ref: 'ADMIN_Packages'
 	},
 	package_mainImage:{
 		type:String
