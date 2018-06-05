@@ -10,7 +10,7 @@
         <button class="btn btn-primary btn-xs"  ng-click="viewData = !viewData"><i class="fa fa-plus"></i> Add</button>
     </div>
     <div ng-hide="viewData">
-        <button class="btn btn-success btn-xs" ng-click="viewData = !viewData"><i class="fa fa-arrow-left"></i> View All</button>
+        <button class="btn btn-success btn-xs" ng-click="viewData = !viewData;fetchRoles()"><i class="fa fa-arrow-left"></i> View All</button>
     </div>
     <br />
 
@@ -22,17 +22,23 @@
                             <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Role Name</label>
-                                <input type="text" ng-model="role.name" ng-required="true" class="form-control" placeholder="Enter Role Name">
+                                <input type="text" ng-model="role.name" name="rname" ng-required="true" class="form-control" placeholder="Enter Role Name">
+                                <p class="__errorMsg" ng-show="addNewRoles.rname.$touched && addNewRoles.rname.$invalid ">
+                                        <span ng-show="addNewRoles.rname.$error.required">*Please Select Role.</span>
+                            </p>
                             </div>
                             
                             </div>
                             <div class="col-lg-6"> 
                                 <label>Status</label>
-                                <select class="form-control" ng-required="true" ng-model=role.status>
+                                <select class="form-control" ng-required="true" name="status" ng-model=role.status>
                                 <option>--Select--</option>
                                 <option value="true">Active</option>
                                 <option value="false">De-Active</option>
                                 </select>
+                                <p class="__errorMsg" ng-show="addNewRoles.status.$touched && addNewRoles.status.$invalid ">
+                                        <span ng-show="addNewRoles.status.$error.required">*Please Select Status .</span>
+                            </p>
                             </div>
                             <div class="col-md-12">
                             <button type="submit" class="btn btn-success"  >Add</button>
@@ -63,8 +69,8 @@
                                     <tr class="gradeA odd" role="row" ng-repeat="x in data">
                                         <td class="sorting_1">{{x.r_name}}</td>
                                         <td>{{x.r_code}}</td>
-                                        <td>{{x.is_active}}</td>
-                                        <td class="center"><i class="fa fa-pencil" ng-click="editRole(x._id)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteRole(x._id)"></i></td> 
+                                        <td>{{x.metadata.is_active | statusName}}</td>
+                                        <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#myModal" ng-click="openEditPopup(x)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                     </tr></tbody>
                             </table></div></div></div>
                             
@@ -72,3 +78,80 @@
                         <!-- /.panel-body -->
                     </div>
 </div>
+
+ <div class="alert alert-success"  ng-show="successPop">
+    <strong>Success!</strong><br/> {{successMsg}}
+    <a class="close"  ng-click="successPop=!successPop">×</a>
+  </div>
+  <div class="alert alert-danger" ng-show="errorPop">
+    <strong>Error!</strong><br /> {{errorMsg}}
+    <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
+  </div>
+
+   <!--Edit Modal-->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+    <form name="updateRoleForm">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit State </h4>
+      </div>
+      <div class="modal-body">
+        <label>Role Name</label>
+            <input type="text" ng-model="eData.r_name" name="rname" ng-required="true" class="form-control" placeholder="Enter Role Name">
+            <p class="__errorMsg" ng-show="updateRoleForm.rname.$touched && updateRoleForm.rname.$invalid ">
+                    <span ng-show="updateRoleForm.rname.$error.required">*Please Select Role.</span>
+        </p>    
+
+            <br />
+            <lable>Status</lable>
+            <select ng-model="eData.metadata.is_active" class="form-control" name="status">
+
+                <option value=true>Active</option>
+                <option value="false">De Active</option>
+            </select>
+            <p class="__errorMsg" ng-show="updateRoleForm.status.$touched && updateRoleForm.status.$invalid ">
+                        <span ng-show="updateRoleForm.status.$error.required">*Please Select Status.</span>
+            </p> 
+
+        
+      </div>
+      <div class="modal-footer">
+       <button type="button" class="btn btn-success" ng-click="updateRole(eData)">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- Delete Modal Confirmation -->
+<div class="modal c" ng-show="deleteConfirmationModal">
+<div class="modal-dialog"> 
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Delete</h4>
+    </div>
+    <div class="modal-body">
+        <p>You really want to delete this state?</p>
+       
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="deleteRole()">Yes</button>
+      <button type="button" class="btn btn-default" ng-click="deleteConfirmationModal =!deleteConfirmationModal">No</button>
+    </div>
+    </div> 
+</div>
+</div>
+
+<style>
+.c{
+    display:block;
+}
+</style>

@@ -34,13 +34,8 @@ countrySchema.pre('save', function(next) {
 	var currentDate = new Date(); 
     this.metadata.modified_at = currentDate; 
     if (!this.metadata.created_at) this.metadata.created_at = currentDate; 
-     if (this.isNew) this.c_code = 1;
-     else{
-     	Model.find({}, function(err, d){
-     		console.log(d)
-     	})
-     }
+      
     next();
 });
 
-module.exports = db.mongoose.model('country', countrySchema);
+module.exports = db.mongoose.model('ADMIN_Country', countrySchema);

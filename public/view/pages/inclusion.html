@@ -10,7 +10,7 @@
         <button class="btn btn-primary btn-xs"  ng-click="viewData = !viewData"><i class="fa fa-plus"></i> Add</button>
     </div>
     <div ng-hide="viewData">
-        <button class="btn btn-success btn-xs" ng-click="viewData = !viewData"><i class="fa fa-arrow-left"></i> View All</button>
+        <button class="btn btn-success btn-xs" ng-click="viewData = !viewData;getInclusions()"><i class="fa fa-arrow-left"></i> View All</button>
     </div>
     <br />
 
@@ -19,24 +19,43 @@
                         <div class="panel-body">
                            <div class="row">
 
-                           <form ng-submit="addInclusion()"  name="inclusionForm" novalidate >
-                            <div class="col-lg-6">
+                           <form ng-submit="addInclusion()"  name="inclusionForm" novalidate enctype= "multipart/form-data">
+                            <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Inclusion Name</label>
-                                <input type="text" ng-model="role.name" ng-required="true" class="form-control" placeholder="Enter Country Name">
+                                <input type="text" ng-model="inc.name" name="name" ng-required="true" class="form-control" placeholder="Enter Inclusion Name">
+                                 <p class="__errorMsg" ng-show="inclusionForm.name.$touched && inclusionForm.name.$invalid ">
+                                    <span ng-show="inclusionForm.name.$error.required">*Please Enter Inclusion Name</span>
+                                </p> 
                             </div>
                             
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Inclusion Icon</label>
-                                <input type="file" ng-model="role.name" ng-required="true" class="form-control" placeholder="Enter Country Name">
+                                <input type="file" name="file"  class="form-control" file-model="myFile" />
+                                <p class="info-text">*Please upload icon of size 80*80 px</p>
+                                 <p class="__errorMsg" ng-show="inclusionForm.file.$touched && inclusionForm.file.$invalid ">
+                                    <span ng-show="inclusionForm.file.$error.required">*Please choose icon for inclusion</span>
+                                </p> 
+                            </div> 
                             </div>
-                            
+                            <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select class="form-control" ng-required="true" name="status" ng-model="inc.status">
+                                    <option>--Select--</option>
+                                    <option value="true">Active</option>
+                                    <option value="false">De-Active</option>
+                                </select>
+                                 <p class="__errorMsg" ng-show="inclusionForm.status.$touched && inclusionForm.status.$invalid ">
+                                    <span ng-show="inclusionForm.status.$error.required">*Please select status</span>
+                                </p> 
+                            </div> 
                             </div>
                             <div class="col-md-12">
                             <button type="submit" class="btn btn-success"  >Add</button>
-                                        <button type="reset" class="btn btn-default">Reset</button>
+                            <button type="reset" class="btn btn-default">Reset</button>
                             </div>
                            </form> 
                            </div>
@@ -47,8 +66,9 @@
 
     
     <div class="panel panel-default" ng-show="viewData">
+     
                         <div class="panel-heading">
-                            Country list
+                            Inclusions list
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -57,14 +77,23 @@
                             <div class="col-sm-12">
                             <table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
                                 <thead>
-                                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">Country Name</th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Country Code</th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">is_Active</th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Actions</th>  </tr>
+                                    <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">Inclusion Name</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Inclusion Code</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Inclusion Icon</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">is_Active</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Actions</th>  </tr>
                                 </thead>
                                 <tbody> 
-                                    <tr class="gradeA odd" role="row" ng-repeat="x in countryList">
-                                        <td class="sorting_1">{{x.c_name}}</td>
-                                        <td>{{x.c_code}}</td>
+                                    <tr class="gradeA odd" role="row" ng-repeat="x in inclusionData">
+                                        <td class="sorting_1">{{x.i_name}}</td>
+                                        <td><a href="{{x.i_icon}}"><img src="{{x.i_icon}}" width="60px" height="60px" /></a></td>
+                                        <td>{{x.i_code}}</td>
                                         <td>{{x.metadata.is_active}}</td>
-                                        <td class="center"><i class="fa fa-pencil" ng-click="editCountry(x._id)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
+                                        <td class="center">
+                                        <!-- <i class="fa fa-pencil" ng-click="editCountry(x._id)"></i>&nbsp;&nbsp; -->
+                                        <i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i>
+                                    </td> 
                                     </tr></tbody>
                             </table></div></div></div>
                             
@@ -74,12 +103,12 @@
 </div>
 
 <div class="alert alert-success"  ng-show="successPop">
-    <strong>Success!</strong> {{successMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <strong>Success!</strong><br/> {{successMsg}}
+    <a class="close"  ng-click="successPop=!successPop">×</a>
   </div>
   <div class="alert alert-danger" ng-show="errorPop">
-    <strong>Error!</strong> {{errorMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <strong>Error!</strong><br /> {{errorMsg}}
+    <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
   </div>
 
 <!-- Modal -->
@@ -92,11 +121,11 @@
       <h4 class="modal-title">Delete</h4>
     </div>
     <div class="modal-body">
-        <p>You really want to delete this user?</p>
+        <p>You really want to delete this Inclusion?</p>
        
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success" ng-click="deleteCountry()">Yes</button>
+        <button class="btn btn-success" ng-click="deleteInclusion()">Yes</button>
       <button type="button" class="btn btn-default" ng-click="deleteConfirmationModal =!deleteConfirmationModal">No</button>
     </div>
     </div> 

@@ -1,0 +1,172 @@
+<div id="page-wrapper">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Categories</h3>
+        </div>
+    </div>
+
+ <div ng-show="viewData" ng-if="loggedInUser.permissions.category.add">
+        <button class="btn btn-primary btn-xs"  ng-click="toggelView()"><i class="fa fa-plus"></i> Add</button>
+    </div>
+    <div ng-hide="viewData" >
+        <button class="btn btn-success btn-xs" ng-click="toggelView()"><i class="fa fa-arrow-left"></i> View All</button>
+    </div>
+    <br />
+
+    <div class="panel panel-default" ng-hide="viewData">
+                        <div class="panel-heading"> Add Categories </div>
+                        <div class="panel-body">
+                           <div class="row">
+                           <form    name="addCategoryForm" novalidate >
+                            <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Category Name</label>
+                                <input type="text" ng-model="cat.name"  name="name" required  class="form-control" placeholder="Enter Category Name">
+                                <p class="__errorMsg" ng-show="addCategoryForm.name.$touched && addCategoryForm.name.$invalid ">
+                                  <span ng-show="addCategoryForm.name.$error.required">*Please enter category name.</span>
+                                </p>
+                            </div>
+                            
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Choose Images</label>
+                                 <input type="file" class="form-control" ngf-select ng-model="file" name="file" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile"> 
+                                <p class="info-text">*Please upload banner of 1305*500px</p>
+                                 <p class="__errorMsg" ng-show="addCategoryForm.file.$touched && addCategoryForm.file.$invalid ">
+                                  <span ng-show="addCategoryForm.file.$error.required">*Please choose a file.</span>
+                                </p>
+                            </div> 
+                            <div class="col-lg-4">
+                                <label>Status</label>
+                                 <select class="form-control" ng-init="cat.status=''" name="status" ng-model="cat.status">
+                                 <option value="" disabled>--Select Status--</option>
+                                 <option value="true">Active</option>
+                                 <option value="false">Deactive</option>
+                                 </select>
+                                 <p class="__errorMsg" ng-show="addCategoryForm.status.$touched && addCategoryForm.status.$invalid ">
+                                  <span ng-show="addCategoryForm.status.$error.required">*Please select status.</span>
+                                </p>
+                            </div> 
+                            <div class="col-md-12">
+                            <button type="submit" class="btn btn-success" ng-click="addCategory(file)">Add</button>
+                            <button type="reset" class="btn btn-default">Reset</button>
+                            </div>
+                           </form> 
+                           </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+    </div>
+
+    
+    <div class="panel panel-default" ng-show="viewData">
+                        <div class="panel-heading">
+                            DataTables Advanced Tables
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="row">
+                            <div class="col-sm-12">
+                            <table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+                                <thead>
+                                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">Image </th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Category Title</th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">is_Active</th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Actions</th>  </tr>
+                                </thead>
+                                <tbody> 
+                                    <tr class="gradeA odd" role="row" ng-repeat="x in catData">
+                                        <td class="sorting_1">
+                                        <a target="_blank" href="{{x.cat_image}}"><img src="{{x.cat_image}}" width="70px" height="70px" /></a>
+                                        </td>
+                                        <td>{{x.cat_name}}</td>
+                                        <td>{{x.metadata.is_active | statusName}}</td>
+                                        <td class="center">
+                                       <!--  <i class="fa fa-pencil"  data-toggle="modal" data-target="#myModal" ng-click="openEditPopup(x)"></i>&nbsp;&nbsp; -->
+                                        <i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
+                                    </tr></tbody>
+                            </table></div></div></div>
+                            
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+</div>
+
+<div class="alert alert-success"  ng-show="successPop">
+    <strong>Success!</strong><br/> {{successMsg}}
+    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+  </div>
+  <div class="alert alert-danger" ng-show="errorPop">
+    <strong>Error!</strong><br /> {{errorMsg}}
+    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+  </div>
+
+  <!--Edit Modal-->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+    <form name="updateBannerForm">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Banner </h4>
+      </div>
+      <div class="modal-body">
+
+        <label>Image Title</label>
+        <input type="text" ng-model="eData.imageTitle"  name="title" required  class="form-control" placeholder="Enter Image Title">
+        <p class="__errorMsg" ng-show="uploadBannerForm.title.$touched && uploadBannerForm.title.$invalid ">
+          <span ng-show="uploadBannerForm.title.$error.required">Title is required.</span>
+        </p><br />
+         <label>Choose Images</label>
+        <input type="file" name="file"  class="form-control" file-model="myFile" />
+        <p class="info-text">*Please upload banner of 1305*500px</p>
+         <p class="__errorMsg" ng-show="uploadBannerForm.file.$touched && uploadBannerForm.file.$invalid ">
+          <span ng-show="uploadBannerForm.file.$error.required">*File is required.</span>
+        </p><br />
+        <label>Status</label>
+        <select class="form-control" ng-required="true" name="status" ng-model="eData.status">
+        <option>--Select--</option>
+        <option value="true">Active</option>
+        <option value="false">De-Active</option>
+        </select>
+         <p class="__errorMsg" ng-show="uploadBannerForm.status.$touched && uploadBannerForm.status.$invalid ">
+          <span ng-show="uploadBannerForm.status.$error.required">File is required.</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+       <button type="button" class="btn btn-success" ng-click="updateBanners(eData)">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- Delete Modal Confirmation -->
+<div class="modal c" ng-show="deleteConfirmationModal">
+<div class="modal-dialog"> 
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Delete</h4>
+    </div>
+    <div class="modal-body">
+        <p>You really want to delete this state?</p>
+       
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="deleteBanner()">Yes</button>
+      <button type="button" class="btn btn-default" ng-click="deleteConfirmationModal =!deleteConfirmationModal">No</button>
+    </div>
+    </div> 
+</div>
+</div>
+
+<style>
+.c{
+    display:block;
+}
+</style>

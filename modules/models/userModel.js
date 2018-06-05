@@ -13,12 +13,7 @@ var userSchema = new db.Schema({
 		type:String,
 		required:true,
 		trim:true
-	},
-	username:{
-		type:String,
-		required:true,
-		trim:true
-	},
+	}, 
 	mobile:{
 		type:String, 
 		min:10, 
@@ -60,5 +55,15 @@ var userSchema = new db.Schema({
 		}
 	}
 });
+userSchema.pre('save', function(next) {
+    var currentDate = new Date();
 
-module.exports = db.mongoose.model('user', userSchema);
+    // change the updated_at field to current date
+    this.metadata.modified_at = currentDate;
+
+    // if created_at doesn't exist, add to that field
+    if (!this.metadata.created_at) this.metadata.created_at = currentDate;
+    next();
+});
+
+module.exports = db.mongoose.model('ADMIN_Users', userSchema);

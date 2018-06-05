@@ -24,15 +24,26 @@ var rolesCtrl = {
 			res.json({data:result});
 		});
 	},
-	editCountryCtrl:function(req, res, next){
+	updateRolesCtrl:function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);
-		countryServices.editCountryService(options, function(err, data){
+		rolesServices.updateRolesService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
 		
-			res.json({message:'Country Saved Successfully', data:data});
+			res.json({'status':1,'message':'Role Updated Successfully', data:data});
+		})
+	},
+	deleteRolesCtrl:function(req, res, next){
+		var options = {};
+		_.assign(options, req.params);
+		rolesServices.deleteRolesService(options, function(err, data){
+			if(err){
+				return next(err);
+			}
+		
+			res.json({'status':1,'message':'Role Deleted Successfully', data:data});
 		})
 	}
 };

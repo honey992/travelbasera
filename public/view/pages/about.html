@@ -1,0 +1,82 @@
+<div id="page-wrapper">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">About us</h3>
+        </div>
+    </div>
+
+ <div ng-show="viewData" ng-if="loggedInUser.permissions.banner.add">
+        <button class="btn btn-primary btn-xs"  ng-click="toggelView()"><i class="fa fa-plus"></i> Add</button>
+    </div>
+    <div ng-hide="viewData" >
+        <button class="btn btn-success btn-xs" ng-click="toggelView()"><i class="fa fa-arrow-left"></i> View All</button>
+    </div>
+    <br />
+
+    <div class="panel panel-default" ng-hide="viewData">
+                        <div class="panel-heading"> Add About us </div>
+                        <div class="panel-body">
+                           <div class="row">
+                           <form  name="aboutusForm" novalidate enctype= "multipart/form-data">
+                            <div class="col-lg-12">
+                            <div class="form-group">
+                                <div class="form-group editorr">
+	                     		<div text-angular ng-model="about.description" name="description"></div>
+                     		</div>
+                     		 <span ng-show="requiredDesc" class="__errorMsg">*Field is required</span>
+                               
+                            </div>
+                            
+                            </div> 
+                            <div class="col-md-12">
+                            <button type="submit" class="btn btn-success" ng-click="addAbout()" ng-if="!editAbout">Add</button>
+                            <button type="submit" class="btn btn-success" ng-click="updateAboutContent()" ng-if="editAbout">Update</button>
+                            <button type="reset" class="btn btn-default">Reset</button>
+                            </div>
+                           </form> 
+                           </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+    </div>
+
+    
+    <div class="panel panel-default" ng-show="viewData">
+                        <div class="panel-heading">
+                            DataTables Advanced Tables
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="row">
+                            <div class="col-sm-12">
+                             
+                            <table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+                                <thead>
+                                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">Description </th><th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Actions</th>  </tr>
+                                </thead>
+                                <tbody> 
+                                    <tr class="gradeA odd" role="row">
+                                        <td> <p ng-bind-html="aboutCb"></p></td>
+                                        <td class="center">
+                                        <i class="fa fa-pencil" ng-click="viewData = !viewData"></i>
+                                        <!-- <i class="fa fa-trash" ng-click="deleteRole(x._id)"></i> -->
+                                        </td> 
+                                    </tr></tbody>
+                            </table></div></div></div>
+                            
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+</div>
+
+<div class="alert alert-success"  ng-show="successPop">
+
+    <strong>Success!</strong><br/> {{successMsg}}
+    <a class="close"  ng-click="successPop=!successPop">×</a>
+  </div>
+  <div class="alert alert-danger" ng-show="errorPop">
+    <strong>Error!</strong><br /> {{errorMsg}}
+    <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
+  </div>

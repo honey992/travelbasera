@@ -1,4 +1,14 @@
-
+<style>
+.panel-info>.panel-heading {
+    color: #ffffff;
+    background-color: #154b79;
+    border-color: #154b79;
+}
+.panel-info {
+    border-color: #e6e5e5;
+    box-shadow: 1px 1px 2px #a9a9a9;
+}
+</style>
  <div class="text-center">
  <img src="/view/dist/images/travel-Gold.png" width="20%" />
  </div>
@@ -73,11 +83,11 @@
         </div>
     </div>
 
-    <div class="alert alert-success"  ng-show="successPop">
+<div class="alert alert-success"  ng-show="successPop">
     <strong>Success!</strong><br/> {{successMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <a class="close"  ng-click="successPop=!successPop">×</a>
   </div>
   <div class="alert alert-danger" ng-show="errorPop">
     <strong>Error!</strong><br /> {{errorMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
   </div>

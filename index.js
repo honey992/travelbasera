@@ -1,6 +1,7 @@
 var express 		= require('express');
 var bodyParser 		= require('body-parser');
 var logger 			= require('morgan');
+var jwt				=	require('jsonwebtoken');
 var multer 			= require('multer');
 var crypto			= require('crypto');
 var path 			= require('path');
@@ -8,11 +9,15 @@ var errorHandler    = require('errorhandler');
 var app 			= express();
 var server 			= require('http').createServer(app);
 var errorFn         = require('./modules/error');
+var middleWare      = require('./lib').middlewares;
+var commonConf      = require('./config/common');
+var jwtSecret       = commonConf.JWTKEY;
+
 
 app.use(logger('dev'));
 
 app.set('port', process.env.PORT || 3001);
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));   
 app.use(bodyParser.json({limit: '100mb'}));
 
 app.use(errorFn);
@@ -26,7 +31,32 @@ app.use(express.static(path.join(__dirname, '/')));
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+ app.use(function(req, res, next){
+ 	var _url = req.url;
+ 	var url_method = req.method;
+ 	var token = req.headers.authorization;
+ 	//req.body.metadata = {}
+ 	debugger;
+	if(!req.body.hasOwnProperty('metadata')){
+	  req.body.metadata = {};  	
+	}
+ 	console.log(req.method+" "+req.url);
+ 	debugger;
+ 	if((_url != '/api/login' && url_method == 'POST' ) ){
+ 		var currentUser = jwt.verify(token.split('Bearer ')[1], jwtSecret);
+ 		req.body.metadata['created_by'] = { id:currentUser._id, name : currentUser.firstname };
+ 		 debugger;
+ 		console.log('Yes')
+ 	}else{
+ 		console.log('No')
+ 	}
  
+next();
+}
+ 
+)
+
  //devlopment config
 if (app.get('env') === 'development') {
     app.use(errorHandler());

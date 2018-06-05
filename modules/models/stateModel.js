@@ -3,7 +3,7 @@ var db = require('../../config/db');
 
 var stateSchema = new db.Schema({
 	c_id:{
-		type:Number
+		type:String
 	},
 	s_name:{
 		type:String
@@ -37,11 +37,8 @@ stateSchema.pre('save', function(next) {
 	var currentDate = new Date(); 
     this.metadata.modified_at = currentDate; 
     if (!this.metadata.created_at) this.metadata.created_at = currentDate; 
-     if (this.isNew) this.s_code = 1;
-     else{
-     	 
-     }
+      
     next();
 });
 
-module.exports = db.mongoose.model('state', stateSchema);
+module.exports = db.mongoose.model('ADMIN_State', stateSchema);

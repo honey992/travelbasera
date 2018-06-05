@@ -1,19 +1,20 @@
 'use strict';
 var cityCtrl = require('./city');
 var mongoose  = require('mongoose');
-
+ 
+var error 	 = require('../../error');
 
 
 module.exports = function(app){
+ 
+	app.route('/api/city')
+		.post(cityCtrl.addCityCtrl, error)
+		.get(cityCtrl.getCityCtrl, error)
+		.put(cityCtrl.updateCityCtrl, error)
+		
+	app.route('/api/city/:id')
+	 .get(cityCtrl.cityByIdCtrl, error)
+	 .delete(cityCtrl.deleteCityCtrl, error)
 
-	app.route('/api/getAllCity')
-		.get(cityCtrl.getAllCityCtrl) 
-	app.route('/api/addCity')
-		.post(cityCtrl.addCityCtrl)
-	app.route('/api/updateCity')
-		.put(cityCtrl.editCityCtrl) 
-	app.route('/api/deleteCity/:id')
-		.delete(cityCtrl.deleteCityCtrl) 
-	app.route('api/fetchSingleCity/:id')
-		.get(cityCtrl.fetchCityByIdCtrl)
+
 }	

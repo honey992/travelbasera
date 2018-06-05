@@ -7,31 +7,34 @@ var Q 	=	require('q');
 
 var cityCtrl = {
 
-	getAllCityCtrl: function(req, res, next){
+ 
+	getCityCtrl: function(req, res, next){
 		var options = {};
-		cityServices.getAllCityService(options, function(err, data){
+		cityServices.getCityService(options, function(err, data){
 			if(err) return next(err);
-			res.json({ city:data});
+			res.json({ status:1,cities:data});
 		})
 	},
 
 	addCityCtrl:function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);
-		var options = req.body;
-
+ 
+		// var options = req.body;
 		cityServices.addCityService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
-			res.json({message:'City Saved Successfully'});
+ 
+			res.json({status:1,message:'City Saved Successfully'});
 		})
 	},
 
-	editCityCtrl:function(req, res, next){
+	updateCityCtrl:function(req, res, next){
 		var options = {}; 
 		_.assign(options, req.body);
-		cityServices.editCityService(options, function(err, data){
+		debugger;
+		cityServices.updateCityService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
@@ -42,18 +45,40 @@ var cityCtrl = {
 	deleteCityCtrl: function(req,res,next){
 		var options = {};
 		_.assign(options, req.params);
+ 
+		console.log('delete options',options);
 		cityServices.deleteCityService(options, function(err, data){
 			if(err) return next(err);
 			res.json({message:'City Deleted Successfully'});
 		})
 	},
 
-	fetchCityByIdCtrl: function(req,res,next){
+ 
+
+	fetchCountryByIdCtrl: function(req,res,next){
 		var options = {};
 		_.assign(options, req.params);
-		cityServices.fetchCityByIdService(options, function(err, data){
+		countryServices.fetchCountryByIdService(options, function(err, data){
 			if(err) return next(err);
 			res.json({result:data});
+		})
+	},
+
+	fetchStateByIdCtrl: function(req,res,next){
+		var options = {};
+		_.assign(options, req.params);
+		stateServices.fetchStateByIdService(options, function(err, data){
+			if(err) return next(err);
+			res.json({result:data});
+		})
+	},
+	
+	cityByIdCtrl: function(req,res,next){
+		var options = {};
+		_.assign(options, req.params);
+		cityServices.cityByIdService(options, function(err, data){
+			if(err) return next(err);
+			res.json({'city':1,states:data});
 		})
 	}
 };

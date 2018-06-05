@@ -9,6 +9,8 @@
 }, {
 	"name": "state"
 }, {
+	"name": "city"
+},{
 	"name": "banner"
 }, {
 	"name": "testimonials"
@@ -18,4 +20,6 @@
 	"name": "contact"
 }, {
 	"name": "inclusions"
+},{
+	"name": "category"
 }]

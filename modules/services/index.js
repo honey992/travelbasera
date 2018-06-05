@@ -5,8 +5,13 @@ module.exports = {
 	roleServices 	: require('./rolesService'),
 	countryServices : require('./countryService'),
 	stateServices   : require('./stateService'),
+	cityServices   : require('./cityService'),
 	bannerServices  : require('./bannerService'),
 	testimonialsServices : require('./testimonialsService'),
-	cityServices   : require('./cityService')
-
+ 
+	aboutServices : require('./aboutService'),
+	contactServices : require('./contactService'),
+	inclusionServices : require('./inclusionService'),
+	packageServices : require('./packagesService'),
+	categoryServices : require('./categoryService'),
 }

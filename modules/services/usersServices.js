@@ -4,9 +4,10 @@ var Q 				=	require('q');
 var userModel 		= 	require('../models/userModel');
 var ec 				= 	require('../../constants').errors;
 const lib 			=	require('../../lib');
+const commonConf 			=	require('../../config/common');
 const middlewares 	= 	lib.middlewares; 
 
-var jwtSecret = '12233425werweertmivncusoskauridjfvnch';
+var jwtSecret = commonConf.JWTKEY;
  
 function checkEmailId(){
 	var self = this;
@@ -25,10 +26,12 @@ function checkEmailId(){
 }
 
 function saveNewUser(){
-	let self = this;
-	let deferred = Q.defer();
+	var self = this;
+	var deferred = Q.defer(); 
 	self.password = middlewares.cipher(self.password);
-	let newUser = userModel(self)
+
+	self.metadata['is_active'] = self.status;
+	var newUser = userModel(self)
 	newUser.save((err, data)=>{
 		if(err){
 			console.log(err)
@@ -41,8 +44,8 @@ function saveNewUser(){
 
 
 function findUserByEmail(){
-	let self = this;
-	let deferred = Q.defer();
+	var self = this;
+	var deferred = Q.defer();
 	debugger;
 	userModel.findOne({email:self.email}, function(err, data){
 		debugger;
@@ -59,9 +62,9 @@ function findUserByEmail(){
 
 
 function userLogin(){
-	let self = this;
-	let deferred = Q.defer();
-	let user = self.matchedUser._doc;
+	var self = this;
+	var deferred = Q.defer();
+	var user = self.matchedUser._doc;
 	debugger;
 	if(self.password == middlewares.decipher(user.password)){
 		delete user.password;

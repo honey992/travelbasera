@@ -57,5 +57,11 @@
 		"edit":false,
 		"view":false,
 		"delete":false
+	},
+	"category":{
+		"add":false,
+		"edit":false,
+		"view":false,
+		"delete":false
 	}
 }

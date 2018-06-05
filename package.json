@@ -2,18 +2,24 @@
   "name": "travelbaser",
   "version": "0.1.0",
   "description": "Admin Panel of Travel Basera.com",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha --recursive",
-    "start": "npm run build && node dist/server.js"
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "5.6.0"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bower": "^1.8.4",
     "child_process": "^1.0.2",
     "crypto": "^1.0.1",
     "errorhandler": "^1.5.0",
     "express": "^4.16.3",
+    "fs": "0.0.1-security",
+    "fs-extra": "4.0.0",
     "http": "0.0.0",
     "jsonwebtoken": "^8.2.0",
     "mongoose": "^5.0.11",

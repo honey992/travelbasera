@@ -11,7 +11,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-                $scope.errorMsg = err.data;
+                $scope.errorMsg = err.data.message;
  			});
 		 
 		};
@@ -21,12 +21,14 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 
 		$scope.addNewCountry = function(){ 
 			if($scope.newCountryFrom.$valid){
-				var reqObj = {c_name:$scope.coun.name};
-		      	$http.post(configuration.ADD_COUNTRY_URL, reqObj).then(function success(res){
-                    console.log(res.data);
-                }, function errorCallback(err){
-                    $scope.invoiceError = true;
-                    $scope.invoiceErrorMsg = err.data.message; 
+		      	$http.post(configuration.ADD_COUNTRY_URL, $scope.coun).then(function success(res){
+                  $scope.successPop = true;
+               $scope.errorPop = false;
+               $scope.successMsg = res.data.message;
+            }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+                $scope.errorMsg = err.data.message; 
 
                 });
 			}else{
@@ -56,7 +58,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 	            }, function errorCallback(err){
 	                $scope.errorPop = true;
 	                $scope.successPop = false;
-	               $scope.errorMsg = err.data;
+	               $scope.errorMsg = err.data.message;
 
 	            });
 	           }else{
@@ -79,7 +81,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 	            }, function errorCallback(err){
 	                $scope.errorPop = true;
 	                $scope.successPop = false;
-	               $scope.errorMsg = err.data;
+	               $scope.errorMsg = err.data.message;
 
 	            });
 
@@ -92,7 +94,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 	            }, function errorCallback(err){
 	                $scope.errorPop = true;
 	                $scope.successPop = false;
-	               $scope.errorMsg = err.data;
+	               $scope.errorMsg = err.data.message;
 
 	            });
 				}
@@ -118,7 +120,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 			}, function errorCallback(err){
                $scope.errorPop = true;
                $scope.successPop = false;
-               $scope.errorMsg = err.data;
+               $scope.errorMsg = err.data.message;
 			});
 		};
 	

@@ -2,8 +2,8 @@ var _ 				= 	require('lodash');
 var Q 				=	require('q');
 var rolesModel 		= 	require('../models/rolesModel');
 var ec 				= 	require('../../constants').errors;
-const lib 			=	require('../../lib');
-const middlewares 	= 	lib.middlewares; 
+var lib 			=	require('../../lib');
+var middlewares 	= 	lib.middlewares; 
 
  
  function checkNewRole(){
@@ -51,6 +51,43 @@ const middlewares 	= 	lib.middlewares;
  	return deferred.promise;
  }
 
+ function fetchRole(){
+    var self = this;
+    var deferred = Q.defer();
+    rolesModel.find({_id:self._id}, function(err, data){
+     if(err)
+            return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Role"}));
+        deferred.resolve();
+
+    });
+    return deferred.promise;
+ }
+
+function updateRole(){
+    var self = this;
+    var deferred = Q.defer();
+    var updateData = {r_name:self.r_name, metadata:{is_active:self.metadata.is_active}};
+    rolesModel.update({_id:self._id},{$set:self}, function(err, data){
+        if(err) 
+            return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Update Roles"}));
+        if(data)    
+            deferred.resolve();
+    });
+    return deferred.promise; 
+};
+
+function deleteRole(){
+    var self = this;
+    var deferred = Q.defer();
+    rolesModel.remove({_id:self.id}, function(err, data){
+     if(err) 
+            return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Update Roles"}));
+        if(data)    
+            deferred.resolve();
+    });
+    return deferred.promise; 
+};
+
 var userServ = {
 	addRolesService:function(options, cb){
 
@@ -76,13 +113,13 @@ var userServ = {
 				cb(null, data);
 		})
 	},
-		editCountryService:function(options, cb){
+		updateRolesService:function(options, cb){
 
-		 if(!options || !options.c_name || !options.c_code )
-            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create Country"}));
+		 if(!options || !options.r_name )
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to update Role"}));
 
-		fetchCountry.call(options)
-            .then(updateCountry.bind(options)) 
+		fetchRole.call(options)
+            .then(updateRole.bind(options)) 
             .then(cb)
             .fail(failureCb)
             .catch(failureCb)
@@ -92,6 +129,23 @@ var userServ = {
             finalErr.status = err.status || 400;
             return cb(finalErr);
         } 
-	}
+	},
+    deleteRolesService:function(options, cb){
+
+         if(!options  )
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to delete Role"}));
+
+        fetchRole.call(options)
+            .then(deleteRole.bind(options)) 
+            .then(cb)
+            .fail(failureCb)
+            .catch(failureCb)
+
+        function failureCb(err){
+            var finalErr = new Error(err.message || 'Some Undefined Error Occurs.');
+            finalErr.status = err.status || 400;
+            return cb(finalErr);
+        } 
+    }
 };
 module.exports = userServ;

@@ -29,5 +29,12 @@ var rolesSchema = new db.Schema({
 		}
 	}
 });
+rolesSchema.pre('save', function(next) { 
+	var currentDate = new Date(); 
+    this.metadata.modified_at = currentDate; 
+    if (!this.metadata.created_at) this.metadata.created_at = currentDate; 
+      
+    next();
+});
 
-module.exports = db.mongoose.model('roles', rolesSchema);
+module.exports = db.mongoose.model('ADMIN_Roles', rolesSchema);

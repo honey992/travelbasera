@@ -44,4 +44,4 @@ bannerSchema.pre('save', function(next) {
     if (!this.metadata.created_at) this.metadata.created_at = currentDate;
     next();
 });
-module.exports = db.mongoose.model('banner', bannerSchema);
+module.exports = db.mongoose.model('ADMIN_Banners', bannerSchema);

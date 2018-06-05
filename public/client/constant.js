@@ -27,6 +27,14 @@ app.constant("configuration", (function() {
         ADD_COUNTRY_URL:"api/addCountry",
         EDIT_COUNTRY_URL:"api/updateCountry",
         DELETE_COUNTRY_URL:"api/deleteCountry",
-        FETCH_SINGLE_COUNTRY:"api/fetchSingleCountry"
+        FETCH_SINGLE_COUNTRY:"api/fetchSingleCountry",
+        STATE_URL : "api/state",
+        CITY_URL : "api/city",
+        ABOUT_US_URL : "/api/aboutus",
+        CONTACT_US_URL : "/api/contactus",
+        INCLUSION_URL :"/api/inclusions",
+        PACKAGE_URL : "/api/packages",
+        PACKAGE_IMAGES_URL : "/api/uploadImages",
+        CATEGORY_URL  : "/api/category"
     }
 })());

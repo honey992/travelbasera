@@ -34,7 +34,7 @@ $scope.successPop = false;
 	 $scope.fetchRoles = function(role){ 
 	      $http.get(configuration.FETCH_ROLES_URL).then(function success(res){
                    $scope.rolesList = res.data.data.filter(function(_o){
-                   	return _o.is_active == true;
+                   	return _o.metadata.is_active == true;
                    });
                 }, function errorCallback(err){
                     $scope.invoiceError = true;
@@ -63,10 +63,16 @@ $scope.successPop = false;
 	};
 	$scope.getPermissionList();
 	 
-	
+	$scope.matchPassword = function(password, cnfpassword){
+     $scope.samePasswordError = false
+	  if(password != cnfpassword){
+		$scope.samePasswordError = true 
+	   }
+    }
 
 	$scope.addNewUser = function(newUser){
-			if($scope.addnewUserForm.$valid){
+			if($scope.addnewUserForm.$valid && !$scope.samePasswordError){
+ 
 		      $http.post(configuration.SIGN_UP_URL, $scope.user).then(function success(res){
 		      	$scope.user = {permissions:$scope.user.permissions};
 	                   $scope.successPop = true;
@@ -75,11 +81,16 @@ $scope.successPop = false;
 	                }, function errorCallback(err){
 	                    $scope.errorPop = true;
 	                    $scope.successPop = false;
-	                   $scope.errorMsg = err.data;
+	                   $scope.errorMsg = err.data.message;
 
 	                });
 		 }else{
-			alert('Requires')
+			angular.forEach($scope.addnewUserForm.$error, function(error){
+	               angular.forEach(error, function(control){
+	                   control.$setTouched();
+	               })
+               
+           });
 		}
 	}
 
@@ -89,7 +100,7 @@ $scope.successPop = false;
 	                }, function errorCallback(err){
 	                    $scope.errorPop = true;
 	                    $scope.successPop = false;
-	                    $scope.errorMsg = err.data;
+	                    $scope.errorMsg = err.data.message;
 
 	                });
 	}
@@ -134,7 +145,7 @@ $scope.successPop = false;
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-               $scope.errorMsg = err.data;
+               $scope.errorMsg = err.data.message;
 
             });
 	};
@@ -152,7 +163,7 @@ if($location.url().split('/')[1] == 'editUser'){
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-               $scope.errorMsg = err.data;
+               $scope.errorMsg = err.data.message;
 
             });
 
@@ -167,7 +178,7 @@ if($location.url().split('/')[1] == 'editUser'){
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-               $scope.errorMsg = err.data;
+               $scope.errorMsg = err.data.message;
 
             });
 	}
@@ -188,7 +199,7 @@ $scope.deleteConfirmation = function(id){
 		}, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
-               $scope.errorMsg = err.data;
+               $scope.errorMsg = err.data.message;
 
             });
 	}

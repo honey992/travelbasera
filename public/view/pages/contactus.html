@@ -1,0 +1,197 @@
+<div id="page-wrapper">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Contact Details</h3>
+        </div>
+    </div>
+
+ <div ng-show="viewData">
+        <button class="btn btn-primary btn-xs"  ng-click="viewData = !viewData"><i class="fa fa-plus"></i> Add</button>
+    </div>
+    <div ng-hide="viewData">
+        <button class="btn btn-success btn-xs" ng-click="viewData = !viewData;getContacts()"><i class="fa fa-arrow-left"></i> View All</button>
+    </div>
+    <br />
+
+    <div class="panel panel-default" ng-hide="viewData">
+                        <div class="panel-heading"> Add Contact Details </div>
+                        <div class="panel-body">
+                           <div class="row">
+                           <form   name="addContactusForm" novalidate >
+                           <div class="col-md-12">
+                            <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Contact No.</label>
+                                <input type="tel" ng-model="contactD.contactno" name="contactNo" ng-required="true" class="form-control" placeholder="Enter Contatc No.">
+                                 <p class="__errorMsg" ng-show="addContactusForm.contactNo.$touched && addContactusForm.contactNo.$invalid ">
+                                    <span ng-show="addContactusForm.contactNo.$error.required">*Please select county to Add State.</span>
+                                </p> 
+                            </div>
+                            
+                            </div>
+                             <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Email Id</label>
+                                <input type="text" ng-model="contactD.email" name="email" ng-required="true" class="form-control" placeholder="Enter Email Id">
+                                 <p class="__errorMsg" ng-show="addContactusForm.email.$touched && addContactusForm.email.$invalid ">
+                                    <span ng-show="addContactusForm.email.$error.required">*Please Enter State Name.</span>
+                                    <span ng-show="addContactusForm.email.$error.pattern">*Please Enter Valid State Name.</span>
+                                </p> 
+                            </div>
+                            
+                            </div>
+                            <div class="col-lg-4"> 
+                                <label>Address</label>
+                                <textarea class="form-control" rows="3" ng-required="true" name="address" ng-model='contactD.address'></textarea>
+                                
+                                <p class="__errorMsg" ng-show="addContactusForm.address.$touched && addContactusForm.address.$invalid ">
+                                    <span ng-show="addContactusForm.address.$error.required">*Please Address.</span>
+                                </p> 
+                            </div>
+                            </div>
+                            <div class="col-md-12">
+                            <div class="col-md-4">
+                            <label>Website</label>
+                                <input type="text" ng-model="contactD.website" name="web" ng-required="true" class="form-control" placeholder="Enter State Name">
+                                 <p class="__errorMsg" ng-show="addContactusForm.web.$touched && addContactusForm.web.$invalid ">
+                                    <span ng-show="addContactusForm.web.$error.required">*Please Enter Email Id.</span>
+                                    <span ng-show="addContactusForm.web.$error.pattern">*Please Enter Valid Email Id.</span>
+                                </p> 
+                            </div>
+                            </div>
+                            <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-success" ng-click="addContactDetails()" ng-if="!editContactBtn">Add</button>
+                            <button type="submit" class="btn btn-success" ng-click="updateContactDetails(contactD)" ng-if="editContactBtn" >Update</button>
+
+                            <button type="reset" class="btn btn-default">Reset</button>
+                            </div>
+                           </form> 
+                           </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+    </div>
+
+    
+    <div class="panel panel-default" ng-show="viewData">
+                        <div class="panel-heading">Contact us Details</div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="row">
+                            <div class="col-sm-12">
+                            <table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+                                <thead>
+                                    <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">Contact No</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Email Id</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Website</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Address</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">is_Active</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Actions</th>  
+                                </tr>
+                                </thead>
+                                <tbody> 
+                                    <tr class="gradeA odd" role="row" ng-if="editContactBtn">
+                                        <td class="sorting_1">{{contactusData.contactno}}</td>
+                                        <td>{{contactusData.email }}</td>
+                                        <td>{{contactusData.website}}</td>
+                                        <td>{{contactusData.address}}</td>
+                                        <td>{{contactusData.metadata.is_active | statusName}}</td>
+                                        <td class="center"><i style="cursor: pointer;" class="fa fa-pencil" ng-click="viewData = !viewData"></i>&nbsp;&nbsp;
+                                       <!--  -->
+                                        </td> 
+                                    </tr></tbody>
+                            </table></div></div></div>
+                            
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+</div>
+
+<div class="alert alert-success"  ng-show="successPop">
+
+    <strong>Success!</strong><br/> {{successMsg}}
+    <a class="close"  ng-click="successPop=!successPop">×</a>
+  </div>
+  <div class="alert alert-danger" ng-show="errorPop">
+    <strong>Error!</strong><br /> {{errorMsg}}
+    <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
+  </div>
+
+  <!--Edit Modal-->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+    <form name="updateStateForm">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit State </h4>
+      </div>
+      <div class="modal-body">
+      <lable>Country</lable>
+            <select class="form-control" ng-required="true" ng-model='eData.c_id' name="stateCountry">
+                                <option value="{{x.c_code}}-{{x.c_name}}" ng-repeat="x in countryList">{{x.c_name}}</option>
+                                </select>
+                                 <p class="__errorMsg" ng-show="updateStateForm.stateCountry.$touched && updateStateForm.stateCountry.$invalid ">
+                                            <span ng-show="updateStateForm.stateCountry.$error.required">*Please select county to Add State.</span>
+                                </p> 
+            <lable>State Name</lable>
+            <input type="text" class="form-control" ng-model="eData.s_name" name="stateName"/>
+             <p class="__errorMsg" ng-show="updateStateForm.stateName.$touched && updateStateForm.stateName.$invalid ">
+                        <span ng-show="updateStateForm.stateName.$error.required">*Please Enter State Name.</span>
+            </p> 
+
+
+            <br />
+            <lable>Status</lable>
+            <select ng-model="eData.metadata.is_active" class="form-control" name="status">
+
+                <option value=true>Active</option>
+                <option value="false">De Active</option>
+            </select>
+            <p class="__errorMsg" ng-show="updateStateForm.status.$touched && updateStateForm.status.$invalid ">
+                        <span ng-show="updateStateForm.status.$error.required">*Please Select Status.</span>
+            </p> 
+
+        
+      </div>
+      <div class="modal-footer">
+       <button type="button" class="btn btn-success" ng-click="updateState(eData)">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- Delete Modal Confirmation -->
+<div class="modal c" ng-show="deleteConfirmationModal">
+<div class="modal-dialog"> 
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Delete</h4>
+    </div>
+    <div class="modal-body">
+        <p>You really want to delete this state?</p>
+       
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="deleteState()">Yes</button>
+      <button type="button" class="btn btn-default" ng-click="deleteConfirmationModal =!deleteConfirmationModal">No</button>
+    </div>
+    </div> 
+</div>
+</div>
+
+<style>
+.c{
+    display:block;
+}
+</style>

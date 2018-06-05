@@ -19,7 +19,7 @@ app.controller('testimonialsController', function($scope, $http,configuration,$l
 	            }else{
 	            	 $scope.errorPop = true;
 	                $scope.successPop = false;
-	               $scope.errorMsg = err.data
+	               $scope.errorMsg = err.data.message
 	            }
 	           }); 
           }
@@ -40,4 +40,23 @@ app.controller('testimonialsController', function($scope, $http,configuration,$l
           
 		}
 		$scope.fetchReviews();
+
+		$scope.deleteConfirmation = function(id){
+		$scope.deleteId = id;
+		$scope.deleteConfirmationModal = true;
+	}
+	$scope.deleteState = function(){
+		var obj = {id:$scope.deleteId};
+		$http.delete(configuration.TESTIMONIAL_URL+"/"+$scope.deleteId).then(function success(res){
+               $scope.successPop = true;
+               $scope.errorPop = false;
+               $scope.successMsg = res.data.message;
+               $scope.deleteConfirmationModal = false;
+               $scope.fetchReviews();
+            }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+                $scope.errorMsg = err.data.message;
+ 			});
+	}
 });
