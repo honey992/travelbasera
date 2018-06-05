@@ -3,7 +3,7 @@
 var inclusionServices = require('../../services').inclusionServices;
 var _ = require('lodash');
 
-var countryCtrl = {
+var inclusionCtrl = {
 
 	getInclustionsCtrl: function(req, res, next){
 		var options = {};
@@ -24,19 +24,19 @@ var countryCtrl = {
 			if(err){
 				return next(err);
 			}
-			res.json({'status':1,message:'Inclsuion Saved Successfully', data:data});
+			res.json({'status':1,message:'Inclsuions Saved Successfully', data:data});
 		})
 	},
 
-	editCountryCtrl:function(req, res, next){
+	editInclusionCtrl:function(req, res, next){
 		var options = {}; 
 		_.assign(options, req.body);
 		debugger;
-		inclusionServices.editCountryService(options, function(err, data){
+		inclusionServices.updateInclusionService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
-			res.json({'status':1, 'message':'Country Updated Successfully'});
+			res.json({'status':1, 'message':'Inclusions Updated Successfully'});
 		})
 	},
 
@@ -60,4 +60,4 @@ var countryCtrl = {
 	}
 };
 
-module.exports = countryCtrl;
+module.exports = inclusionCtrl;

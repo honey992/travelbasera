@@ -68,4 +68,10 @@ $scope.about = {};
 		 	 
 		 }; 
 
+     $scope.resetAll = function(){
+      $scope.about = {};
+      $scope.aboutusForm.$setPristine();
+      $scope.aboutusForm.$setUntouched();
+     }
+
 });

@@ -204,6 +204,12 @@ $scope.deleteConfirmation = function(id){
             });
 	}
 
+	$scope.resetAll = function(){
+		$scope.user = {};
+		$scope.addnewUserForm.$setPristine();
+		$scope.addnewUserForm.$setUntouched();
+	}
+
 	
 
 });

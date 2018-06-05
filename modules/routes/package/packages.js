@@ -57,7 +57,7 @@ var packCtrl = {
 		_.assign(options, req.params);
 		testimonialServ.deleteReviewsService(options, function(err,result){
 			if(err) return next(err);
-			res.json({'status':1,message:'Review Deleted Successfully'});
+			res.json({'status':1,message:'Package Deleted Successfully'});
 		})
 	}
 };

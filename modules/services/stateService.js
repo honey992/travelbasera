@@ -26,7 +26,7 @@ function fetchLastState(){
  	var deferred = Q.defer();
  	stateModel.find(function(err, data){
  		if(err)
- 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Role"}));
+ 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch State"}));
  		
  		if(data.length){
             var lastElm = data[data.length-1];

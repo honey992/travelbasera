@@ -88,7 +88,7 @@ var cityService = {
  
 		cityModel.find({},function(err, data){
 			if(err)
-				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch cities"}));
+				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch city"}));
 				cb(null,data);
 		});
 	},

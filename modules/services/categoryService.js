@@ -94,7 +94,7 @@ var categoryServ = {
 		console.log(options);
 		debugger;
 		bannersModel.remove({_id:options.id}, function(err, data){
-		if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable to delete Banner"}));
+		if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable to delete Categories"}));
 		debugger;
 			cb(null, data);
 

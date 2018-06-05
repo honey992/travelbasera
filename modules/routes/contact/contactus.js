@@ -33,7 +33,7 @@ var rolesCtrl = {
 				return next(err);
 			}
 		
-			res.json({'status':1,'message':'Role Updated Successfully', data:data});
+			res.json({'status':1,'message':'Contacts Updated Successfully', data:data});
 		})
 	},
 	deleteRolesCtrl:function(req, res, next){
@@ -44,7 +44,7 @@ var rolesCtrl = {
 				return next(err);
 			}
 		
-			res.json({'status':1,'message':'Role Deleted Successfully', data:data});
+			res.json({'status':1,'message':'Contacts Deleted Successfully', data:data});
 		})
 	}
 };

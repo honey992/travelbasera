@@ -8,7 +8,6 @@ module.exports = {
 	cityServices   : require('./cityService'),
 	bannerServices  : require('./bannerService'),
 	testimonialsServices : require('./testimonialsService'),
- 
 	aboutServices : require('./aboutService'),
 	contactServices : require('./contactService'),
 	inclusionServices : require('./inclusionService'),
