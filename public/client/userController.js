@@ -158,7 +158,7 @@ if($location.url().split('/')[1] == 'editUser'){
 	$scope.userId = $routeParams.id;
 	 $http.get(configuration.FETCH_SINGLE_USER+"/"+$scope.userId).then(function success(res){
               $scope.singleUser  = res.data.result;
-              
+              $scope.singleUser.status = Boolean(res.data.result.metadata.is_active);
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
@@ -220,6 +220,13 @@ $scope.deleteConfirmation = function(id){
 		$scope.user.permissions = {};
 		$scope.addnewUserForm.$setPristine();
 		$scope.addnewUserForm.$setUntouched();
+	}
+
+	$scope.resetEditAll = function(){
+		$scope.singleUser = {};
+		$scope.singleUser.permissions = {};
+		$scope.editUserForm.$setPristine();
+		$scope.editUserForm.$setUntouched();
 	}
 
 	

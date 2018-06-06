@@ -58,6 +58,14 @@
                 <span ng-show="editUserForm.role.$error.required">Please select a role.</span>
             </p>
                               </div>
+                              <div class="form-group">
+ 
+                                <label>Status</label>
+                                <select ng-model="singleUser.metadata.is_active" class="form-control">
+                                    <option ng-value="true">Active</option>
+                                    <option ng-value="false">De-Active</option> 
+                                </select>
+                              </div>
                             </div>
                             <div class="col-lg-6">
                             
@@ -101,7 +109,7 @@
                             </div>
                             <div class="col-md-12">
                             <button type="submit" class="btn btn-success" >Update</button>
-                                        <button type="reset" class="btn btn-default">Reset</button>
+                                        <button type="reset" ng-click="resetEditAll()" class="btn btn-default">Reset</button>
                             </div>
                            </form>
                            </div>

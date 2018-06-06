@@ -70,7 +70,7 @@
                                 <label>Status</label>
                                 <select ng-model="user.status" ng-init="user.status='true'" class="form-control">
                                     <option ng-value="true">Active</option>
-                                    <option ng-value="false">Deactive</option> 
+                                    <option ng-value="false">De-Active</option> 
                                 </select>
                               </div>
                             </div>
@@ -184,7 +184,7 @@
     <!-- Modal content-->
     <div class="modal-content">
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <button type="button" class="close" data-dismiss="modal" ng-click="deleteConfirmationModal =!deleteConfirmationModal">&times;</button>
       <h4 class="modal-title">Delete</h4>
     </div>
     <div class="modal-body">
