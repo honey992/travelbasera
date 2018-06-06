@@ -5,6 +5,10 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            <div ng-show="viewData" ng-if="loggedInUser.permissions.users.edit">
+        <button class="btn btn-success btn-xs"  ng-click="toggelView();goToUser()"><i class="fa fa-arrow-left"></i>View All </button>
+    </div>
+    <br />
  
 <div class="panel panel-default">
                         <div class="panel-heading"> Edit User </div>
@@ -14,30 +18,52 @@
                             <div class="col-lg-6">
                             <div class="form-group">
                                             <label>First Name*</label>
-                                            <input type="text" ng-model="singleUser.firstname" class="form-control" placeholder="Enter First Name">
+                                            <input type="text" ng-model="singleUser.firstname" ng-pattern="/^[a-zA-Z ]*$/" name="fname" class="form-control" placeholder="Enter First Name" required>
+                                         <p class="__errorMsg" ng-show="editUserForm.fname.$touched && editUserForm.fname.$invalid ">
+                <span ng-show="editUserForm.fname.$error.required">FirstName is required.</span>
+                <span ng-show="editUserForm.fname.$error.pattern">Enter valid FirstName.</span>
+            </p>
                                         </div>
+                                       
                             <div class="form-group">
                                             <label>Last Name</label>
-                                            <input type="text" ng-model="singleUser.lastname" class="form-control" placeholder="Enter Last Name">
-                                        </div>
-                             <div class="form-group">
-                                            <label>Username*</label>
-                                            <input type="text" ng-model="singleUser.username" disabled="true" class="form-control" placeholder="Enter Password">
+                                            <input type="text" ng-model="singleUser.lastname" ng-pattern="/^[a-zA-Z ]*$/" name = "lname" class="form-control" placeholder="Enter Last Name" required>
+                                            <p class="__errorMsg" ng-show="editUserForm.lname.$touched && editUserForm.lname.$invalid ">
+                <span ng-show="editUserForm.lname.$error.required">LastName is required.</span>
+                <span ng-show="editUserForm.lname.$error.pattern">Enter valid LastName.</span>
+            </p>
                                         </div>
                             <div class="form-group">
                                             <label>Email Id*</label>
-                                            <input type="text" ng-model="singleUser.email" disabled="true" class="form-control" placeholder="Enter Email Id">
+                                            <input type="text" ng-model="singleUser.email" disabled="true" class="form-control" name="email" placeholder="Enter Email Id">
                                         </div>
                             <div class="form-group">
                                             <label>Mobile No*</label>
-                                            <input  type="text" ng-model="singleUser.mobile" class="form-control" placeholder="Enter Mobile No">
+                                            <input  type="text" ng-model="singleUser.mobile" maxlength="10" minlength="10" ng-pattern="/^\d{10}$/" class="form-control" placeholder="Enter Mobile No"  name="mobile" required>
+                                             <p class="__errorMsg" ng-show="editUserForm.mobile.$touched && editUserForm.mobile.$invalid ">
+            <span ng-show="editUserForm.mobile.$error.required">Mobile number is required.</span>
+            <span ng-show="editUserForm.mobile.$error.pattern">Enter valid Mobile number.</span>
+            <span ng-show="editUserForm.mobile.$error.min">Enter valid Mobile number.</span>
+            <span ng-show="editUserForm.mobile.$error.max">Enter valid Mobile number.</span>
+            </p>
                                         </div>
                             
                             <div class="form-group">
  
                                 <label>Role</label>
-                                <select ng-model="singleUser.role" class="form-control">
-                                    <option ng-repeat="x in rolesList" value="{{x.r_code}}">{{x.r_name}}</option> 
+                                <select ng-model="singleUser.role" class="form-control" name="role"required>
+                                    <option ng-repeat="x in rolesList" value="{{x.r_code}}-{{x.r_name}}">{{x.r_name}}</option> 
+                                </select>
+                                <p class="__errorMsg" ng-show="editUserForm.role.$touched && editUserForm.role.$invalid ">
+                <span ng-show="editUserForm.role.$error.required">Please select a role.</span>
+            </p>
+                              </div>
+                              <div class="form-group">
+ 
+                                <label>Status</label>
+                                <select ng-model="singleUser.metadata.is_active" class="form-control">
+                                    <option ng-value="true">Active</option>
+                                    <option ng-value="false">De-Active</option> 
                                 </select>
                               </div>
                             </div>
@@ -83,7 +109,7 @@
                             </div>
                             <div class="col-md-12">
                             <button type="submit" class="btn btn-success" >Update</button>
-                                        <button type="reset" class="btn btn-default">Reset</button>
+                                        <button type="reset" ng-click="resetEditAll()" class="btn btn-default">Reset</button>
                             </div>
                            </form>
                            </div>
@@ -96,10 +122,10 @@
  
 </div>
 <div class="alert alert-success"  ng-show="successPop">
-    <strong>Success!</strong> {{successMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <strong>Success!</strong><br/> {{successMsg}}
+    <a class="close"  ng-click="successPop=!successPop">×</a>
   </div>
   <div class="alert alert-danger" ng-show="errorPop">
-    <strong>Error!</strong> {{errorMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <strong>Error!</strong><br /> {{errorMsg}}
+    <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
   </div>

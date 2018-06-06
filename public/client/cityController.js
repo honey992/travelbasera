@@ -1,5 +1,6 @@
 "use strict";
 
+
 app.controller('cityController', function($scope, $http,configuration,$location,$routeParams){
 		$scope.successPop = false;
 		var url = $location.url();
@@ -10,12 +11,13 @@ app.controller('cityController', function($scope, $http,configuration,$location,
                $scope.countryList = res.data.country;
             }, function errorCallback(err){
                 $scope.errorPop = true;
-                $scope.successPop = false;
+                $scope.successPop = false; 
                 $scope.errorMsg = err.data.message;
  			});
 		 
 		};
 	$scope.getAllCountry();
+
 	$scope.getStates= function(){ 
 	      	$http.get(configuration.STATE_URL).then(function success(res){
                $scope.allStateList = res.data.states;
@@ -39,6 +41,7 @@ app.controller('cityController', function($scope, $http,configuration,$location,
 			if($scope.addCityForm.$valid){
 			var reqObj = $scope.city;
 			$http.post(configuration.CITY_URL, reqObj).then(function success(res){
+			   $scope.resetAll();
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;
@@ -59,6 +62,8 @@ app.controller('cityController', function($scope, $http,configuration,$location,
 		}
 		$scope.resetAll = function(){
 			$scope.city = {};
+			$scope.updateCityForm.$setPristine();
+			$scope.updateCityForm.$setUntouched();
 		}
 
 		$scope.getCities= function(){ 

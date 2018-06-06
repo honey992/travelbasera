@@ -7,6 +7,7 @@ var Q 	=	require('q');
 
 var cityCtrl = {
 
+ 
 	getCityCtrl: function(req, res, next){
 		var options = {};
 		cityServices.getCityService(options, function(err, data){
@@ -18,11 +19,13 @@ var cityCtrl = {
 	addCityCtrl:function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);
+ 
 		// var options = req.body;
 		cityServices.addCityService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
+ 
 			res.json({status:1,message:'City Saved Successfully'});
 		})
 	},
@@ -42,6 +45,7 @@ var cityCtrl = {
 	deleteCityCtrl: function(req,res,next){
 		var options = {};
 		_.assign(options, req.params);
+ 
 		console.log('delete options',options);
 		cityServices.deleteCityService(options, function(err, data){
 			if(err) return next(err);
@@ -49,6 +53,7 @@ var cityCtrl = {
 		})
 	},
 
+ 
 
 	fetchCountryByIdCtrl: function(req,res,next){
 		var options = {};

@@ -52,7 +52,7 @@ function saveInclusion(){
 	return deferred.promise;
 }
 
-function checkStateExist(){
+function checkInclusionExist(){
 	var self = this;
 	var deferred = Q.defer();
 	inclusionModel.find({_id:self._id}, function(err, data){
@@ -63,7 +63,7 @@ function checkStateExist(){
 	return deferred.promise; 
 };
 
-function updateStateData(){
+function updateInclusionData(){
 	var self = this;
 	var deferred = Q.defer();
 	var updateData = {s_name:self.s_name, c_id:self.c_id, metadata:{is_active:self.metadata.is_active}};
@@ -77,7 +77,7 @@ function updateStateData(){
 };
 
 
-var countryService = {
+var inclusionService = {
 
 	getInclusionService:function(options, cb){
 	
@@ -109,13 +109,13 @@ var countryService = {
         } 
 	},
 	
-	updateStateService:function(options, cb){
-debugger;
+	updateInclusionService:function(options, cb){
+
 		if(!options)
             return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create State"}));
 
-       checkStateExist.call(options)
-            .then(updateStateData.bind(options)) 
+       checkInclusionExist.call(options)
+            .then(updateInclusionData.bind(options)) 
             .then(cb)
             .fail(failureCb)
             .catch(failureCb)
@@ -150,4 +150,4 @@ debugger;
 		});
 	}
 };
-module.exports = countryService;
+module.exports = inclusionService;

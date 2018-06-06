@@ -28,7 +28,7 @@ var bannersCtrl = {
 		_.assign(options, req.body);
 		categoryServices.updateBannerService(options, function(err, data){
 			if(err) return next(err); 
-			res.json({message:'Banner Updated Successfully'});
+			res.json({message:'Category Updated Successfully'});
 		})
 	},
 	deleteBannersCtrl:function(req,res,next){
@@ -36,7 +36,7 @@ var bannersCtrl = {
 		_.assign(options, req.params);
 		categoryServices.deleteBanners(options, function(err, result){
 			if(err) return next(err); 
-			res.json({'status':1,'message':'Banner Deleted Successfully'});
+			res.json({'status':1,'message':'Category Deleted Successfully'});
 		})
 	}
 };

@@ -243,6 +243,16 @@ app.controller('packageController', function($scope, $http,configuration,$locati
                 $scope.errorMsg = err.data.message;
  			}); 
 	 }
+
+	 $scope.resetAll = function(){
+		$scope.pack = {};
+		$scope.pack = {highlights:[], inclusions:[],itenary:[], inclusionList :[], exclusionList:[]};
+		$scope.pack.itenary = [{title:'', description:''}];
+		$scope.getInclusions();
+		$scope.pack.selectedInclusion = [];
+		$scope.addNewPackageForm.$setPristine();
+		$scope.addNewPackageForm.$setUntouched();
+	}
 	 
 
 });

@@ -8,6 +8,7 @@ module.exports={
 	cityModel : require('./cityModel'),
 	bannerModel  : require('./bannerModel'),
 	testimonialModel : require('./testimonialsModel'),
+ 
 	aboutModel : require('./aboutModel'),
 	contactModel : require('./contactModel'),
 	inclusionModel : require('./inclusionModel'),

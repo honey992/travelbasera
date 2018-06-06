@@ -18,6 +18,7 @@ $scope.toggelView = function(){
 	               $scope.successPop = true;
 	               $scope.errorPop = false;
 	               $scope.b = {};
+	               $scope.myFile = '';
 	            }else{
 	            	 $scope.errorPop = true;
 	                $scope.successPop = false;

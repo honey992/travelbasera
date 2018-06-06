@@ -43,7 +43,7 @@ var aboutCtrl = {
 				return next(err);
 			}
 		
-			res.json({'status':1,'message':'Role Deleted Successfully', data:data});
+			res.json({'status':1,'message':'About us Deleted Successfully', data:data});
 		})
 	}
 };

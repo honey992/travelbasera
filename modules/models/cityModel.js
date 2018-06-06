@@ -3,6 +3,7 @@ var db = require('../../config/db');
 
 var citySchema = new db.Schema({
 	c_id:{
+ 
 		type:String
 	},
 	s_id:{
@@ -40,6 +41,7 @@ citySchema.pre('save', function(next) {
 	var currentDate = new Date(); 
     this.metadata.modified_at = currentDate; 
     if (!this.metadata.created_at) this.metadata.created_at = currentDate; 
+ 
       
     next();
 });

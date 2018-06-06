@@ -9,13 +9,13 @@ app.controller('aboutController', function($scope, $http,configuration,$location
 $scope.about = {};
 
 		 $scope.addAbout = function(){
-
 		 	$scope.requiredDesc = false;
 		 	if($scope.about.description){
 		 		$http.post(configuration.ABOUT_US_URL, $scope.about).then(function success(res){
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;
+               $scope.getAboutus();
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
@@ -55,6 +55,7 @@ $scope.about = {};
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;
+               $scope.getAboutus();
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
@@ -65,5 +66,11 @@ $scope.about = {};
 		 	}
 		 	 
 		 }; 
+
+     $scope.resetAll = function(){
+      $scope.about = {};
+      $scope.aboutusForm.$setPristine();
+      $scope.aboutusForm.$setUntouched();
+     }
 
 });

@@ -14,7 +14,7 @@ function checkCountryName(){
 	self.c_code = 1;
 	countryModel.find({c_name:self.name}, function(err, data){
 		if(err) 
-			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch State"}));
+			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Country"}));
 		if(data.length)
 			 return deferred.reject(ec.Error({status:ec.DATA_ALREADY_EXISTS, message:'Country Already Exist.'}));
       	
@@ -28,7 +28,7 @@ function fetchLastCountry(){
  	var deferred = Q.defer();
  	countryModel.find(function(err, data){
  		if(err)
- 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Role"}));
+ 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Country"}));
  		
  		if(data.length){
             var lastElm = data[data.length-1];
@@ -99,7 +99,7 @@ var countryService = {
 	deleteCountryService: function(options, cb){
 		
 		countryModel.remove({_id:options.id}, function(err, result){
-			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to delete Country'}));
 			cb(null, result);
 		});
 	},

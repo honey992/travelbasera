@@ -15,7 +15,7 @@
     <br />
 
     <div class="panel panel-default" ng-hide="viewData">
-                        <div class="panel-heading"> Add New Counttry </div>
+                        <div class="panel-heading"> Add New Country </div>
                         <div class="panel-body">
                            <div class="row">
 
@@ -23,7 +23,7 @@
                             <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Country Name</label>
-                                <input type="text" ng-model="coun.name" name="cname" ng-required="true" class="form-control" placeholder="Enter Country Name" ng-pattern="/^[A-z]+$/">
+                                <input type="text" ng-model="coun.name" name="cname" ng-required="true" class="form-control" placeholder="Enter Country Name" ng-pattern="/^[a-zA-Z ]*$/">
                                 <p class="__errorMsg" ng-show="newCountryFrom.cname.$touched && newCountryFrom.cname.$invalid ">
                                     <span ng-show="newCountryFrom.cname.$error.required">*Country name is required.</span>
                                     <span ng-show="newCountryFrom.cname.$error.pattern">*Please enter valid country name.</span>
@@ -33,8 +33,8 @@
                             </div>
                              <div class="col-lg-4"> 
                                 <label>Status</label>
-                                <select class="form-control" ng-required="true" name="status" ng-model='coun.status'>
-                                <option>--Select--</option>
+                                <select class="form-control" ng-init="coun.status=''" ng-required="true" name="status" ng-model='coun.status'>
+                                <option value="" disabled>--Select--</option>
                                 <option value="true">Active</option>
                                 <option value="false">De-Active</option>
                                 </select>
@@ -72,7 +72,7 @@
                                         <td class="sorting_1">{{x.c_name}}</td>
                                         <td>{{x.c_code}}</td>
                                         <td>{{x.metadata.is_active | statusName}}</td>
-                                        <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#myModal" ng-click="editCountry(x)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
+                                        <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#country-Modal" ng-click="editCountry(x);"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                     </tr></tbody>
                             </table></div></div></div>
                             
@@ -118,7 +118,7 @@
 </style>
 
 <!--Edit Modal-->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="country-Modal" class="modal fade" role="dialog"  myModal>
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -128,16 +128,19 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Edit Country </h4>
       </div>
-      <div class="modal-body">
-        
-            <input type="text" class="form-control" ng-model="eData.c_name"/><br />
-            
-            <select ng-model="eData.metadata.is_active" class="form-control">
-
-                <option value="true">Yes</option>
-                <option value="false">No</option>
+      <div class="modal-body">      
+        <input type="text" id="c_name" name="c_name" class="form-control" ng-pattern="/^[a-zA-Z ]*$/" ng-model="eData.c_name" required/>
+            <p class="__errorMsg" ng-show="updateCountryForm.c_name.$touched && updateCountryForm.c_name.$invalid ">
+                                    <span ng-show="updateCountryForm.c_name.$error.required">*Please Enter Country Name.</span>
+                                </p>
+                                <p class="__errorMsg" ng-show="updateCountryForm.c_name.$touched && updateCountryForm.c_name.$invalid ">
+                                    <span ng-show="updateCountryForm.c_name.$error.pattern">*Please Enter valid Country Name.</span>
+                                </p> 
+            <br />
+            <select ng-model="eData.metadata.is_active" ng-init="eData.metadata.is_active='true'" class="form-control">
+                <option ng-value="true">Active</option>
+                <option ng-value="false">De-Active</option>
             </select>
-        
       </div>
       <div class="modal-footer">
        <button type="button" class="btn btn-success" ng-click="updateCountry(eData)">Update</button>

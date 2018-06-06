@@ -20,9 +20,11 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 		}
 
 		$scope.addNewCountry = function(){ 
-			if($scope.newCountryFrom.$valid){
-		      	$http.post(configuration.ADD_COUNTRY_URL, $scope.coun).then(function success(res){
-                  $scope.successPop = true;
+		if($scope.newCountryFrom.$valid){
+		     $http.post(configuration.ADD_COUNTRY_URL, $scope.coun).then(function success(res){
+               $scope.resetAll();
+               $scope.getAllCountry();
+               $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;
             }, function errorCallback(err){
@@ -45,8 +47,6 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 
 		$scope.editCountry = function(editableData){ 
 			$scope.eData = editableData
-			//$location.path('#!/editCountry/'+id);
-			//$scope.callIt(); 
 		};
 
 		$scope.updateCountry = function(upData){
@@ -55,6 +55,8 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 	               $scope.successMsg = res.data.message;
 	               $scope.successPop = true;
 	               $scope.errorPop = false;
+				   $scope.getAllCountry();
+	               
 	            }, function errorCallback(err){
 	                $scope.errorPop = true;
 	                $scope.successPop = false;
@@ -69,38 +71,6 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 				               })
 				               
 				           });
-			}
-		}
-
-		$scope.callIt = function(){ 
-			if($location.url().split('/')[1] == 'editCountry'){
-				var userId = $routeParams.id;
-				$http.get(configuration.FETCH_SINGLE_COUNTRY+"/"+userId).then(function success(res){
-	              $scope.singleUser  = res.data.result;
-	              
-	            }, function errorCallback(err){
-	                $scope.errorPop = true;
-	                $scope.successPop = false;
-	               $scope.errorMsg = err.data.message;
-
-	            });
-
-				$scope.editCountry = function(){
-					 
-				$http.put(configuration.EDIT_COUNTRY_URL+"/"+userId, $scope.singleUser).then(function success(res){
-	               $scope.successMsg = res.data.message;
-	               $scope.successPop = true;
-	               $scope.errorPop = false;
-	            }, function errorCallback(err){
-	                $scope.errorPop = true;
-	                $scope.successPop = false;
-	               $scope.errorMsg = err.data.message;
-
-	            });
-				}
-			}
-			else{
-				alert("surhi")
 			}
 		}
 
@@ -123,6 +93,12 @@ app.controller('countryController', function($scope, $http,configuration,$locati
                $scope.errorMsg = err.data.message;
 			});
 		};
+
+		$scope.resetAll = function(){
+		$scope.coun = {};
+		$scope.newCountryFrom.$setPristine();
+		$scope.newCountryFrom.$setUntouched();
+	}
 	
 
 });

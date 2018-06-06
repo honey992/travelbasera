@@ -47,6 +47,7 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',fu
         }).when("/inclusion", {
             templateUrl: "/view/pages/inclusion.html",
             controller: "inclusionController"
+ 
         }).when("/aboutUs", {
             templateUrl: "/view/pages/about.html",
             controller: "aboutController"

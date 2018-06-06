@@ -197,8 +197,10 @@ var userServ = {
 		});
 	},
 	userEditService: function(options, cb){
+		console.log(options)
 		 if(!options || !options.u)
             return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to update user"}));
+       // options.u.metadata.is_active = options.u.status ||options.u.metadata.is_active ;
 		userModel.update({_id:options.id}, options.u, function(err, result){
 			if(err)
 				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update User'}));

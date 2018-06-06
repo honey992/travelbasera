@@ -7,7 +7,8 @@ app.controller('userRolesController', function($scope, $http,configuration,$loca
 			if($scope.addNewRoles.$valid){
 				var reqObj = {r_name:$scope.role.name, is_active:$scope.role.status};
 		      $http.post(configuration.ADD_ROLES_URL, reqObj).then(function success(res){
-	                    $scope.successPop = true;
+		      		   $scope.role ={};
+	                   $scope.successPop = true;
 		               $scope.errorPop = false;
 		               $scope.successMsg = res.data.message;
 		            }, function errorCallback(err){

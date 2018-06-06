@@ -22,17 +22,18 @@
                             <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Role Name</label>
-                                <input type="text" ng-model="role.name" name="rname" ng-required="true" class="form-control" placeholder="Enter Role Name">
+                                <input type="text" ng-model="role.name" name="rname" ng-pattern="/^[a-zA-Z ]*$/" ng-required="true" class="form-control" placeholder="Enter Role Name">
                                 <p class="__errorMsg" ng-show="addNewRoles.rname.$touched && addNewRoles.rname.$invalid ">
-                                        <span ng-show="addNewRoles.rname.$error.required">*Please Select Role.</span>
+                                        <span ng-show="addNewRoles.rname.$error.required">*Please enter Role.</span>
+                                        <span ng-show="addNewRoles.rname.$error.pattern">*Please enter valid Role.</span>
                             </p>
                             </div>
                             
                             </div>
                             <div class="col-lg-6"> 
                                 <label>Status</label>
-                                <select class="form-control" ng-required="true" name="status" ng-model=role.status>
-                                <option>--Select--</option>
+                                <select class="form-control" name="status" ng-init="role.status=''" ng-model=role.status>
+                                <option value="" disabled>--Select--</option>
                                 <option value="true">Active</option>
                                 <option value="false">De-Active</option>
                                 </select>
@@ -54,7 +55,7 @@
     
     <div class="panel panel-default" ng-show="viewData">
                         <div class="panel-heading">
-                            DataTables Advanced Tables
+                            Roles List
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -97,13 +98,14 @@
     <form name="updateRoleForm">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Edit State </h4>
+        <h4 class="modal-title">Edit Role </h4>
       </div>
       <div class="modal-body">
         <label>Role Name</label>
-            <input type="text" ng-model="eData.r_name" name="rname" ng-required="true" class="form-control" placeholder="Enter Role Name">
+            <input type="text" ng-model="eData.r_name" name="rname" ng-pattern="/^[a-zA-Z ]*$/" ng-required="true" class="form-control" placeholder="Enter Role Name">
             <p class="__errorMsg" ng-show="updateRoleForm.rname.$touched && updateRoleForm.rname.$invalid ">
-                    <span ng-show="updateRoleForm.rname.$error.required">*Please Select Role.</span>
+                    <span ng-show="updateRoleForm.rname.$error.required">*Please enter Role.</span>
+                    <span ng-show="updateRoleForm.rname.$error.pattern">*Please enter valid Role.</span>
         </p>    
 
             <br />
@@ -135,7 +137,7 @@
     <!-- Modal content-->
     <div class="modal-content">
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <button type="button" class="close" data-dismiss="modal" ng-click="deleteConfirmationModal =!deleteConfirmationModal">&times;</button>
       <h4 class="modal-title">Delete</h4>
     </div>
     <div class="modal-body">

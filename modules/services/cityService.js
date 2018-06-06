@@ -10,6 +10,7 @@ const middlewares 	= 	lib.middlewares;
 function checkCityName(){
 	var self = this;
 	var deferred = Q.defer();
+ 
 	self.ci_code = 1;
 	cityModel.find({ci_name:self.name}, function(err, data){
 		if(err) 
@@ -21,6 +22,7 @@ function checkCityName(){
 	});
 	return deferred.promise; 
 };
+ 
 function fetchLastCity(){
  	var self = this;
  	var deferred = Q.defer();
@@ -40,6 +42,7 @@ function saveCity(){
 	var self = this;
 	var deferred = Q.defer();
 	console.log(self);
+
 	 var rejObj = {ci_name:self.name,ci_code:self.ci_code, c_id:self.country, s_id:self.state,'metadata.is_active':self.status};
 	var addCityData = new cityModel(rejObj);
 		addCityData.save(function(err, data){
@@ -50,6 +53,7 @@ function saveCity(){
 	return deferred.promise;
 }
 
+ 
 function checkCityExist(){
 	var self = this;
 	var deferred = Q.defer();
@@ -81,13 +85,15 @@ var cityService = {
 		if(!options)
             return cb(ec.Error({status:ec.DB_ERROR, message :"No data"}));
 
+ 
 		cityModel.find({},function(err, data){
 			if(err)
-				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch cities"}));
+				return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch city"}));
 				cb(null,data);
 		});
 	},
 
+ 
 	addCityService:function(options, cb){
 		
 		if(!options)
@@ -107,6 +113,7 @@ var cityService = {
         } 
 	},
 	
+ 
 	updateCityService:function(options, cb){
 
 		if(!options)
@@ -140,6 +147,7 @@ var cityService = {
 			delete result.id;
 			cb(null, result);
 		});
+ 
 	},
 	stateByIdService: function(options, cb){ 
 		stateModel.find({c_id:options.id}, function(err, result){

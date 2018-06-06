@@ -22,9 +22,10 @@
                             <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Category Name</label>
-                                <input type="text" ng-model="cat.name"  name="name" required  class="form-control" placeholder="Enter Category Name">
+                                <input type="text" ng-model="cat.name"  name="name" ng-pattern="/^[a-zA-Z ]*$/" required  class="form-control" placeholder="Enter Category Name">
                                 <p class="__errorMsg" ng-show="addCategoryForm.name.$touched && addCategoryForm.name.$invalid ">
                                   <span ng-show="addCategoryForm.name.$error.required">*Please enter category name.</span>
+                                  <span ng-show="addCategoryForm.name.$error.pattern">*Please enter valid category name.</span>
                                 </p>
                             </div>
                             
@@ -32,7 +33,7 @@
                             <div class="col-lg-4">
                                 <label>Choose Images</label>
                                  <input type="file" class="form-control" ngf-select ng-model="file" name="file" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile"> 
-                                <p class="info-text">*Please upload banner of 1305*500px</p>
+                                <p class="info-text">*Please upload Category Image of 1305*500px</p>
                                  <p class="__errorMsg" ng-show="addCategoryForm.file.$touched && addCategoryForm.file.$invalid ">
                                   <span ng-show="addCategoryForm.file.$error.required">*Please choose a file.</span>
                                 </p>
@@ -62,7 +63,7 @@
     
     <div class="panel panel-default" ng-show="viewData">
                         <div class="panel-heading">
-                            DataTables Advanced Tables
+                            Category List
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -93,11 +94,11 @@
 
 <div class="alert alert-success"  ng-show="successPop">
     <strong>Success!</strong><br/> {{successMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <a class="close"  ng-click="successPop=!successPop">×</a>
   </div>
   <div class="alert alert-danger" ng-show="errorPop">
     <strong>Error!</strong><br /> {{errorMsg}}
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
   </div>
 
   <!--Edit Modal-->
@@ -109,7 +110,7 @@
     <form name="updateBannerForm">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Edit Banner </h4>
+        <h4 class="modal-title">Edit Category </h4>
       </div>
       <div class="modal-body">
 
@@ -120,7 +121,7 @@
         </p><br />
          <label>Choose Images</label>
         <input type="file" name="file"  class="form-control" file-model="myFile" />
-        <p class="info-text">*Please upload banner of 1305*500px</p>
+        <p class="info-text">*Please upload Category Image of 1305*500px</p>
          <p class="__errorMsg" ng-show="uploadBannerForm.file.$touched && uploadBannerForm.file.$invalid ">
           <span ng-show="uploadBannerForm.file.$error.required">*File is required.</span>
         </p><br />
