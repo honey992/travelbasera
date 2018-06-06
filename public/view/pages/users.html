@@ -15,7 +15,7 @@
     <br />
 
 <div class="panel panel-default" ng-hide="viewData">
-                        <div class="panel-heading"> Add New User </div>
+                        <div class="panel-heading"><u><b> Add New User</b></u> </div>
                         <div class="panel-body">
                            <div class="row">
                            <form ng-submit="addNewUser()" name="addnewUserForm" novalidate>
@@ -135,7 +135,7 @@
 
 
 <div class="panel panel-default" ng-show="viewData">
-                        <div class="panel-heading">User List</div>
+                        <div class="panel-heading"><u><b>User List</b></u></div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -159,7 +159,7 @@
                                         <td>{{x.email}}</td>
                                         <td>{{x.mobile}}</td>
                                         <td class="center">{{x.address}}</td>
-                                        <td class="center">{{x.metadata.is_active}}</td>
+                                        <td class="center">{{x.metadata.is_active | statusName}}</td>
                                          <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#myModal" ng-click="editUser(x._id)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                     </tr></tbody>
                             </table></div></div><div class="row"><div class="col-sm-6"> </div> </div></div>

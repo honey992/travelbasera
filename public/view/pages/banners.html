@@ -15,23 +15,24 @@
     <br />
 
     <div class="panel panel-default" ng-hide="viewData">
-                        <div class="panel-heading"> Add Banners </div>
+                        <div class="panel-heading"><u><b> Add Banners </b></u></div>
                         <div class="panel-body">
                            <div class="row">
                            <form ng-submit="uploadBanners()"  name="uploadBannerForm" novalidate enctype= "multipart/form-data">
                             <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Banner Image Title</label>
-                                <input type="text" ng-model="b.imageTitle"  name="title" required  class="form-control" placeholder="Enter Image Title">
+                                <input type="text" ng-model="b.imageTitle"  ng-pattern="/^[a-zA-Z0-9-_ ]*$/" name="title" required  class="form-control" placeholder="Enter Image Title">
                                 <p class="__errorMsg" ng-show="uploadBannerForm.title.$touched && uploadBannerForm.title.$invalid ">
                                   <span ng-show="uploadBannerForm.title.$error.required">Title is required.</span>
+                                  <span ng-show="uploadBannerForm.title.$error.pattern">Valid Title is required.</span>
                                 </p>
                             </div>
                             
                             </div>
                             <div class="col-lg-4">
                                 <label>Choose Images</label>
-                                <input type="file" name="file"  class="form-control" file-model="myFile" />
+                                <input type="file" name="file" class="form-control" file-model="b.myFile" required/>
                                 <p class="info-text">*Please upload banner Image of 1305*500px</p>
                                  <p class="__errorMsg" ng-show="uploadBannerForm.file.$touched && uploadBannerForm.file.$invalid ">
                                   <span ng-show="uploadBannerForm.file.$error.required">*File is required.</span>
@@ -39,8 +40,8 @@
                             </div>
                             <div class="col-lg-4"> 
                                 <label>Status</label>
-                                <select class="form-control" ng-required="true" name="status" ng-model=b.status>
-                                <option>--Select--</option>
+                                <select class="form-control" ng-required="true" ng-init="b.status=''" name="status"  ng-model="b.status">
+                                <option value="" disabled>--Select--</option>
                                 <option value="true">Active</option>
                                 <option value="false">De-Active</option>
                                 </select>
@@ -63,7 +64,7 @@
     
     <div class="panel panel-default" ng-show="viewData">
                         <div class="panel-heading">
-                            Banners List
+                            <u><b>Banners List</b></u>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
