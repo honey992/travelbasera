@@ -5,8 +5,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		$scope.viewData = true;
 		$scope.showHighlightError = false;
 		$scope.itenaryError = false;
-		$scope.packageTypes = [{name:'National', code:'1'},{name:'International', code:'2'}];
-		$scope.packageCategogy = [{name:'National', code:'1'},{name:'International', code:'2'}];
+		$scope.packageTypes = [{name:'Domestic', code:'1'},{name:'International', code:'2'}];
 		$scope.pack = {highlights:[], inclusions:[],itenary:[], inclusionList :[], exclusionList:[]};
 
  		$scope.addmorehighlights = function(){
@@ -32,7 +31,13 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		};
 		$scope.getInclusions();
 
-		$scope.sourceCity = [{code:"1", name:"Delhi"},{code:"2", name:"Mumbai"}];
+		$scope.getSourceCity = function(){
+			$http.get('client/sourceCity.json').then(function(res){
+				$scope.sourceCity = res.data;
+			})
+		};
+		$scope.getSourceCity();
+		// $scope.sourceCity = [{code:"1", name:"Delhi"},{code:"2", name:"Mumbai"}];
 
 		$scope.pack.selectedInclusion = [];
 		$scope.selectInclusion = function(obj){
@@ -93,8 +98,17 @@ app.controller('packageController', function($scope, $http,configuration,$locati
                 $scope.errorMsg = err.data.message;
  			});
 		}
+		$scope.getCityByState = function(s_code){
+				$http.get(configuration.CITY_URL+"/"+s_code).then(function success(res){
+               $scope.cityList = res.data.states;
+            }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+                $scope.errorMsg = err.data.message;
+ 			});
 
-		$scope.cityList = [{city_name:'Shimla', city_code:'1'},{city_name:'Kanpur', city_code:'2'},{city_name:'Lucknow', city_code:'3'}]
+		}
+		//$scope.cityList = [{city_name:'Shimla', city_code:'1'},{city_name:'Kanpur', city_code:'2'},{city_name:'Lucknow', city_code:'3'}]
 		 
 		 $scope.addmoreInclusions = function(){
 			if($scope.inclusionTxt){
@@ -136,27 +150,32 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 
 
 		$scope.saveNewPackage = function(files){
+			console.log("data==", $scope.pack)
 			if($scope.addNewPackageForm.$valid ){ 
-			Upload.upload({
-			      url:configuration.PACKAGE_URL, 
-			      arrayKey: '',
-			      data: {data:$scope.pack,file: files} 
-			    }).then(function (resp) {
-            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-        }, function (resp) {
-            console.log('Error status: ' + resp.status);
-        }, function (evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-        });
-			 //    $http.post(configuration.PACKAGE_URL, $scope.pack).then(function success(res){  
-			 //       if(res.data.status)
-			 //       	$scope.uploadImages(file, res.data.data.packageId);
-			 //       }, function errorCallback(err){
+				// $http.post(configuration.PACKAGE_URL, {data:$scope.pack}).then(function success(res){
+    //            $scope.incList = res.data.inclusions;
+    //         }, function errorCallback(err){
     //             $scope.errorPop = true;
     //             $scope.successPop = false;
     //             $scope.errorMsg = err.data.message;
- 			// }); 
+ 			// });
+					Upload.upload({
+					      url:configuration.PACKAGE_URL, 
+					      arrayKey: '',
+					      data: {data:$scope.pack,file: files} 
+					    }).then(function (resp) {
+		            			$scope.successPop = true;
+			                   $scope.errorPop = false;
+			                   $scope.successMsg = resp.data.message;
+			        }, function (err) {
+			                $scope.errorPop = true;
+			                $scope.successPop = false;
+			                $scope.errorMsg = err.data.message;
+			        }, function (evt) {
+			            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+			            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+			        });
+			 
 				}else{
 					$scope.showHighlightError = true;
 					$scope.itenaryError = true;
@@ -178,8 +197,10 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			      data: {data:packId,file: files} 
 			    }).then(function (resp) {
             console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-        }, function (resp) {
-            console.log('Error status: ' + resp.status);
+        }, function (err) {
+            $scope.errorPop = true;
+                $scope.successPop = false;
+                $scope.errorMsg = err.data.message;
         }, function (evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);

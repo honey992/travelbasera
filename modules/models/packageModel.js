@@ -26,23 +26,23 @@ var packageSchema = new db.Schema({
 		trim:true
 	}, 
 	highlights:[{
-		title:String 
+		title:{type:String} 
 	}],
 	description:{
 		type:String
 	},
 	selectedInclusion:[{
-		i_name:String,
-		i_code:String
+		i_name:{type:String},
+		i_code:{type:String}
 	}],
 	imagesId:{
-		type: db.Schema.Types.ObjectId ,ref: 'ADMIN_PackageImages'
+		type: db.Schema.Types.ObjectId ,ref: 'admin_packageimages'
 	},
 	rateId:{
-		type: db.Schema.Types.ObjectId ,ref: 'ADMIN_Rates'
+		type: db.Schema.Types.ObjectId ,ref: 'admin_rates'
 	},
 	itenaryId:{
-		type: db.Schema.Types.ObjectId ,ref: 'ADMIN_Itenary'
+		type: db.Schema.Types.ObjectId ,ref: 'admin_itenaries'
 	},
 	metadata:{
 		is_active:{ 

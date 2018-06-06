@@ -133,9 +133,9 @@ var cityService = {
 		});
 	},
 
-	fetchCountryByIdService: function(options, cb){
+	cityByIdService: function(options, cb){
 		
-		countryModel.findOne({_id:options.id}, function(err, result){
+		cityModel.find({s_id:options.id}, function(err, result){
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
 			delete result.id;
 			cb(null, result);

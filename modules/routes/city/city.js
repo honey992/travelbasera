@@ -73,7 +73,7 @@ var cityCtrl = {
 		_.assign(options, req.params);
 		cityServices.cityByIdService(options, function(err, data){
 			if(err) return next(err);
-			res.json({'city':1,states:data});
+			res.json({'status':1,cities:data});
 		})
 	}
 };

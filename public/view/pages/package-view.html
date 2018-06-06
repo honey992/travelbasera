@@ -5,7 +5,7 @@
             <h3 class="page-header">Packages Details</h3>
         </div>
     </div>
- 
+ {{packageDetails|json}}
   
  <table border="1"  width="100%" class="table  table-bordered table-hover" width="100%">
  <tr>
@@ -14,7 +14,7 @@
  </tr>
  <tr>
      <td width="20%"><b>Description:</b></td>
-     <td width="80%">{{packageDetails.description}}</td>
+     <td width="80%"><p ng-bind-html="packageDetails.description"></p></td>
  </tr>
  <tr>
      <td width="20%"><b>Country:</b></td>
@@ -53,13 +53,30 @@
      <td width="20%"><b>Inclusions:</b></td>
      <td width="80%">
         <ul>
-            <li ng-repeat="x in packageDetails.selectedInclusion">{{x.title}}</li>
+            <li ng-repeat="x in packageDetails.selectedInclusion">{{x.i_name}}</li>
+        </ul>
+     </td>
+ </tr>
+
+ <tr>
+     <td width="20%"><b>Rate/Days/Nights:</b></td>
+     <td width="80%"> {{packageDetails.rate[0].package_rate}}  /{{packageDetails.rate[0].package_days}}/{{packageDetails.rate[0].package_nights}}   </td>
+ </tr>
+ <tr>
+     <td width="20%"><b>Detailed Inclusions:</b></td>
+     <td width="80%">
+        <ul>
+            <li ng-repeat="x in packageDetails.inclusionList">{{x}}</li>
         </ul>
      </td>
  </tr>
  <tr>
-     <td width="20%"><b>Rate/Days/Nights:</b></td>
-     <td width="80%"> {{packageDetails.rate[0].package_rate}}  /{{packageDetails.rate[0].package_days}}/{{packageDetails.rate[0].package_nights}}   </td>
+     <td width="20%"><b>Exclusions:</b></td>
+     <td width="80%">
+        <ul>
+            <li ng-repeat="x in packageDetails.exclusionList">{{x}}</li>
+        </ul>
+     </td>
  </tr>
  <tr>
      <td width="20%"><b>Itenary:</b></td>

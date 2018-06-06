@@ -65,7 +65,7 @@ function savePackageImages(){
  function savePackageDetails(){
  	var deferred = Q.defer();
  	var self = this;
- 	var otherDetails = self.data; 
+ 	var otherDetails = self.data;  
  	var reqObj = {
  		        'category':otherDetails.category,
  		        'type':otherDetails.type,
@@ -80,8 +80,8 @@ function savePackageImages(){
  				'imagesId':self.imagesId,
  				'rateId':self.rateId,
  				'itenaryId':self.itenaryId
-    };
- 	var newPack = new packageModel(reqObj);
+    }; 
+ 	var newPack = new packageModel(reqObj); 
  	newPack.save(function(err, data){
  		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package details"}));
  		self.packageId = data._id;
@@ -109,6 +109,7 @@ function savePackageImages(){
 var packageServ = {
 	 
 	addPackageService: function(options,cb){
+		console.log('options==', JSON.stringify(options))
 		if(!options)
 			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to add Package"}));
 		savePackageImages.call(options)

@@ -46,7 +46,6 @@ app.use(express.static(path.join(__dirname, '/')));
  	if((_url != '/api/login' && url_method == 'POST' ) ){
  		var currentUser = jwt.verify(token.split('Bearer ')[1], jwtSecret);
  		req.body.metadata['created_by'] = { id:currentUser._id, name : currentUser.firstname };
- 		 debugger;
  		console.log('Yes')
  	}else{
  		console.log('No')
