@@ -69,6 +69,10 @@ app.controller('contactController', function($scope, $http,configuration,$locati
 		}
 		
 	}; 
+
+	$scope.editContact = function(){
+			$scope.viewData = false;
+	}
 });
 
 app.filter('splitName', function(){

@@ -23,7 +23,7 @@
                             <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Contact No.</label>
-                                <input type="tel" ng-model="contactD.contactno" name="contactNo" ng-required="true" maxlength="10" minlength="10" ng-pattern="/^\d{10}$/" class="form-control" placeholder="Enter Contatc No."> 
+                                <input type="tel" ng-model="contactD.contactno" name="contactNo" ng-required="true" maxlength="10" minlength="10" ng-pattern="/^\d{10}$/" class="form-control" placeholder="Enter Contact Number"> 
                                 <p class="__errorMsg" ng-show="addContactusForm.contactNo.$touched && addContactusForm.contactNo.$invalid">
             <span ng-show="addContactusForm.contactNo.$error.required">Contact Number is required.</span>
             <span ng-show="addContactusForm.contactNo.$error.pattern">Enter valid Contact number.</span>
@@ -47,7 +47,7 @@
                             </div>
                             <div class="col-lg-4"> 
                                 <label>Address</label>
-                                <textarea class="form-control" rows="3" ng-required="true" name="address" ng-model='contactD.address'></textarea>
+                                <textarea class="form-control" rows="3" ng-required="true" name="address" ng-model='contactD.address' placeholder="Enter Address"></textarea>
                                 
                                 <p class="__errorMsg" ng-show="addContactusForm.address.$touched && addContactusForm.address.$invalid ">
                                     <span ng-show="addContactusForm.address.$error.required">*Please enter Address.</span>
@@ -57,7 +57,7 @@
                             <div class="col-md-12">
                             <div class="col-md-4">
                             <label>Website</label>
-                                <input type="text" ng-model="contactD.website" name="web" ng-required="true" class="form-control" placeholder="Enter State Name">
+                                <input type="text" ng-model="contactD.website" name="web" ng-required="true" class="form-control" placeholder="Enter Webiste">
                                  <p class="__errorMsg" ng-show="addContactusForm.web.$touched && addContactusForm.web.$invalid ">
                                     <span ng-show="addContactusForm.web.$error.required">*Please Enter Website URL.</span>
                                 </p> 
@@ -102,7 +102,7 @@
                                         <td>{{contactusData.website}}</td>
                                         <td>{{contactusData.address}}</td>
                                         <td>{{contactusData.metadata.is_active | statusName}}</td>
-                                        <td class="center"><i style="cursor: pointer;" class="fa fa-pencil" ng-click="viewData = !viewData"></i>&nbsp;&nbsp;
+                                        <td class="center"><i class="fa fa-pencil" ng-click="editContact()"></i>&nbsp;&nbsp;
                                        <!--  -->
                                         </td> 
                                     </tr></tbody>
