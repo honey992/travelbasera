@@ -35,7 +35,7 @@
                              <div class="col-lg-4">
                             <div class="form-group">
                                 <label>State Name</label>
-                                <input type="text" ng-model="state.name" name="stateName" ng-required="true" class="form-control" placeholder="Enter State Name">
+                                <input type="text" ng-model="state.name" name="stateName" ng-pattern="/^[a-zA-Z ]*$/" ng-required="true" class="form-control" placeholder="Enter State Name">
                                  <p class="__errorMsg" ng-show="addStateForm.stateName.$touched && addStateForm.stateName.$invalid ">
                                             <span ng-show="addStateForm.stateName.$error.required">*Please Enter State Name.</span>
                                             <span ng-show="addStateForm.stateName.$error.pattern">*Please Enter Valid State Name.</span>
@@ -45,26 +45,12 @@
                             </div>
                             <div class="col-lg-4"> 
                                 <label>Status</label>
-                                <select class="form-control" ng-required="true" name="status" ng-model='state.status'>
-                                <option>--Select--</option>
+                                <select class="form-control" ng-init="state.status=''" name="status" ng-model='state.status'>
+                                <option value="" disabled>--Select--</option>
                                 <option value="true">Active</option>
                                 <option value="false">De-Active</option>
-                                </select>
-                                <p class="__errorMsg" ng-show="addStateForm.status.$touched && addStateForm.status.$invalid ">
-                                    <span ng-show="addStateForm.status.$error.required">*Please Enter State Name.</span>
-                                </p> 
+                                </select> 
                             </div>
-                           <!--  <div class="col-md-12">
-                                <div class="col-lg-4"> 
-                                <label>Choose Image</label>
-                                <input type="file"  ngf-select ng-model="imagesFile" name="file"  
-             accept="image/*" ngf-max-size="1MB" required ngf-model-invalid="errorFile"> 
-                                <p class="__errorMsg" ng-show="addStateForm.status.$touched && addStateForm.status.$invalid ">
-                                    <span ng-show="addStateForm.status.$error.required">*Please Choose an image.</span>
-                                </p> 
-                            </div>
-                            </div> -->
-
                             <div class="col-md-12 text-center">
                             <button type="submit" class="btn btn-success"  >Add</button>
                                         <button ng-click="resetAll();" class="btn btn-default">Reset</button>
@@ -99,7 +85,7 @@
                                         <td class="sorting_1">{{x.s_name}}</td>
                                         <td>{{x.c_id | splitName}}</td>
                                         <td>{{x.s_code}}</td>
-                                        <td>{{x.metadata.is_active}}</td>
+                                        <td>{{x.metadata.is_active | statusName}}</td>
                                         <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#myModal" ng-click="openEditPopup(x)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                     </tr></tbody>
                             </table></div></div></div>
@@ -137,18 +123,18 @@
                                             <span ng-show="updateStateForm.stateCountry.$error.required">*Please select county to Add State.</span>
                                 </p> 
             <lable>State Name</lable>
-            <input type="text" class="form-control" ng-model="eData.s_name" name="stateName"/>
+            <input type="text" class="form-control" ng-model="eData.s_name" ng-pattern="/^[a-zA-Z ]*$/" name="stateName" required/>
              <p class="__errorMsg" ng-show="updateStateForm.stateName.$touched && updateStateForm.stateName.$invalid ">
                         <span ng-show="updateStateForm.stateName.$error.required">*Please Enter State Name.</span>
+                        <span ng-show="updateStateForm.stateName.$error.pattern">*Please Enter Valid State Name.</span>
             </p> 
 
 
             <br />
             <lable>Status</lable>
-            <select ng-model="eData.metadata.is_active" class="form-control" name="status">
-
+            <select ng-model="eData.metadata.is_active" ng-init="eData.metadata.is_active='true'" class="form-control" name="status">
                 <option value=true>Active</option>
-                <option value="false">De Active</option>
+                <option value="false">De-Active</option>
             </select>
             <p class="__errorMsg" ng-show="updateStateForm.status.$touched && updateStateForm.status.$invalid ">
                         <span ng-show="updateStateForm.status.$error.required">*Please Select Status.</span>

@@ -41,6 +41,7 @@ app.controller('cityController', function($scope, $http,configuration,$location,
 			if($scope.addCityForm.$valid){
 			var reqObj = $scope.city;
 			$http.post(configuration.CITY_URL, reqObj).then(function success(res){
+			   $scope.resetAll();
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;
@@ -61,6 +62,8 @@ app.controller('cityController', function($scope, $http,configuration,$location,
 		}
 		$scope.resetAll = function(){
 			$scope.city = {};
+			$scope.updateCityForm.$setPristine();
+			$scope.updateCityForm.$setUntouched();
 		}
 
 		$scope.getCities= function(){ 

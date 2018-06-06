@@ -9,7 +9,6 @@ app.controller('aboutController', function($scope, $http,configuration,$location
 $scope.about = {};
 
 		 $scope.addAbout = function(){
-
 		 	$scope.requiredDesc = false;
 		 	if($scope.about.description){
 		 		$http.post(configuration.ABOUT_US_URL, $scope.about).then(function success(res){

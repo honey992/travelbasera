@@ -13,6 +13,7 @@ app.controller('categoryController', function($scope, $http,configuration,$locat
 			      url:configuration.CATEGORY_URL, 
 			      data: {data:$scope.cat,file: file} 
 			    }).then(function (resp) {
+			       $scope.resetAll();
 		           $scope.successPop = true;
 	               $scope.errorPop = false;
 	               $scope.successMsg = resp.data.message;
@@ -97,6 +98,13 @@ app.controller('categoryController', function($scope, $http,configuration,$locat
                 $scope.successPop = false;
                 $scope.errorMsg = err.data.message;
  			});
+	}
+
+	$scope.resetAll = function(){
+		$scope.cat = {};
+		$scope.file = null;
+		$scope.addCategoryForm.$setPristine();
+		$scope.addCategoryForm.$setUntouched();
 	}
 	
 

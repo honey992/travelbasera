@@ -72,9 +72,9 @@ $scope.successPop = false;
 
 	$scope.addNewUser = function(newUser){
 			if($scope.addnewUserForm.$valid && !$scope.samePasswordError){
- 
 		      $http.post(configuration.SIGN_UP_URL, $scope.user).then(function success(res){
-		      	$scope.user = {permissions:$scope.user.permissions};
+		      		   $scope.resetAll();
+		      		   $scope.fetchUsers();
 	                   $scope.successPop = true;
 	                   $scope.errorPop = false;
 	                   $scope.successMsg = res.data.message;
@@ -94,7 +94,7 @@ $scope.successPop = false;
 		}
 	}
 
-	$scope.fetchUsers = function(newUser){ 
+	$scope.fetchUsers = function(){ 
 		      $http.get(configuration.FETCH_USERS_URL).then(function success(res){
 	                   $scope.userData = res.data.users;
 	                }, function errorCallback(err){
@@ -149,15 +149,14 @@ $scope.successPop = false;
 
             });
 	};
-   console.log($location.url())
-
 	$scope.editUser = function(id){
 		$location.path('/editUser/'+id); 
+		$scope.viewData = false;
 	};
 
 if($location.url().split('/')[1] == 'editUser'){
-	var userId = $routeParams.id;
-	 $http.get(configuration.FETCH_SINGLE_USER+"/"+userId).then(function success(res){
+	$scope.userId = $routeParams.id;
+	 $http.get(configuration.FETCH_SINGLE_USER+"/"+$scope.userId).then(function success(res){
               $scope.singleUser  = res.data.result;
               
             }, function errorCallback(err){
@@ -167,13 +166,12 @@ if($location.url().split('/')[1] == 'editUser'){
 
             });
 
-	$scope.editUser = function(){
-		 
-		$http.put(configuration.UPDATE_USER_URL+"/"+userId, $scope.singleUser).then(function success(res){
+$scope.editUser = function(){
+	if($scope.editUserForm.$valid){
+		$http.put(configuration.UPDATE_USER_URL+"/"+$scope.userId, $scope.singleUser).then(function success(res){
                $scope.successMsg = res.data.message;
                $scope.successPop = true;
                $scope.errorPop = false;
-               // $scope.singleUser = {};
                $scope.singleUser.permissions = $scope.user.permissions;
             }, function errorCallback(err){
                 $scope.errorPop = true;
@@ -181,8 +179,20 @@ if($location.url().split('/')[1] == 'editUser'){
                $scope.errorMsg = err.data.message;
 
             });
+		}else{
+			angular.forEach($scope.editUserForm.$error, function(error){
+	               angular.forEach(error, function(control){
+	                   control.$setTouched();
+	               })
+               
+           });
+		}
 	}
+	
 };
+$scope.goToUser = function(){
+		$location.path('/users'); 
+	}
 
 
 $scope.deleteConfirmation = function(id){
@@ -192,9 +202,10 @@ $scope.deleteConfirmation = function(id){
 	$scope.deleteUser = function(){ 
 		$scope.id = $scope.deleteId ;
 		$http.delete(configuration.DELETE_USER_URL+"/"+$scope.id).then(function success(res){
-				$scope.successMsg = res.data.message;
+			   $scope.successMsg = res.data.message;
                $scope.successPop = true;
                $scope.errorPop = false;
+               $scope.deleteConfirmationModal = false;
                $scope.fetchUsers();
 		}, function errorCallback(err){
                 $scope.errorPop = true;
@@ -206,6 +217,7 @@ $scope.deleteConfirmation = function(id){
 
 	$scope.resetAll = function(){
 		$scope.user = {};
+		$scope.user.permissions = {};
 		$scope.addnewUserForm.$setPristine();
 		$scope.addnewUserForm.$setUntouched();
 	}

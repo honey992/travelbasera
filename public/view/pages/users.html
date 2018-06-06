@@ -22,39 +22,44 @@
                             <div class="col-lg-6">
                             <div class="form-group">
                                             <label>First Name*</label>
-                                            <input type="text" ng-model="user.firstname" name="fname" class="form-control" placeholder="Enter First Name" required>
+                                            <input type="text" ng-model="user.firstname" ng-pattern="/^[a-zA-Z ]*$/" name="fname" class="form-control" placeholder="Enter First Name" required>
             <p class="__errorMsg" ng-show="addnewUserForm.fname.$touched && addnewUserForm.fname.$invalid ">
                 <span ng-show="addnewUserForm.fname.$error.required">FirstName is required.</span>
+                <span ng-show="addnewUserForm.fname.$error.pattern">Enter valid FirstName.</span>
             </p>
                                         </div>
                             <div class="form-group">
                                             <label>Last Name</label>
-                                            <input type="text" ng-model="user.lastname" name = "lname" class="form-control" placeholder="Enter Last Name" required>
+                                            <input type="text" ng-model="user.lastname" ng-pattern="/^[a-zA-Z ]*$/" name = "lname" class="form-control" placeholder="Enter Last Name" required>
                                             <p class="__errorMsg" ng-show="addnewUserForm.lname.$touched && addnewUserForm.lname.$invalid ">
                 <span ng-show="addnewUserForm.lname.$error.required">LastName is required.</span>
+                <span ng-show="addnewUserForm.lname.$error.pattern">Enter valid LastName.</span>
             </p>
                                         </div> 
                             <div class="form-group">
                                             <label>Email Id*</label>
-                                            <input type="text" ng-model="user.email" name="email" class="form-control" placeholder="Enter Email Id" required>
+                                            <input type="text" ng-model="user.email" ng-pattern="/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/" name="email" class="form-control" placeholder="Enter Email Id" required>
                                             <p class="__errorMsg" ng-show="addnewUserForm.email.$touched && addnewUserForm.email.$invalid ">
                 <span ng-show="addnewUserForm.email.$error.required">Email is required.</span>
+                <span ng-show="addnewUserForm.email.$error.pattern">Enter valid Email.</span>
             </p>
                                         </div>
                             <div class="form-group">
                                             <label>Mobile No*</label>
-                                            <input  type="text" ng-model="user.mobile" class="form-control" placeholder="Enter Mobile No"  name="mobile" required>
+                                            <input  type="text" ng-model="user.mobile" maxlength="10" minlength="10" ng-pattern="/^\d{10}$/" class="form-control" placeholder="Enter Mobile No"  name="mobile" required>
                                             <p class="__errorMsg" ng-show="addnewUserForm.mobile.$touched && addnewUserForm.mobile.$invalid ">
-                <span ng-show="addnewUserForm.mobile.$error.required">Mobile number is required.</span>
+            <span ng-show="addnewUserForm.mobile.$error.required">Mobile number is required.</span>
+            <span ng-show="addnewUserForm.mobile.$error.pattern">Enter valid Mobile number.</span>
+            <span ng-show="addnewUserForm.mobile.$error.min">Enter valid Mobile number.</span>
+            <span ng-show="addnewUserForm.mobile.$error.max">Enter valid Mobile number.</span>
             </p>
-
                                         </div>
                             
                             <div class="form-group">
 
                                 <label>Role</label>
-                                <select ng-model="user.role" class="form-control" name="role" required>
-                                    <option ng-repeat="x in rolesList" value="{{x.r_code}}">{{x.r_name}}</option> 
+                                <select ng-model="user.role" class="form-control" name="role" placeholder="Select Role" required>
+                                    <option ng-repeat="x in rolesList" value="{{x.r_code}}-{{x.r_name}}">{{x.r_name}}</option> 
                                 </select>
                                 <p class="__errorMsg" ng-show="addnewUserForm.role.$touched && addnewUserForm.role.$invalid ">
                 <span ng-show="addnewUserForm.role.$error.required">Please select a role.</span>
@@ -63,13 +68,10 @@
                               <div class="form-group">
  
                                 <label>Status</label>
-                                <select ng-model="user.status" class="form-control" name="status" required>
-                                    <option value="true">Active</option>
-                                    <option value="false">Deactive</option> 
+                                <select ng-model="user.status" ng-init="user.status='true'" class="form-control">
+                                    <option ng-value="true">Active</option>
+                                    <option ng-value="false">Deactive</option> 
                                 </select>
-                                <p class="__errorMsg" ng-show="addnewUserForm.status.$touched && addnewUserForm.status.$invalid ">
-                <span ng-show="addnewUserForm.status.$error.required">Please select status</span>
-            </p>
                               </div>
                             </div>
                             <div class="col-lg-6">
@@ -143,6 +145,7 @@
                                 <thead>
                                     <tr role="row">
                                     <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">Name</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Role</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Email</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Mobile</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 139px;">Address</th>
@@ -152,6 +155,7 @@
                                 </thead>
                                 <tbody> <tr class="gradeA odd" role="row" ng-repeat="x in userData">
                                         <td class="sorting_1">{{x.firstname}} {{x.lastname}}</td>
+                                        <td>{{x.role | splitName}}</td>
                                         <td>{{x.email}}</td>
                                         <td>{{x.mobile}}</td>
                                         <td class="center">{{x.address}}</td>
