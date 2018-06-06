@@ -1,16 +1,15 @@
 "use strict";
 
 app.controller('bannerController', function($scope, $http,configuration,$location,fileUpload){
-
 		$scope.viewData = true; 
-$scope.toggelView = function(){
-		$scope.viewData = !$scope.viewData;
-	}
+		$scope.toggelView = function(){
+				$scope.viewData = !$scope.viewData;
+			}
+
 		 $scope.uploadBanners = function(){
 		 	if($scope.uploadBannerForm.$valid){ 
-	            var file = $scope.myFile;
+	            var file = $scope.b.myFile;
 	            var details = $scope.b; 
-	            
 	            var uploadUrl = configuration.UPLOAD_BANNER_URL;
 	           fileUpload.uploadFileToUrl(file, uploadUrl,details,'banner', function(d){
 	            if(d){
@@ -18,7 +17,7 @@ $scope.toggelView = function(){
 	               $scope.successPop = true;
 	               $scope.errorPop = false;
 	               $scope.b = {};
-	               $scope.myFile = '';
+	               $scope.fetchBanners();
 	            }else{
 	            	 $scope.errorPop = true;
 	                $scope.successPop = false;

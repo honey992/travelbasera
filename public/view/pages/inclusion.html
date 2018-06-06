@@ -15,7 +15,7 @@
     <br />
 
     <div class="panel panel-default" ng-hide="viewData">
-                        <div class="panel-heading"> Add Inclusion </div>
+                        <div class="panel-heading"><u><b> Add Inclusion</b></u> </div>
                         <div class="panel-body">
                            <div class="row">
 
@@ -23,9 +23,10 @@
                             <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Inclusion Name</label>
-                                <input type="text" ng-model="inc.name" name="name" ng-required="true" class="form-control" placeholder="Enter Inclusion Name">
+                                <input type="text" ng-model="inc.name" name="name" ng-pattern="/^[a-zA-Z0-9-_ ]*$/" ng-required="true" class="form-control" placeholder="Enter Inclusion Name">
                                  <p class="__errorMsg" ng-show="inclusionForm.name.$touched && inclusionForm.name.$invalid ">
                                     <span ng-show="inclusionForm.name.$error.required">*Please Enter Inclusion Name</span>
+                                    <span ng-show="inclusionForm.name.$error.pattern">*Please Enter valid Inclusion Name</span>
                                 </p> 
                             </div>
                             
@@ -43,8 +44,8 @@
                             <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Status</label>
-                                <select class="form-control" ng-required="true" name="status" ng-model="inc.status">
-                                    <option>--Select--</option>
+                                <select class="form-control" ng-init="inc.status=''" name="status" ng-model="inc.status">
+                                    <option value="" disabled>--Select--</option>
                                     <option value="true">Active</option>
                                     <option value="false">De-Active</option>
                                 </select>
@@ -54,7 +55,7 @@
                             </div> 
                             </div>
                             <div class="col-md-12">
-                            <button type="submit" class="btn btn-success"  >Add</button>
+                            <button type="submit" class="btn btn-success">Add</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                             </div>
                            </form> 
@@ -68,9 +69,8 @@
     <div class="panel panel-default" ng-show="viewData">
      
                         <div class="panel-heading">
-                            Inclusions list
+                            <u><b>Inclusions list</b></u>
                         </div>
-                        <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             <div class="row">
@@ -89,9 +89,8 @@
                                         <td class="sorting_1">{{x.i_name}}</td>
                                         <td><a href="{{x.i_icon}}"><img src="{{x.i_icon}}" width="60px" height="60px" /></a></td>
                                         <td>{{x.i_code}}</td>
-                                        <td>{{x.metadata.is_active}}</td>
+                                        <td>{{x.metadata.is_active | statusName}}</td>
                                         <td class="center">
-                                        <!-- <i class="fa fa-pencil" ng-click="editCountry(x._id)"></i>&nbsp;&nbsp; -->
                                         <i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i>
                                     </td> 
                                     </tr></tbody>
@@ -117,7 +116,7 @@
     <!-- Modal content-->
     <div class="modal-content">
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <button type="button" class="close" data-dismiss="modal" ng-click="deleteConfirmationModal =!deleteConfirmationModal">&times;</button>
       <h4 class="modal-title">Delete</h4>
     </div>
     <div class="modal-body">

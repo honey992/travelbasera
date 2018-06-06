@@ -15,7 +15,7 @@
     <br />
 
     <div class="panel panel-default" ng-hide="viewData">
-                        <div class="panel-heading"> Add Contact Details </div>
+                        <div class="panel-heading"><u><b> Add Contact Details</b></u> </div>
                         <div class="panel-body">
                            <div class="row">
                            <form   name="addContactusForm" novalidate >
@@ -23,40 +23,43 @@
                             <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Contact No.</label>
-                                <input type="tel" ng-model="contactD.contactno" name="contactNo" ng-required="true" class="form-control" placeholder="Enter Contatc No.">
-                                 <p class="__errorMsg" ng-show="addContactusForm.contactNo.$touched && addContactusForm.contactNo.$invalid ">
-                                    <span ng-show="addContactusForm.contactNo.$error.required">*Please select county to Add State.</span>
-                                </p> 
+                                <input type="tel" ng-model="contactD.contactno" name="contactNo" ng-required="true" maxlength="10" minlength="10" ng-pattern="/^\d{10}$/" class="form-control" placeholder="Enter Contact Number"> 
+                                <p class="__errorMsg" ng-show="addContactusForm.contactNo.$touched && addContactusForm.contactNo.$invalid">
+            <span ng-show="addContactusForm.contactNo.$error.required">Contact Number is required.</span>
+            <span ng-show="addContactusForm.contactNo.$error.pattern">Enter valid Contact number.</span>
+            <span ng-show="addContactusForm.contactNo.$error.min">Enter valid Contact number.</span>
+            <span ng-show="addContactusForm.contactNo.$error.max">Enter valid Contact number.</span>
+            </p>
                             </div>
                             
                             </div>
                              <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Email Id</label>
-                                <input type="text" ng-model="contactD.email" name="email" ng-required="true" class="form-control" placeholder="Enter Email Id">
+                                <input type="text" ng-model="contactD.email" name="email" ng-required="true" class="form-control" ng-pattern="/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/" placeholder="Enter Email Id">
                                  <p class="__errorMsg" ng-show="addContactusForm.email.$touched && addContactusForm.email.$invalid ">
-                                    <span ng-show="addContactusForm.email.$error.required">*Please Enter State Name.</span>
-                                    <span ng-show="addContactusForm.email.$error.pattern">*Please Enter Valid State Name.</span>
+                                    <span ng-show="addContactusForm.email.$error.required">*Please Enter Email Id.</span>
+                                    <span ng-show="addContactusForm.email.$error.pattern">*Please Enter Valid Email Id.</span>
+
                                 </p> 
                             </div>
                             
                             </div>
                             <div class="col-lg-4"> 
                                 <label>Address</label>
-                                <textarea class="form-control" rows="3" ng-required="true" name="address" ng-model='contactD.address'></textarea>
+                                <textarea class="form-control" rows="3" ng-required="true" name="address" ng-model='contactD.address' placeholder="Enter Address"></textarea>
                                 
                                 <p class="__errorMsg" ng-show="addContactusForm.address.$touched && addContactusForm.address.$invalid ">
-                                    <span ng-show="addContactusForm.address.$error.required">*Please Address.</span>
+                                    <span ng-show="addContactusForm.address.$error.required">*Please enter Address.</span>
                                 </p> 
                             </div>
                             </div>
                             <div class="col-md-12">
                             <div class="col-md-4">
                             <label>Website</label>
-                                <input type="text" ng-model="contactD.website" name="web" ng-required="true" class="form-control" placeholder="Enter State Name">
+                                <input type="text" ng-model="contactD.website" name="web" ng-required="true" class="form-control" placeholder="Enter Webiste">
                                  <p class="__errorMsg" ng-show="addContactusForm.web.$touched && addContactusForm.web.$invalid ">
-                                    <span ng-show="addContactusForm.web.$error.required">*Please Enter Email Id.</span>
-                                    <span ng-show="addContactusForm.web.$error.pattern">*Please Enter Valid Email Id.</span>
+                                    <span ng-show="addContactusForm.web.$error.required">*Please Enter Website URL.</span>
                                 </p> 
                             </div>
                             </div>
@@ -75,7 +78,7 @@
 
     
     <div class="panel panel-default" ng-show="viewData">
-                        <div class="panel-heading">Contact us Details</div>
+                        <div class="panel-heading"><u><b>Contact Details</b></u></div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -99,7 +102,7 @@
                                         <td>{{contactusData.website}}</td>
                                         <td>{{contactusData.address}}</td>
                                         <td>{{contactusData.metadata.is_active | statusName}}</td>
-                                        <td class="center"><i style="cursor: pointer;" class="fa fa-pencil" ng-click="viewData = !viewData"></i>&nbsp;&nbsp;
+                                        <td class="center"><i class="fa fa-pencil" ng-click="editContact()"></i>&nbsp;&nbsp;
                                        <!--  -->
                                         </td> 
                                     </tr></tbody>
@@ -120,62 +123,13 @@
     <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
   </div>
 
-  <!--Edit Modal-->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-    <form name="updateStateForm">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Edit State </h4>
-      </div>
-      <div class="modal-body">
-      <lable>Country</lable>
-            <select class="form-control" ng-required="true" ng-model='eData.c_id' name="stateCountry">
-                                <option value="{{x.c_code}}-{{x.c_name}}" ng-repeat="x in countryList">{{x.c_name}}</option>
-                                </select>
-                                 <p class="__errorMsg" ng-show="updateStateForm.stateCountry.$touched && updateStateForm.stateCountry.$invalid ">
-                                            <span ng-show="updateStateForm.stateCountry.$error.required">*Please select county to Add State.</span>
-                                </p> 
-            <lable>State Name</lable>
-            <input type="text" class="form-control" ng-model="eData.s_name" name="stateName"/>
-             <p class="__errorMsg" ng-show="updateStateForm.stateName.$touched && updateStateForm.stateName.$invalid ">
-                        <span ng-show="updateStateForm.stateName.$error.required">*Please Enter State Name.</span>
-            </p> 
-
-
-            <br />
-            <lable>Status</lable>
-            <select ng-model="eData.metadata.is_active" class="form-control" name="status">
-
-                <option value=true>Active</option>
-                <option value="false">De Active</option>
-            </select>
-            <p class="__errorMsg" ng-show="updateStateForm.status.$touched && updateStateForm.status.$invalid ">
-                        <span ng-show="updateStateForm.status.$error.required">*Please Select Status.</span>
-            </p> 
-
-        
-      </div>
-      <div class="modal-footer">
-       <button type="button" class="btn btn-success" ng-click="updateState(eData)">Update</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-      </form>
-    </div>
-
-  </div>
-</div>
-
 <!-- Delete Modal Confirmation -->
 <div class="modal c" ng-show="deleteConfirmationModal">
 <div class="modal-dialog"> 
     <!-- Modal content-->
     <div class="modal-content">
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <button type="button" class="close" data-dismiss="modal" ng-click="deleteConfirmationModal =!deleteConfirmationModal">&times;</button>
       <h4 class="modal-title">Delete</h4>
     </div>
     <div class="modal-body">
