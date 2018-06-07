@@ -100,7 +100,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		}
 		$scope.getCityByState = function(s_code){
 				$http.get(configuration.CITY_URL+"/"+s_code).then(function success(res){
-               $scope.cityList = res.data.states;
+               $scope.cityList = res.data.cities ;
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
@@ -162,7 +162,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 					Upload.upload({
 					      url:configuration.PACKAGE_URL, 
 					      arrayKey: '',
-					      data: {data:$scope.pack,file: files} 
+					      data: {data:JSON.stringify($scope.pack),file: files} 
 					    }).then(function (resp) {
 		            			$scope.successPop = true;
 			                   $scope.errorPop = false;
@@ -177,9 +177,9 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			        });
 			 
 				}else{
-					$scope.showHighlightError = true;
-					$scope.itenaryError = true;
-					$scope.showHighlightErrorMsg = 'Atleast 3 Highlights are required';
+					// $scope.showHighlightError = true;
+					// $scope.itenaryError = true;
+					// $scope.showHighlightErrorMsg = 'Atleast 3 Highlights are required';
 					angular.forEach($scope.addNewPackageForm.$error, function(error){
 		               angular.forEach(error, function(control){
 		                   control.$setTouched();

@@ -18,7 +18,7 @@
 	<div class="panel-heading"><u><b> Add Package</b></u> </div>
     	<div class="panel-body">
         	<div class="row">
-            	<form  name="addNewPackageForm" novalidate >
+            	<form  name="addNewPackageForm" novalidate enctype="multipart/form-data">
             		<div class="section">
             		<div class="col-md-6">
                      <div class="form-group">
@@ -42,6 +42,7 @@
                                 </p>
                         </div>
                         <div class="form-group">
+
                         	<label>City</label>
                                 <select class="form-control" ng-required="true" name="city" ng-model="pack.city"> 
                                     <option ng-repeat="x in cityList" value="{{x.ci_code}}-{{x.ci_name}}">{{x.ci_name}}</option>
@@ -149,7 +150,6 @@
                      	<div class="col-md-6"> 
                      		<div class="form-group">
                      		<label>Highlights</label>
-                            {{pack.highlights}}
                      		<div style="display: flex">
 	                     		<input type="text" class="form-control" ng-model="pack.highlightsTitle" name="highlightsTitle"  >
 	                     		<button class="btn btn-primary" ng-click="addmorehighlights()">+</button>

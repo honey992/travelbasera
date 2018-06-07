@@ -4,8 +4,7 @@
         <div class="col-lg-12">
             <h3 class="page-header">Packages Details</h3>
         </div>
-    </div>
- {{packageDetails|json}}
+    </div> 
   
  <table border="1"  width="100%" class="table  table-bordered table-hover" width="100%">
  <tr>
@@ -81,7 +80,7 @@
  <tr>
      <td width="20%"><b>Itenary:</b></td>
      <td width="80%">
-     <div ng-repeat="x in packageDetails.itenaries[0].package_intenary">
+     <div ng-repeat="x in packageDetails.itenaries[0].package_itenary">
         <p style="margin:0px; font-weight: 100px">{{x.title}}</p>
         <div>{{x.description}}</div>
      </div>

@@ -52,7 +52,7 @@ function savePackageImages(){
  	var self = this;
  	var otherDetails = self.data; 
  	var reqObj = { 
- 		'package_intenary':otherDetails.itenary
+ 		'package_itenary':otherDetails.itenary
  	};
  	var newPackItenary = new itenaryModel(reqObj);
  	newPackItenary.save(function(err, data){
@@ -108,8 +108,8 @@ function savePackageImages(){
 
 var packageServ = {
 	 
-	addPackageService: function(options,cb){
-		console.log('options==', JSON.stringify(options))
+	addPackageService: function(options,cb){ 
+		options.data = JSON.parse(options.data);
 		if(!options)
 			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to add Package"}));
 		savePackageImages.call(options)

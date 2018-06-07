@@ -5,7 +5,7 @@ var itenarySchema = new db.Schema({
 	package_id:{
 		type:String
 	},
-	package_intenary:[{
+	package_itenary:[{
 		title:String,
 		description:String
 	}], 
