@@ -66,7 +66,7 @@
                                 </select>
                             </div>
                              <p class="__errorMsg" ng-show="showHighlightError">
-                              <span>*Please select package type</span>
+                              <span>*Please select package Category</span>
                             </p> 
                             </div> 
             			<div class="form-group">
@@ -100,7 +100,7 @@
                 	<div class="col-lg-6">
 						 <div class="form-group">
                             <label>Package Title</label>
-                            <input type="text" ng-model="pack.title"  name="title" required  class="form-control" ng-pattern="/^[a-zA-Z0-9-_ ]*$/" placeholder="Enter Package Title">
+                            <input type="text" ng-model="pack.title"  name="title" ng-required='true'  class="form-control" ng-pattern="/^[a-zA-Z0-9-_ ]*$/" placeholder="Enter Package Title">
                             <p class="__errorMsg" ng-show="addNewPackageForm.title.$touched && addNewPackageForm.title.$invalid ">
                               <span ng-show="addNewPackageForm.title.$error.required">*Title is required.</span>
                               <span ng-show="addNewPackageForm.title.$error.pattern">*Enter valid title.</span>
