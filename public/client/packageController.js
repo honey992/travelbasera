@@ -6,7 +6,6 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		$scope.showHighlightError = false;
 		$scope.itenaryError = false;
 		$scope.packageTypes = [{name:'National', code:'1'},{name:'International', code:'2'}];
-		$scope.packageCategogy = [{name:'National', code:'1'},{name:'International', code:'2'}];
 		$scope.pack = {highlights:[], inclusions:[],itenary:[], inclusionList :[], exclusionList:[]};
 
  		$scope.addmorehighlights = function(){
