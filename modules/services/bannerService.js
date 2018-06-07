@@ -50,6 +50,13 @@ var bannersServ = {
 			cb(null, data);
 
 		})
+	},
+	_fetchBannerService: function(options, cb){
+		bannersModel.find({'metadata.is_active':true}, function(err, data){
+			if(err || !data) 
+				return cb(ec.Error({status:ec.DB_ERROR, message:'Error to fetch banners'}));
+			cb(null, data);
+		})
 	}
 };
 module.exports = bannersServ;

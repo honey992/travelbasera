@@ -15,5 +15,8 @@ module.exports = function(app){
 		.get( bannerCtrl.getBannersCtrl, error) 
 	app.route('/api/uploadBanners/:id')
 		.delete( bannerCtrl.deleteBannersCtrl, error) 
+
+	app.route('/v1/api/banners')
+		.get(bannerCtrl._fetchBannerCtrl, error)
 	 
 }
