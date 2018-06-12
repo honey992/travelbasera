@@ -111,6 +111,12 @@ var countryService = {
 			delete result.id;
 			cb(null, result);
 		});
+	},
+	getAllCountryService: function(options, cb){
+		countryModel.find({'metadata.is_active':true}, function(err, result){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+				cb(null, result);
+		})
 	}
 };
 module.exports = countryService;

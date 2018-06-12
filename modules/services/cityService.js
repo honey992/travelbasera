@@ -154,6 +154,12 @@ var cityService = {
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
 			cb(null, result);
 		});
+	},
+	cityByStatesService: function(options, cb){
+		cityModel.find({'metadata.is_active':true, 's_id':options.stateId}, function(err, result){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+			cb(null, result);
+		});
 	}
 };
 module.exports = cityService;

@@ -50,6 +50,10 @@ var packageSchema = new db.Schema({
 	itenaryId:{
 		type: db.Schema.Types.ObjectId ,ref: 'admin_itenaries'
 	},
+	popular:{
+		type:Boolean,
+		default:false
+	},
 	metadata:{
 		is_active:{ 
 			type:Boolean, 
