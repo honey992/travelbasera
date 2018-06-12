@@ -40,6 +40,7 @@ function saveNewCategory(){
 			'cat_name': self.data.name,
 			'cat_code': self.cat_code,
 			'cat_image': self.file.path,
+			'cat_desc' : self.data.description,
 			'metadata':{'is_active' : self.data.status}
 		}
 

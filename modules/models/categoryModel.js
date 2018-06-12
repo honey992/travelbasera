@@ -13,6 +13,10 @@ var categorySchema = new db.Schema({
 
 		type:String
 	},
+	cat_desc:{
+
+		type:String
+	},
 	metadata:{
 		is_active:{ 
 			type:Boolean, 

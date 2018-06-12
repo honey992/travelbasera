@@ -46,6 +46,13 @@ var rolesCtrl = {
 		
 			res.json({'status':1,'message':'Contacts Deleted Successfully', data:data});
 		})
+	},
+	_fetchContactsCtrl: function(req,res,next){
+		var options = {};
+		contactServices._fetchContactsService(options, function(err,data){
+			if(err) return next(err);
+			res.json({'status':'S', data:data});
+		})
 	}
 };
 

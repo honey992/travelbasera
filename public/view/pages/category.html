@@ -39,7 +39,16 @@
                                 </p>
                             </div> 
                             <div class="col-lg-4">
-                                <label>Status</label>
+                                <label>Category Description</label> 
+                                <textarea rows="3" ng-model="cat.description" class="form-control" name="description" placeholder="Category Description"></textarea>
+                                 <p class="__errorMsg" ng-show="addCategoryForm.description.$touched && addCategoryForm.description.$invalid ">
+                                  <span ng-show="addCategoryForm.description.$error.required">*Description is required.</span>
+                                </p>
+                            </div> 
+                            <div class="col-md-12">
+                            <div class="row">
+                            <div class="col-md-4">
+                              <label>Status</label>
                                  <select class="form-control" ng-init="cat.status=''" name="status" ng-model="cat.status">
                                  <option value="" disabled>--Select Status--</option>
                                  <option value="true">Active</option>
@@ -48,8 +57,15 @@
                                  <p class="__errorMsg" ng-show="addCategoryForm.status.$touched && addCategoryForm.status.$invalid ">
                                   <span ng-show="addCategoryForm.status.$error.required">*Please select status.</span>
                                 </p>
-                            </div> 
+
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4"></div>
+                            </div>
+                            </div>
+                            <br />
                             <div class="col-md-12">
+                            <br />
                             <button type="submit" class="btn btn-success" ng-click="addCategory(file)">Add</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                             </div>

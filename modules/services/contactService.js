@@ -94,23 +94,13 @@ var contactServicex = {
 				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update Contacts'}));
 			cb(null, data);
 		});
-	},
-
-	deleteCountryService: function(options, cb){
-		
-		contactModel.remove({_id:options.id}, function(err, result){
-			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+	}, 
+	_fetchContactsService: function(options, cb){
+		contactModel.findOne({'metadata.is_active':true}, function(err, result){
+			if(err)
+				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get Contacts'}));
 			cb(null, result);
-		});
-	},
-
-	fetchCountryByIdService: function(options, cb){
-		
-		countryModel.findOne({_id:options.id}, function(err, result){
-			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
-			delete result.id;
-			cb(null, result);
-		});
+		})
 	}
 };
 module.exports = contactServicex;

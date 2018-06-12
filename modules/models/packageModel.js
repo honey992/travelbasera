@@ -35,8 +35,12 @@ var packageSchema = new db.Schema({
 		i_name:{type:String},
 		i_code:{type:String}
 	}],
-	exclusion:[],
-	inclusions:[],
+	exclusion:[{
+			type:String
+		}],
+	inclusions:[{
+		type:String
+	}],
 	imagesId:{
 		type: db.Schema.Types.ObjectId ,ref: 'admin_packageimages'
 	},

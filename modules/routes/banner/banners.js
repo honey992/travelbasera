@@ -39,6 +39,13 @@ var bannersCtrl = {
 			if(err) return next(err); 
 			res.json({'status':1,'message':'Banner Deleted Successfully'});
 		})
+	},
+	_fetchBannerCtrl:function(req,res,next){
+		var options = {};
+		bannerServices._fetchBannerService(options, function(err, result){
+			if(err) return next(err);
+			res.json({'status':'S', 'data':result});
+		})
 	}
 };
 
