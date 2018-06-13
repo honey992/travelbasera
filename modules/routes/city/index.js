@@ -16,5 +16,8 @@ module.exports = function(app){
 	 .get(cityCtrl.cityByIdCtrl, error)
 	 .delete(cityCtrl.deleteCityCtrl, error)
 
+	app.route('/v1/api/cityByStates/:stateId')
+		.get(cityCtrl._cityByStatesCtrl, error)
+
 
 }	

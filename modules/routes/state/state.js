@@ -65,6 +65,13 @@ var stateCtrl = {
 			if(err) return next(err);
 			res.json({'status':1,states:data});
 		})
+	},
+	_statesByCountry: function(req,res,next){
+		var options = {};
+		stateServices.getAllStatesService(options, function(err, result){
+			if(err) return next(err);
+			res.json({'status':'S', data:result});
+		});
 	}
 };
 

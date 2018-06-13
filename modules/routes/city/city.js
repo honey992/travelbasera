@@ -80,6 +80,15 @@ var cityCtrl = {
 			if(err) return next(err);
 			res.json({'status':1,cities:data});
 		})
+	},
+	_cityByStatesCtrl: function(req,res, next){
+		var options = {};
+		_.assign(options, req.query);
+		cityServices.cityByStatesService(options, function(err, result){
+			if(err) return next(err);
+			res.json({'status':"S", data:result})
+		})
+
 	}
 };
 

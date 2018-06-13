@@ -147,6 +147,19 @@ debugger;
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
 			cb(null, result);
 		});
+	},
+	getAllStatesService: function(options, cb){
+		stateModel.aggregate([{
+			$match:{'metadata.is_active':true}
+		},{
+			$group: {
+                _id: '$c_id',
+                "data":{$push:{name:'$s_name',code:'$s_code'}}
+            }
+		}], function(err, result){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+			cb(null, result);
+		});
 	}
 };
 module.exports = stateService;

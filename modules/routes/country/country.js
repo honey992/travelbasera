@@ -55,6 +55,13 @@ var countryCtrl = {
 			if(err) return next(err);
 			res.json({result:data});
 		})
+	},
+	_getAllCountries: function(req,res,next){
+		var options = {};
+		countryServices.getAllCountryService(options, function(err, result){
+			if(err) return next(err);
+			res.json({'status':"S", data:result});
+		});
 	}
 };
 

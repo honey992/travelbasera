@@ -17,5 +17,8 @@ module.exports = function(app){
 	 .get(stateCtrl.stateByIdCtrl, error)
 	 .delete(stateCtrl.deleteStateCtrl, error)
 
+	//For Web
+	app.route('/v1/api/statesByCountry')
+		.get(stateCtrl._statesByCountry, error)
 
 }	

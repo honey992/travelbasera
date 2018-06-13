@@ -17,4 +17,8 @@ module.exports = function(app){
 		.delete(countryCtrl.deleteCountryCtrl, error) 
 	app.route('api/fetchSingleCountry/:id')
 		.get(countryCtrl.fetchCountryByIdCtrl, error)
+
+	//For Web
+	app.route('api/allCountries')
+		.get(countryCtrl._getAllCountries, error)
 }	
