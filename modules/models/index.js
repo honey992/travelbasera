@@ -16,5 +16,6 @@ module.exports={
 	rateModel : require('./rateModel'),
 	imagesModel : require('./imagesModel'),
 	itenaryModel : require('./itenaryModel'),
-	categoryModel : require('./categoryModel')
+	categoryModel : require('./categoryModel'),
+	sendEmailModel : require('./sendEmailModel')
 }

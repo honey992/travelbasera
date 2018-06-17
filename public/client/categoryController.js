@@ -48,31 +48,38 @@ app.controller('categoryController', function($scope, $http,configuration,$locat
 
        $scope.fetchCategories();
 
+
+       $scope.editCategory = function(editableData){ 
+			$scope.eData = editableData
+			console.log($scope.eData,"KKKKKKKKKKK");
+		};
+
     $scope.openEditPopup = function(x){
 		x.metadata.is_active = x.metadata.is_active.toString();
 		$scope.eData = x;
 	}
-	$scope.updateBanners = function(){
-		 	if($scope.updateBannerForm.$valid){ 
-	            var file = $scope.myFile;
-	            var details = $scope.eData; 
-	            
-	            var uploadUrl = configuration.UPLOAD_BANNER_URL;
-	           fileUpload.uploadFileToUrl(file, uploadUrl,details,'banner', function(d){
-	            if(d){
-	               $scope.successMsg = d.data.message;
-	               $scope.successPop = true;
+	 $scope.updateCategory = function(file){
+		 	if($scope.editCategoryForm.$valid){  
+	           Upload.upload({
+			      url:configuration.CATEGORY_URL, 
+			      method : 'PUT',
+			      data: {data:$scope.eData,file: file} 
+			    }).then(function (resp) {
+			       $scope.fetchCategories();
+		           $scope.successPop = true;
 	               $scope.errorPop = false;
-	               $scope.b = {};
-	            }else{
-	            	 $scope.errorPop = true;
-	                $scope.successPop = false;
-	               $scope.errorMsg = err.data.message;
-	            }
-	           }); 
+	               $scope.successMsg = resp.data.message;
+		        }, function (resp) {
+		             $scope.successPop = false;
+		               $scope.errorPop = true;
+		               $scope.successMsg = resp.data.message;
+		        }, function (evt) {
+		            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+		            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+		        }); 
           }
           else{
-          	angular.forEach($scope.updateBannerForm.$error, function(error){
+          	angular.forEach($scope.editCategoryForm.$error, function(error){
                angular.forEach(error, function(control){
                    control.$setTouched();
                })
@@ -85,14 +92,14 @@ app.controller('categoryController', function($scope, $http,configuration,$locat
 		$scope.deleteId = id;
 		$scope.deleteConfirmationModal = true;
 	}
-	$scope.deleteBanner = function(){
+	$scope.deleteCategory = function(){
 		var obj = {id:$scope.deleteId};
-		$http.delete(configuration.UPLOAD_BANNER_URL+"/"+$scope.deleteId).then(function success(res){
+		$http.delete(configuration.CATEGORY_URL+"/"+$scope.deleteId).then(function success(res){
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;
                $scope.deleteConfirmationModal = false;
-               $scope.fetchBanners();
+               $scope.fetchCategories();
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;

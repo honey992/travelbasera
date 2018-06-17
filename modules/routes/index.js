@@ -6,4 +6,5 @@ module.exports = function(app){
 	require('./country')(app);
 	require('./state')(app);
 	require('./city')(app);
+	require('./sendEmail')(app);
 }

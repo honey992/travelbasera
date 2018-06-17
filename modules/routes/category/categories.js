@@ -3,7 +3,7 @@
 var categoryServices = require('../../services').categoryServices;
 var _ = require('lodash');
 
-var bannersCtrl = {
+var categoryCtrl = {
 
 	addCategoryCtrl:function(req, res, next){
 		var options = {file:{}}; 
@@ -21,24 +21,23 @@ var bannersCtrl = {
 			res.json({data:result});
 		})
 	},
-	updateBannerCtrl:function(req, res, next){
+	updateCategoryCtrl:function(req, res, next){
 		var options = {file:{}};
-		var filee = _.get(req, 'file');
-		_.assign(options.file,filee);
+		_.assign(options.file,req.file);
 		_.assign(options, req.body);
-		categoryServices.updateBannerService(options, function(err, data){
+		categoryServices.updateCategoryService(options, function(err, data){
 			if(err) return next(err); 
 			res.json({message:'Category Updated Successfully'});
 		})
 	},
-	deleteBannersCtrl:function(req,res,next){
+	deleteCategoryCtrl:function(req,res,next){
 		var options = {};
 		_.assign(options, req.params);
-		categoryServices.deleteBanners(options, function(err, result){
+		categoryServices.deleteCategory(options, function(err, result){
 			if(err) return next(err); 
 			res.json({'status':1,'message':'Category Deleted Successfully'});
 		})
 	}
 };
 
-module.exports = bannersCtrl;
+module.exports = categoryCtrl;

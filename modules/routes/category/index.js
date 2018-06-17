@@ -9,7 +9,10 @@ var uploadFiles 	= lib.uploadFiles('ss');
 module.exports = function(app){
 
 	app.route('/api/category')
-		.post(uploadFiles.upload, categoryCtrl.addCategoryCtrl, error) 
+		.post(uploadFiles.upload, categoryCtrl.addCategoryCtrl, error)
+		.put(uploadFiles.upload, categoryCtrl.updateCategoryCtrl, error) 
 		.get(categoryCtrl.getCategoryCtrl, error)   
+	app.route('/api/category/:id')
+		.delete( categoryCtrl.deleteCategoryCtrl, error)
 	 
 }
