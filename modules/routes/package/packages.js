@@ -67,6 +67,14 @@ var packCtrl = {
 			if(err) return next(err);
 			res.json({'status':"S", data:result});
 		})
+	},
+	_getPackageDetailsCtrl: function(req,res, next){
+		var options  = {};
+		_.assign(options, req.params);
+		packageServices._PackageDetailsService(options, function(err, result){
+			if(err) return next(err);
+			res.json({'status':"S", data:result});
+		})
 	}
 };
 

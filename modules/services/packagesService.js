@@ -204,7 +204,7 @@ var packageServ = {
 				}
 			}
 		], function(err, data){
-			if(err) cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
+			if(err) cb(ec.Error({status:ec.DB_ERROR, message :"Unable to get data."}));
 			 
 			cb(null,data)
 		});
@@ -216,6 +216,56 @@ var packageServ = {
 			if(err) return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Unable to get data"}));
 			cb(null, data);
 		})
-		}
+		},
+	_PackageDetailsService: function(options, cb){
+		if(!options) 
+			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
+			var titleName = options.title.trim();
+		packageModel.aggregate([
+			{
+				$match:{'title':titleName}
+			},{
+				$lookup:{
+				   from: 'admin_packageimages',
+			       localField: 'imagesId',
+			       foreignField: '_id',
+			       as: 'images'
+				}
+			},
+			{
+				$lookup:{
+				   from: 'admin_package_descriptions',
+			       localField: 'descriptionId',
+			       foreignField: '_id',
+			       as: 'description'
+				}
+			},
+			{
+				$lookup:{
+				   from: 'admin_itenaries',
+			       localField: 'itenaryId',
+			       foreignField: '_id',
+			       as: 'itenaries'
+				}
+			},
+			{
+				$project:{
+					'images._id':0,
+					'images.metadata':0,
+					'images._v':0,
+					'description._id':0,
+					'description.metadata':0,
+					'description._v':0,
+					'itenaries._id':0,
+					'itenaries.metadata':0,
+					'itenaries._v':0,
+				}
+			}
+		], function(err, data){
+			if(err) cb(ec.Error({status:ec.DB_ERROR, message :"Unable to get data."}));
+			 
+			cb(null,data)
+		});
+	}
 };
 module.exports = packageServ;
