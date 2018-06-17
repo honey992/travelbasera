@@ -43,6 +43,13 @@
                             </div>
                             
                             </div>
+                            <div class="col-lg-4">
+                                <label>State Description</label> 
+                                <textarea rows="3" ng-model="state.description" class="form-control" name="description" placeholder="State Description" ng-required="true"></textarea>
+                                 <p class="__errorMsg" ng-show="addStateForm.description.$touched && addStateForm.description.$invalid ">
+                                  <span ng-show="addStateForm.description.$error.required">*Description is required.</span>
+                                </p>
+                            </div>
                             <div class="col-lg-4"> 
                                 <label>Status</label>
                                 <select class="form-control" ng-init="state.status=''" name="status" ng-model='state.status'>
@@ -128,9 +135,13 @@
                         <span ng-show="updateStateForm.stateName.$error.required">*Please Enter State Name.</span>
                         <span ng-show="updateStateForm.stateName.$error.pattern">*Please Enter Valid State Name.</span>
             </p> 
-
-
             <br />
+            <label>State Description</label> 
+            <textarea rows="3" ng-model="eData.s_desc" class="form-control" name="description" placeholder="State Description" required></textarea>
+            <p class="__errorMsg" ng-show="updateStateForm.description.$touched && updateStateForm.description.$invalid ">
+            <span ng-show="updateStateForm.description.$error.required">*Description is required.</span>
+            </p>
+            <br/>
             <lable>Status</lable>
             <select ng-model="eData.metadata.is_active" ng-init="eData.metadata.is_active='true'" class="form-control" name="status">
                 <option value=true>Active</option>

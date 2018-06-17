@@ -40,7 +40,7 @@ function saveState(){
 	var self = this;
 	var deferred = Q.defer();
 	console.log(self);
-	 var rejObj = {s_name:self.name,s_code:self.s_code, c_id:self.country, 'metadata.is_active':self.status};
+	 var rejObj = {s_name:self.name,s_code:self.s_code, c_id:self.country, s_desc:self.description, 'metadata.is_active':self.status};
 	var addstateData = new stateModel(rejObj);
 		addstateData.save(function(err, data){
 			if(err)

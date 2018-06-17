@@ -125,7 +125,7 @@
 					<div class="col-lg-6">   
                           <div class="form-group">
                             <label>Rate</label>
-                            <input type="text" class="form-control" placeholder="Enter Rate in Rupees" ng-model="pack.rate" name="rate" required /> 
+                            <input type="number" class="form-control" placeholder="Enter Rate in Rupees" ng-model="pack.rate" name="rate" required /> 
                              <p class="__errorMsg" ng-show="addNewPackageForm.rate.$touched && addNewPackageForm.file.$invalid">
                               <span ng-show="addNewPackageForm.rate.$error.required">*Rate is required.</span>
                             </p>
