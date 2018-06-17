@@ -17,6 +17,13 @@ module.exports = function(app){
 	app.route('/api/fetchPackageDetail')
 		.get(packagesCtrl.packDetailsCtrl, error)
 
+//For Web
+	app.route('/v1/api/packages/:cityId')
+		.get(packagesCtrl._getPackagesByCity, error)
+
+	app.route('/v1/api/package-details/:title')
+		.get(packagesCtrl._getPackageDetailsCtrl, error)
+
 
 	 
 }

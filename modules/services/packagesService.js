@@ -3,7 +3,7 @@ var Q 				=	require('q');
 var mongoose 				=	require('mongoose');
 var _models 		= 	require('../models');
 var packageModel    = _models.packageModel;
-var rateModel       = _models.rateModel;
+var descriptionModel       = _models.descriptionModel;
 var imagesModel     = _models.imagesModel;
 var itenaryModel   = _models.itenaryModel;
 var ec 				= 	require('../../constants').errors;
@@ -17,8 +17,10 @@ function savePackageImages(){
 	var reqObj = {
 			package_images:[]
 		} 
+		debugger;
 		for(var k in self.files){
-			reqObj.package_images.push(self.files[k].path);
+			if(k != '0')
+			 reqObj.package_images.push(self.files[k].path);
 		};
 	 var newPackImages = new imagesModel(reqObj);
  	newPackImages.save(function(err, data){
@@ -29,19 +31,18 @@ function savePackageImages(){
 	});
 	return deferred.promise;
 }
-  function savePackageRate(){
+  function savePackageDescription(){
  	var deferred = Q.defer();
  	var self = this;
  	var otherDetails = self.data; 
  	var reqObj = { 
- 		'package_rate':otherDetails.rate,
- 		'package_days':otherDetails.days,
- 		'package_nights':otherDetails.nights
+ 		
+ 				'package_description':otherDetails.description,
  	}
- 	var newPackRates = new rateModel(reqObj);
- 	newPackRates.save(function(err, data){
- 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package rates"}));
- 		self.rateId = data._id;
+ 	var newPackDesc = new descriptionModel(reqObj);
+ 	newPackDesc.save(function(err, data){
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package Description"}));
+ 		self.descriptionId = data._id;
          deferred.resolve();
 	});
 	return deferred.promise; 
@@ -56,7 +57,7 @@ function savePackageImages(){
  	};
  	var newPackItenary = new itenaryModel(reqObj);
  	newPackItenary.save(function(err, data){
- 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package rates"}));
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package Itenary"}));
  		self.itenaryId = data._id;
  		deferred.resolve();
  	});
@@ -75,11 +76,15 @@ function savePackageImages(){
  				'sourceCity':otherDetails.sourceCity,
  				'title':otherDetails.title,
  				'highlights':otherDetails.highlights,
- 				'description':otherDetails.description,
+ 				'rate'  :otherDetails.rate,
+		 		'days'  :otherDetails.days,
+		 		'nights':otherDetails.nights,
  				'selectedInclusion':otherDetails.selectedInclusion,
  				'imagesId':self.imagesId,
- 				'rateId':self.rateId,
- 				'itenaryId':self.itenaryId
+ 				'descriptionId':self.descriptionId,
+ 				'itenaryId':self.itenaryId,
+ 				'popular':self.popular,
+ 				'mainImage':self.files['0'].path
     }; 
  	var newPack = new packageModel(reqObj); 
  	newPack.save(function(err, data){
@@ -113,7 +118,7 @@ var packageServ = {
 		if(!options)
 			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to add Package"}));
 		savePackageImages.call(options)
-		   .then(savePackageRate.bind(options))
+		   .then(savePackageDescription.bind(options))
 		   .then(savePackageItenary.bind(options)) 
            .then(savePackageDetails.bind(options)) 
             .then(cb)
@@ -171,10 +176,10 @@ var packageServ = {
 			},
 			{
 				$lookup:{
-				   from: 'admin_rates',
-			       localField: 'rateId',
+				   from: 'admin_package_description',
+			       localField: 'descriptionId',
 			       foreignField: '_id',
-			       as: 'rate'
+			       as: 'description'
 				}
 			},
 			{
@@ -190,16 +195,74 @@ var packageServ = {
 					'images._id':0,
 					'images.metadata':0,
 					'images._v':0,
-					'rate._id':0,
-					'rate.metadata':0,
-					'rate._v':0,
+					'description._id':0,
+					'description.metadata':0,
+					'description._v':0,
 					'itenaries._id':0,
 					'itenaries.metadata':0,
 					'itenaries._v':0,
 				}
 			}
 		], function(err, data){
-			if(err) cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
+			if(err) cb(ec.Error({status:ec.DB_ERROR, message :"Unable to get data."}));
+			 
+			cb(null,data)
+		});
+	},
+	getPackagesByCityService : function(options, cb){
+		if(!options.cityId)
+			return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to get results."}));
+		packageModel.find({city:options.cityId, 'metadata.is_active':true}, function(err, data){
+			if(err) return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Unable to get data"}));
+			cb(null, data);
+		})
+		},
+	_PackageDetailsService: function(options, cb){
+		if(!options) 
+			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
+			var titleName = options.title.trim();
+		packageModel.aggregate([
+			{
+				$match:{'title':titleName}
+			},{
+				$lookup:{
+				   from: 'admin_packageimages',
+			       localField: 'imagesId',
+			       foreignField: '_id',
+			       as: 'images'
+				}
+			},
+			{
+				$lookup:{
+				   from: 'admin_package_descriptions',
+			       localField: 'descriptionId',
+			       foreignField: '_id',
+			       as: 'description'
+				}
+			},
+			{
+				$lookup:{
+				   from: 'admin_itenaries',
+			       localField: 'itenaryId',
+			       foreignField: '_id',
+			       as: 'itenaries'
+				}
+			},
+			{
+				$project:{
+					'images._id':0,
+					'images.metadata':0,
+					'images._v':0,
+					'description._id':0,
+					'description.metadata':0,
+					'description._v':0,
+					'itenaries._id':0,
+					'itenaries.metadata':0,
+					'itenaries._v':0,
+				}
+			}
+		], function(err, data){
+			if(err) cb(ec.Error({status:ec.DB_ERROR, message :"Unable to get data."}));
 			 
 			cb(null,data)
 		});

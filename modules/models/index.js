@@ -13,7 +13,7 @@ module.exports={
 	contactModel : require('./contactModel'),
 	inclusionModel : require('./inclusionModel'),
 	packageModel : require('./packageModel'),
-	rateModel : require('./rateModel'),
+	descriptionModel : require('./descriptionModel'),
 	imagesModel : require('./imagesModel'),
 	itenaryModel : require('./itenaryModel'),
 	categoryModel : require('./categoryModel'),

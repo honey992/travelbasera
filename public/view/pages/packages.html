@@ -102,13 +102,22 @@
                               <span ng-show="addNewPackageForm.title.$error.pattern">*Enter valid title.</span>
                             </p>
                         </div> 
+                        <div class="form-group">
+                            <label>Main Image</label>
+                             <input type="file" ngf-multiple="false" ngf-select ng-model="mainImageFile" name="file"  
+             accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile" class="form-control">  
+                             <p class="info-text">*Please upload 360*225 px size image.</p>
+                             <p class="__errorMsg" ng-show="addNewPackageForm.file.$touched && addNewPackageForm.file.$invalid ">
+                              <span ng-show="addNewPackageForm.file.$error.required">*Main Image is required.</span>
+                            </p>
+                          </div>
                           <div class="form-group">
                             <label>Package Images</label>
                              <input type="file" ngf-multiple="true" ngf-select ng-model="imagesFile" name="file"  
              accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile" class="form-control"> 
                              <p class="info-text">*You can choose multiple images.</p>
                              <p class="__errorMsg" ng-show="addNewPackageForm.file.$touched && addNewPackageForm.file.$invalid ">
-                              <span ng-show="addNewPackageForm.file.$error.required">*File is required.</span>
+                              <span ng-show="addNewPackageForm.file.$error.required">*Images are required.</span>
                             </p>
                           </div>
                     </div> 
@@ -241,7 +250,7 @@
                         </div>
                      </div>
                             <div class="col-md-12">
-                            <button type="submit" class="btn btn-success" ng-click="saveNewPackage(imagesFile)">Add</button>
+                            <button type="submit" class="btn btn-success" ng-click="saveNewPackage(mainImageFile,imagesFile)">Add</button>
                             <button type="reset" ng-click="resetAll()" class="btn btn-default">Reset</button>
                             </div>
                            </form> 
