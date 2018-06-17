@@ -28,15 +28,13 @@ var inclusionCtrl = {
 		})
 	},
 
-	editInclusionCtrl:function(req, res, next){
-		var options = {}; 
+	updateInclustionsCtrl:function(req, res, next){
+		var options = {file:{}};
+		_.assign(options.file,req.file);
 		_.assign(options, req.body);
-		debugger;
 		inclusionServices.updateInclusionService(options, function(err, data){
-			if(err){
-				return next(err);
-			}
-			res.json({'status':1, 'message':'Inclusions Updated Successfully'});
+			if(err) return next(err); 
+			res.json({message:'Inclusion Updated Successfully'});
 		})
 	},
 

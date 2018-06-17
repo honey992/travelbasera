@@ -1,6 +1,6 @@
 "use strict";
 
-app.controller('inclusionController', function($scope, $http,configuration,$location,fileUpload){
+app.controller('inclusionController', function($scope, $http,configuration,$location,fileUpload,Upload){
 
 		$scope.viewData = true;
 
@@ -8,7 +8,6 @@ app.controller('inclusionController', function($scope, $http,configuration,$loca
 			if($scope.inclusionForm.$valid){
 				var file = $scope.myFile;
 	            var details = $scope.inc; 
-	            
 	            var uploadUrl = configuration.INCLUSION_URL;
 	           fileUpload.uploadFileToUrl(file, uploadUrl,details,'inclusion', function(d){
 	            if(d){
@@ -42,6 +41,42 @@ app.controller('inclusionController', function($scope, $http,configuration,$loca
       	})
 		};
 		$scope.getInclusions();
+
+
+		$scope.editInclusion = function(editableData){ 
+			$scope.eData = editableData
+		};
+
+
+		$scope.updateInclusion = function(file){
+		 	if($scope.editInclusionForm.$valid){  
+	           Upload.upload({
+			      url:configuration.INCLUSION_URL, 
+			      method : 'PUT',
+			      data: {data:$scope.eData,file: file} 
+			    }).then(function (resp) {
+			       $scope.getInclusions();
+		           $scope.successPop = true;
+	               $scope.errorPop = false;
+	               $scope.successMsg = resp.data.message;
+		        }, function (resp) {
+		             $scope.successPop = false;
+		               $scope.errorPop = true;
+		               $scope.successMsg = resp.data.message;
+		        }, function (evt) {
+		            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+		            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+		        }); 
+          }
+          else{
+          	angular.forEach($scope.editInclusionForm.$error, function(error){
+               angular.forEach(error, function(control){
+                   control.$setTouched();
+               })
+               
+           });
+          }
+      };
 
 	$scope.deleteConfirmation = function(id){
 		$scope.deleteId = id;
