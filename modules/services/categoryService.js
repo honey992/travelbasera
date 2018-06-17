@@ -15,7 +15,7 @@ function checkCategoryName(){
 		if(data.length)
 			 return deferred.reject(ec.Error({status:ec.DATA_ALREADY_EXISTS, message:'Category Already Exist.'}));
 		deferred.resolve();
-	});
+			});
 	return deferred.promise;
 }
 function getLastCode(){
@@ -43,13 +43,12 @@ function saveNewCategory(){
 			'cat_desc' : self.data.description,
 			'metadata':{'is_active' : self.data.status}
 		}
-
 		var newData = new categoryModel(reqObj);
 			newData.save(function(err, data){
 				if(err)return deferred.reject(ec.Error({status:ec.DB_ERROR, message:"Unable Save Category."}));
 				deferred.resolve();
 			}) ;
-		return deferred.promise;
+	return deferred.promise; 
 }
 
 var categoryServ = {
@@ -78,25 +77,21 @@ var categoryServ = {
 			cb(null, data);
 		})
 	},
-	updateBannerService: function(options,cb){
-		// var img_data = {metadata:{}};
-		// 	img_data.imageTitle = options.imageTitle;
-		// 	img_data.metadata.status = options.status;
-		// 	img_data.imageUrl = options.file.path;
-		console.log(options);
-		// var newData = bannersModel(img_data);
-		// 	newData.update({_id:options._id},updateData,function(err, data){
-		// 		if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable Save Image."}));
-		// 		cb(null, data);
-		// 	}) 
-		 
+	
+	updateCategoryService: function(options,cb){
+		if(!options)
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to update Category"}));
+        var updatedData = options.file.path ? {cat_name:options.data.cat_name, cat_image :options.file.path, cat_desc : options.data.cat_desc, metadata:{is_active:options.data.metadata.is_active}} : {cat_name:options.data.cat_name, cat_desc : options.data.cat_desc, metadata:{is_active:options.data.metadata.is_active}};
+		categoryModel.update({_id:options.data._id},{$set:updatedData}, function(err, data){
+			if(err)
+				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update Category'}));
+			cb(null, data);
+		});
 	},
-	deleteBanners: function(options, cb){
-		console.log(options);
-		debugger;
-		bannersModel.remove({_id:options.id}, function(err, data){
+
+	deleteCategory: function(options, cb){
+		categoryModel.remove({_id:options.id}, function(err, data){
 		if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable to delete Categories"}));
-		debugger;
 			cb(null, data);
 
 		})

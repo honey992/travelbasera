@@ -124,11 +124,15 @@
                             <div class="col-md-12">
                             <button type="submit" class="btn btn-success" >Add</button>
                                         <button ng-click="resetAll()" class="btn btn-default">Reset</button>
+
                             </div>
                            </form>
+
                            </div>
                             <!-- /.row (nested) -->
                         </div>
+                        <button ng-disabled="emailToUser" ng-click="sendEmail(addnewUserForm , user)" class="btn btn-success">Notify User</button>
+                        <span>Adding User is compulsory to notify User via Email</span>
                         <!-- /.panel-body -->
     </div>
 

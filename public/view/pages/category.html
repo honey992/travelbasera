@@ -31,7 +31,7 @@
                             
                             </div>
                             <div class="col-lg-4">
-                                <label>Choose Images</label>
+                                <label>Choose Image</label>
                                  <input type="file" class="form-control" ngf-select ng-model="file" name="file" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile"> 
                                 <p class="info-text">*Please upload Category Image of 1305*500px</p>
                                  <p class="__errorMsg" ng-show="addCategoryForm.file.$touched && addCategoryForm.file.$invalid ">
@@ -97,9 +97,7 @@
                                         </td>
                                         <td>{{x.cat_name}}</td>
                                         <td>{{x.metadata.is_active | statusName}}</td>
-                                        <td class="center">
-                                       <!--  <i class="fa fa-pencil"  data-toggle="modal" data-target="#myModal" ng-click="openEditPopup(x)"></i>&nbsp;&nbsp; -->
-                                        <i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
+                                       <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#category-Modal" ng-click="editCategory(x);"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                     </tr></tbody>
                             </table></div></div></div>
                             
@@ -118,41 +116,51 @@
   </div>
 
   <!--Edit Modal-->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="category-Modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
-    <form name="updateBannerForm">
+    <form name="editCategoryForm">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Edit Category </h4>
       </div>
       <div class="modal-body">
 
-        <label>Image Title</label>
-        <input type="text" ng-model="eData.imageTitle"  name="title" required  class="form-control" placeholder="Enter Image Title">
-        <p class="__errorMsg" ng-show="uploadBannerForm.title.$touched && uploadBannerForm.title.$invalid ">
-          <span ng-show="uploadBannerForm.title.$error.required">Title is required.</span>
-        </p><br />
-         <label>Choose Images</label>
-        <input type="file" name="file"  class="form-control" file-model="myFile" />
-        <p class="info-text">*Please upload Category Image of 1305*500px</p>
-         <p class="__errorMsg" ng-show="uploadBannerForm.file.$touched && uploadBannerForm.file.$invalid ">
-          <span ng-show="uploadBannerForm.file.$error.required">*File is required.</span>
-        </p><br />
+        <label>Category Name</label>
+        <input type="text" ng-model="eData.cat_name"  name="name" required  class="form-control" ng-pattern="/^[a-zA-Z ]*$/">
+        <p class="__errorMsg" ng-show="editCategoryForm.name.$touched && editCategoryForm.name.$invalid ">
+           <span ng-show="editCategoryForm.name.$error.required">*Please enter category name.</span>
+            <span ng-show="editCategoryForm.name.$error.pattern">*Please enter valid category name.</span>
+        </p>
+        <br />
+        <label>Existing Image</label>
+        <br/>
+        <a target="_blank" href="{{eData.cat_image}}"><img src="{{eData.cat_image}}" width="70px" height="70px" /></a>
+        <br/>
+        <br/>
+         <label>Choose New Image</label>
+          <input type="file" class="form-control" ngf-select ng-model="file" name="file" accept="image/*" ngf-max-size="2MB" ngf-model-invalid="errorFile"> 
+            <p class="info-text">*Please upload Category Image of 1305*500px</p>
+            <p class="__errorMsg" ng-show="editCategoryForm.file.$touched && editCategoryForm.file.$invalid ">
+        </p>
+        <br />
+        <label>Category Description</label> 
+           <textarea rows="3" ng-model="eData.cat_desc" class="form-control" name="description" placeholder="Category Description"></textarea>
+           <p class="__errorMsg" ng-show="editCategoryForm.description.$touched && editCategoryForm.description.$invalid ">
+           <span ng-show="editCategoryForm.description.$error.required">*Description is required.</span>
+          </p>
+        <br/>
         <label>Status</label>
-        <select class="form-control" ng-required="true" name="status" ng-model="eData.status">
-        <option>--Select--</option>
-        <option value="true">Active</option>
-        <option value="false">De-Active</option>
+        <select class="form-control" name="status" ng-model="eData.metadata.is_active">
+        <option ng-value="true">Active</option>
+        <option ng-value="false">De-Active</option>
         </select>
-         <p class="__errorMsg" ng-show="uploadBannerForm.status.$touched && uploadBannerForm.status.$invalid ">
-          <span ng-show="uploadBannerForm.status.$error.required">File is required.</span>
+         <p class="__errorMsg" ng-show="editCategoryForm.status.$touched && editCategoryForm.status.$invalid ">
         </p>
       </div>
       <div class="modal-footer">
-       <button type="button" class="btn btn-success" ng-click="updateBanners(eData)">Update</button>
+       <button type="button" class="btn btn-success" ng-click="updateCategory(file)">Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
       </form>
@@ -167,15 +175,15 @@
     <!-- Modal content-->
     <div class="modal-content">
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <button type="button" class="close" data-dismiss="modal" ng-click="deleteConfirmationModal =!deleteConfirmationModal">&times;</button>
       <h4 class="modal-title">Delete</h4>
     </div>
     <div class="modal-body">
-        <p>You really want to delete this state?</p>
+        <p>You really want to delete this Category?</p>
        
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success" ng-click="deleteBanner()">Yes</button>
+        <button class="btn btn-success" ng-click="deleteCategory()">Yes</button>
       <button type="button" class="btn btn-default" ng-click="deleteConfirmationModal =!deleteConfirmationModal">No</button>
     </div>
     </div> 

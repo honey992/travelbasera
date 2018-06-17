@@ -4,6 +4,7 @@ app.controller('userController', function($scope,$rootScope,$routeParams, $http,
 $scope.user = {};
 $scope.successPop = false;
 	$scope.viewData = true;
+	$scope.emailToUser = true;
 	$scope.toggelView = function(){
 		$scope.viewData = !$scope.viewData;
 	}
@@ -73,8 +74,8 @@ $scope.successPop = false;
 	$scope.addNewUser = function(newUser){
 			if($scope.addnewUserForm.$valid && !$scope.samePasswordError){
 		      $http.post(configuration.SIGN_UP_URL, $scope.user).then(function success(res){
-		      		   $scope.resetAll();
 		      		   $scope.fetchUsers();
+		      		   $scope.emailToUser = false;
 	                   $scope.successPop = true;
 	                   $scope.errorPop = false;
 	                   $scope.successMsg = res.data.message;
@@ -172,6 +173,7 @@ $scope.editUser = function(){
                $scope.successMsg = res.data.message;
                $scope.successPop = true;
                $scope.errorPop = false;
+               $scope.emailToUser = false;
                $scope.singleUser.permissions = $scope.user.permissions;
             }, function errorCallback(err){
                 $scope.errorPop = true;
@@ -213,6 +215,31 @@ $scope.deleteConfirmation = function(id){
                $scope.errorMsg = err.data.message;
 
             });
+	}
+
+	$scope.sendEmail = function(formName,user){
+		if(formName.$valid){
+		      $http.post(configuration.SENDEMAIL_URL, user).then(function success(res){
+						user.userId ? '' : $scope.resetAll();
+						$scope.emailToUser = true;
+						$scope.errorPop = false;
+	                    $scope.successPop = true;
+	                    $scope.successMsg = res.data.message;	       
+	                }, function errorCallback(err){
+	                    $scope.errorPop = true;
+	                    $scope.successPop = false;
+	                   $scope.errorMsg = err.data.message;
+
+	                });
+		 }else{
+		 	 
+			angular.forEach(formName.$error, function(error){
+				               angular.forEach(error, function(control){
+				                   control.$setTouched();
+				               })
+				               
+				           });
+		}
 	}
 
 	$scope.resetAll = function(){
