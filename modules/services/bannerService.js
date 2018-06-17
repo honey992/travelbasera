@@ -11,15 +11,14 @@ var middlewares 	= 	lib.middlewares;
 var bannersServ = {
 	 
 	uploadBannerService: function(options,cb){
-		var img_data = {metadata:{}};
-			img_data.imageTitle = options.imageTitle;
-			img_data.metadata.status = options.status;
-			img_data.imageUrl = options.file.path;
-		var newData = bannersModel(img_data);
-			newData.save(function(err, data){
-				if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable Save Banner."}));
-				cb(null, data);
-			}) 
+		if(!options)
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to update Banner"}));
+        var updatedData = options.file.path ? {cat_name:options.data.cat_name, cat_image :options.file.path, cat_desc : options.data.cat_desc, metadata:{is_active:options.data.metadata.is_active}} : {cat_name:options.data.cat_name, cat_desc : options.data.cat_desc, metadata:{is_active:options.data.metadata.is_active}};
+		bannersModel.update({_id:options.data._id},{$set:updatedData}, function(err, data){
+			if(err)
+				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update Banner'}));
+			cb(null, data);
+		});
 		 
 	},
 	getBanners: function(options, cb){
@@ -27,19 +26,6 @@ var bannersServ = {
 			if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable to get Banner"}));
 			cb(null, data);
 		})
-	},
-	updateBannerService: function(options,cb){
-		// var img_data = {metadata:{}};
-		// 	img_data.imageTitle = options.imageTitle;
-		// 	img_data.metadata.status = options.status;
-		// 	img_data.imageUrl = options.file.path;
-		console.log(options);
-		// var newData = bannersModel(img_data);
-		// 	newData.update({_id:options._id},updateData,function(err, data){
-		// 		if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable Save Image."}));
-		// 		cb(null, data);
-		// 	}) 
-		 
 	},
 	deleteBanners: function(options, cb){
 		console.log(options);

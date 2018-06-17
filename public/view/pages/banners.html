@@ -82,8 +82,7 @@
                                         </td>
                                         <td>{{x.imageTitle}}</td>
                                         <td>{{x.metadata.is_active | statusName}}</td>
-                                        <td class="center">
-                                       <!--  <i class="fa fa-pencil"  data-toggle="modal" data-target="#myModal" ng-click="openEditPopup(x)"></i>&nbsp;&nbsp; -->
+                                        <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#banner-Modal" ng-click="editBanner(x);"></i>&nbsp;&nbsp;
                                         <i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                     </tr></tbody>
                             </table></div></div></div>
@@ -104,41 +103,45 @@
   </div>
 
   <!--Edit Modal-->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="banner-Modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
-    <form name="updateBannerForm">
+    <form name="editBannerForm">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Edit Banner </h4>
+        <h4 class="modal-title">Edit Banners</h4>
       </div>
       <div class="modal-body">
 
         <label>Banner Image Title</label>
-        <input type="text" ng-model="eData.imageTitle"  name="title" required  class="form-control" placeholder="Enter Image Title">
-        <p class="__errorMsg" ng-show="uploadBannerForm.title.$touched && uploadBannerForm.title.$invalid ">
-          <span ng-show="uploadBannerForm.title.$error.required">Title is required.</span>
-        </p><br />
-         <label>Choose Images</label>
-        <input type="file" name="file"  class="form-control" file-model="myFile" />
-        <p class="info-text">*Please upload banner Image of 1305*500px</p>
-         <p class="__errorMsg" ng-show="uploadBannerForm.file.$touched && uploadBannerForm.file.$invalid ">
-          <span ng-show="uploadBannerForm.file.$error.required">*File is required.</span>
-        </p><br />
+        <input type="text" ng-model="eData.imageTitle"  name="imageTitle" required  class="form-control" ng-pattern="/^[a-zA-Z0-9-_ ]*$/">
+        <p class="__errorMsg" ng-show="editBannerForm.imageTitle.$touched && editBannerForm.imageTitle.$invalid ">
+           <span ng-show="editBannerForm.imageTitle.$error.required">*Please enter Banner Image Title.</span>
+            <span ng-show="editBannerForm.imageTitle.$error.pattern">*Please enter valid Banner Image Title.</span>
+        </p>
+        <br />
+        <label>Existing Image</label>
+        <br/>
+        <a target="_blank" href="{{eData.imageUrl}}"><img src="{{eData.imageUrl}}" width="70px" height="70px" /></a>
+        <br/>
+        <br/>
+         <label>Choose New Image</label>
+          <input type="file" class="form-control" ngf-select ng-model="file" name="file" accept="image/*" ngf-max-size="2MB" ngf-model-invalid="errorFile"> 
+            <p class="info-text">*Please upload Banner Image of 1305*500px</p>
+            <p class="__errorMsg" ng-show="editBannerForm.file.$touched && editBannerForm.file.$invalid ">
+        </p>
+        <br />
         <label>Status</label>
-        <select class="form-control" ng-required="true" name="status" ng-model="eData.status">
-        <option>--Select--</option>
-        <option value="true">Active</option>
-        <option value="false">De-Active</option>
+        <select class="form-control" name="status" ng-model="eData.metadata.is_active">
+        <option ng-value="true">Active</option>
+        <option ng-value="false">De-Active</option>
         </select>
-         <p class="__errorMsg" ng-show="uploadBannerForm.status.$touched && uploadBannerForm.status.$invalid ">
-          <span ng-show="uploadBannerForm.status.$error.required">File is required.</span>
+         <p class="__errorMsg" ng-show="editBannerForm.status.$touched && editBannerForm.status.$invalid ">
         </p>
       </div>
       <div class="modal-footer">
-       <button type="button" class="btn btn-success" ng-click="updateBanners(eData)">Update</button>
+       <button type="button" class="btn btn-success" ng-click="updateBanner(file)">Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
       </form>
