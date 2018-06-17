@@ -83,7 +83,7 @@ var cityCtrl = {
 	},
 	_cityByStatesCtrl: function(req,res, next){
 		var options = {};
-		_.assign(options, req.query);
+		_.assign(options, req.params);
 		cityServices.cityByStatesService(options, function(err, result){
 			if(err) return next(err);
 			res.json({'status':"S", data:result})

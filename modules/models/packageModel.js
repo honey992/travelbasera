@@ -40,19 +40,31 @@ var packageSchema = new db.Schema({
 		}],
 	inclusions:[{
 		type:String
-	}],
-	imagesId:{
-		type: db.Schema.Types.ObjectId ,ref: 'admin_packageimages'
-	},
-	rateId:{
-		type: db.Schema.Types.ObjectId ,ref: 'admin_rates'
-	},
-	itenaryId:{
-		type: db.Schema.Types.ObjectId ,ref: 'admin_itenaries'
-	},
+	}], 
 	popular:{
 		type:Boolean,
 		default:false
+	},
+	mainImage:{
+		type:String
+	},
+	rate:{
+		type:Number
+	},
+	days:{
+		type:Number
+	},
+	nights:{
+		type:Number
+	},
+	imagesId:{
+		type: db.Schema.Types.ObjectId ,ref: 'admin_packageimages'
+	},
+	descriptionId:{
+		type: db.Schema.Types.ObjectId ,ref: 'admin_package_description'
+	},
+	itenaryId:{
+		type: db.Schema.Types.ObjectId ,ref: 'admin_itenaries'
 	},
 	metadata:{
 		is_active:{ 

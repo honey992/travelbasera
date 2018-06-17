@@ -149,7 +149,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 
 
 
-		$scope.saveNewPackage = function(files){
+		$scope.saveNewPackage = function(mainImg,files){
 			console.log("data==", $scope.pack)
 			if($scope.addNewPackageForm.$valid ){ 
 				// $http.post(configuration.PACKAGE_URL, {data:$scope.pack}).then(function success(res){
@@ -162,7 +162,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 					Upload.upload({
 					      url:configuration.PACKAGE_URL, 
 					      arrayKey: '',
-					      data: {data:JSON.stringify($scope.pack),file: files} 
+					      data: {data:JSON.stringify($scope.pack),file: [mainImg,files]} 
 					    }).then(function (resp) {
 		            			$scope.successPop = true;
 			                   $scope.errorPop = false;
