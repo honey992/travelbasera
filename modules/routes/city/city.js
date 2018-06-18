@@ -17,23 +17,21 @@ var cityCtrl = {
 	},
 
 	addCityCtrl:function(req, res, next){
-		var options = {};
-		_.assign(options, req.body);
- 
-		// var options = req.body;
+		var options = {file:{}}; 
+		_.assign(options.file,req.file);
+		_.assign(options, req.body); 
 		cityServices.addCityService(options, function(err, data){
 			if(err){
 				return next(err);
 			}
- 
 			res.json({status:1,message:'City Saved Successfully'});
 		})
 	},
 
 	updateCityCtrl:function(req, res, next){
-		var options = {}; 
+		var options = {file:{}};
+		_.assign(options.file,req.file);
 		_.assign(options, req.body);
-		debugger;
 		cityServices.updateCityService(options, function(err, data){
 			if(err){
 				return next(err);

@@ -1,16 +1,17 @@
 'use strict';
 var cityCtrl = require('./city');
 var mongoose  = require('mongoose');
- 
+var lib 	   		= require('../../../lib');
+ var uploadFiles 	= lib.uploadFiles('ss');
 var error 	 = require('../../error');
 
 
 module.exports = function(app){
  
 	app.route('/api/city')
-		.post(cityCtrl.addCityCtrl, error)
+		.post(uploadFiles.upload,cityCtrl.addCityCtrl, error)
 		.get(cityCtrl.getCityCtrl, error)
-		.put(cityCtrl.updateCityCtrl, error)
+		.put(uploadFiles.upload,cityCtrl.updateCityCtrl, error)
 		
 	app.route('/api/city/:id')
 	 .get(cityCtrl.cityByIdCtrl, error)

@@ -43,7 +43,7 @@ function saveCity(){
 	var deferred = Q.defer();
 	console.log(self);
 
-	 var rejObj = {ci_name:self.name,ci_code:self.ci_code, c_id:self.country, s_id:self.state,'metadata.is_active':self.status};
+	 var rejObj = {ci_name:self.data.name,ci_code:self.data.ci_code,ci_image: self.file.path, c_id:self.data.country, s_id:self.data.state,'metadata.is_active':self.data.status};
 	var addCityData = new cityModel(rejObj);
 		addCityData.save(function(err, data){
 			if(err)
@@ -68,8 +68,8 @@ function checkCityExist(){
 function updateCityData(){
 	var self = this;
 	var deferred = Q.defer();
-	var updateData = {ci_name:self.ci_name, c_id:self.c_id, s_id:self.s_id, metadata:{is_active:self.metadata.is_active}};
-	cityModel.update({_id:self._id},{$set:self}, function(err, data){
+	var updateData = self.file.path ? {ci_name:self.data.ci_name, ci_image: self.file.path, c_id:self.data.c_id, s_id:self.data.s_id, metadata:{is_active:self.data.metadata.is_active}} : {ci_name:self.data.ci_name, c_id:self.data.c_id, s_id:self.data.s_id, metadata:{is_active:self.data.metadata.is_active}}
+	cityModel.update({_id:self.data._id},{$set:updateData}, function(err, data){
 		if(err) 
 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch City"}));
 		if(data) 	

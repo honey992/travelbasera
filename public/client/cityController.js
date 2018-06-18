@@ -1,7 +1,7 @@
 "use strict";
 
 
-app.controller('cityController', function($scope, $http,configuration,$location,$routeParams){
+app.controller('cityController', function($scope, $http,configuration,$location,$routeParams,Upload){
 		$scope.successPop = false;
 		var url = $location.url();
 		$scope.viewData = true;
@@ -37,8 +37,8 @@ app.controller('cityController', function($scope, $http,configuration,$location,
 				});
 		}
 
-		$scope.addNewCity = function(){
-			if($scope.addCityForm.$valid){
+		$scope.addNewCity = function(file){
+			/*if($scope.addCityForm.$valid){
 			var reqObj = $scope.city;
 			$http.post(configuration.CITY_URL, reqObj).then(function success(res){
 			   $scope.resetAll();
@@ -58,7 +58,34 @@ app.controller('cityController', function($scope, $http,configuration,$location,
 				               
 				           });
 			
-		}
+					}*/
+
+			if($scope.addCityForm.$valid){ 
+	           Upload.upload({
+			      url:configuration.CITY_URL, 
+			      data: {data:$scope.city,file: file} 
+			    }).then(function (resp) {
+			       $scope.resetAll();
+		           $scope.successPop = true;
+	               $scope.errorPop = false;
+	               $scope.successMsg = resp.data.message;
+		        }, function (resp) {
+		             $scope.successPop = false;
+		               $scope.errorPop = true;
+		               $scope.successMsg = resp.data.message;
+		        }, function (evt) {
+		            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+		            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+		        }); 
+          }
+          else{
+          	angular.forEach($scope.addCityForm.$error, function(error){
+               angular.forEach(error, function(control){
+                   control.$setTouched();
+               })
+               
+           });
+          }
 		}
 		$scope.resetAll = function(){
 			$scope.city = {};
@@ -82,8 +109,9 @@ app.controller('cityController', function($scope, $http,configuration,$location,
 		$scope.getStateData(x.c_id);
 		$scope.eData = x;
 	}
-		$scope.updateCity = function(obj){
-		if($scope.updateCityForm.$valid){
+		
+	$scope.updateCity = function(file){
+		/*if($scope.updateCityForm.$valid){
 			$http.put(configuration.CITY_URL, obj).then(function success(res){
                $scope.successPop = true;
                $scope.errorPop = false;
@@ -102,7 +130,34 @@ app.controller('cityController', function($scope, $http,configuration,$location,
 				               
 				           });
 
-		}
+		}*/
+		if($scope.updateCityForm.$valid){  
+	           Upload.upload({
+			      url:configuration.CITY_URL, 
+			      method : 'PUT',
+			      data: {data:$scope.eData,file: file} 
+			    }).then(function (resp) {
+			        $scope.getCities();
+		           $scope.successPop = true;
+	               $scope.errorPop = false;
+	               $scope.successMsg = resp.data.message;
+		        }, function (resp) {
+		             $scope.successPop = false;
+		               $scope.errorPop = true;
+		               $scope.successMsg = resp.data.message;
+		        }, function (evt) {
+		            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+		            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+		        }); 
+          }
+          else{
+          	angular.forEach($scope.updateCityForm.$error, function(error){
+               angular.forEach(error, function(control){
+                   control.$setTouched();
+               })
+               
+           });
+          }
 		
 	};
 	$scope.deleteConfirmation = function(id){
