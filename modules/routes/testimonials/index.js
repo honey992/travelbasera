@@ -16,6 +16,9 @@ module.exports = function(app){
 		.get(testimonialsCtrl.fetchReviewsByIdCtrl, error)
 	app.route('/api/user-reviews/:id')
 		.delete(testimonialsCtrl.deleteReviewsCtrl, error)
+//Web API
+	app.route('/v1/api/testimonials')
+		.get(testimonialsCtrl._getTestimonailCtrl, error)
 
 
 	 

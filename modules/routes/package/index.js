@@ -23,6 +23,8 @@ module.exports = function(app){
 
 	app.route('/v1/api/package-details/:title')
 		.get(packagesCtrl._getPackageDetailsCtrl, error)
+	app.route('/v1/api/isPopularPackages')
+		.get(packagesCtrl._getPopularPackagesCtrl, error)
 
 
 	 

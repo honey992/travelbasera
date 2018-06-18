@@ -71,7 +71,15 @@ var packCtrl = {
 	_getPackageDetailsCtrl: function(req,res, next){
 		var options  = {};
 		_.assign(options, req.params);
+		debugger;
 		packageServices._PackageDetailsService(options, function(err, result){
+			if(err) return next(err);
+			res.json({'status':"S", data:result});
+		})
+	},
+	_getPopularPackagesCtrl: function(req,res,next){
+		var options  = {};
+		packageServices._getPopularService(options, function(err, result){
 			if(err) return next(err);
 			res.json({'status':"S", data:result});
 		})

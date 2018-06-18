@@ -40,6 +40,13 @@ var reviewCtrl = {
 			if(err) return next(err);
 			res.json({'status':1,message:'Review Deleted Successfully'});
 		})
+	},
+	_getTestimonailCtrl: function(req, res, next){
+		var options = {};
+		testimonialServ._getTestimonailService(options, function(err, result){
+			if(err) return next(err);
+			res.json({'status':'S',data:result});
+		})
 	}
 };
 

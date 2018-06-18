@@ -95,6 +95,12 @@ var categoryServ = {
 			cb(null, data);
 
 		})
+	},
+	_getCategoriesService: function(options, cb){
+		categoryModel.find({'metadata.is_active':true}, function(err, data){
+			if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable to delete Categories"}));
+			cb(null, data);
+		})
 	}
 };
 module.exports = categoryServ;

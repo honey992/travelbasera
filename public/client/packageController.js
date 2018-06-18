@@ -41,7 +41,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 
 		$scope.pack.selectedInclusion = [];
 		$scope.selectInclusion = function(obj){
-			$scope.pack.selectedInclusion.push({'i_name':obj.i_name, 'i_code':obj.i_code});
+			$scope.pack.selectedInclusion.push({'i_name':obj.i_name, 'i_code':obj.i_code,'i_icon':obj.i_icon});
 			$scope.incList = $scope.incList.filter(function(_p){
 				return _p.i_code !== obj.i_code
 			});
@@ -112,7 +112,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		 
 		 $scope.addmoreInclusions = function(){
 			if($scope.inclusionTxt){
-				$scope.pack.inclusionList.push({title:$scope.inclusionTxt});
+				$scope.pack.inclusionList.push($scope.inclusionTxt);
 				$scope.inclusionTxt = '';
 			}
 			
@@ -120,19 +120,19 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 
 		$scope.removeInclusionList = function(o){
 			$scope.pack.inclusionList = $scope.pack.inclusionList.filter(function(f){
-				return f.title !== o.title;
+				return f !== o;
 			});
 		}
 		 $scope.addmoreExclusion = function(){
 			if($scope.excluionTxt){
-				$scope.pack.exclusionList.push({title:$scope.excluionTxt});
+				$scope.pack.exclusionList.push($scope.excluionTxt);
 				$scope.excluionTxt = '';
 			}
 			
 		};
 		$scope.removeExclusionList = function(o){
 			$scope.pack.exclusionList = $scope.pack.exclusionList.filter(function(f){
-				return f.title !== o.title;
+				return f !== o;
 			});
 		};
       	$scope.fetchCategories = function(){
@@ -236,7 +236,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 	 	var packId =  ($location.search() || {}).packageId;
 	 	$http.get(configuration.PACKAGE_URL+'?packageId='+packId).then(function success(res){  
 			       	$scope.packageDetails =  res.data.data[0] || {};
-			       $scope.packageDetails.description =	$sce.trustAsHtml($scope.packageDetails.description);
+			       $scope.packageDetails.description =	$sce.trustAsHtml($scope.packageDetails.description[0].package_description);
 			       }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;

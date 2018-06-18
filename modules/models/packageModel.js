@@ -33,9 +33,10 @@ var packageSchema = new db.Schema({
 	},
 	selectedInclusion:[{
 		i_name:{type:String},
-		i_code:{type:String}
+		i_code:{type:String},
+		i_icon:{type:String}
 	}],
-	exclusion:[{
+	exclusions:[{
 			type:String
 		}],
 	inclusions:[{

@@ -37,6 +37,14 @@ var categoryCtrl = {
 			if(err) return next(err); 
 			res.json({'status':1,'message':'Category Deleted Successfully'});
 		})
+	},
+	_getCategoriesCtrl: function(req, res,next){
+		var options = {};
+		categoryServices._getCategoriesService(options, function(err, result){
+			if(err) return next(err);
+			res.json({'status':'S',data:result});
+
+		})
 	}
 };
 

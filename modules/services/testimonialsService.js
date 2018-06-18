@@ -35,6 +35,12 @@ var bannersServ = {
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to delete reviews'}));
 			cb(null, data);
 		})
+	},
+	_getTestimonailService: function(options, cb){
+		testimonialModel.find({'metadata.is_active':true}, function(err, data){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get reviews'}));
+			cb(null, data);
+		})
 	}
 };
 module.exports = bannersServ;

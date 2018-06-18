@@ -227,7 +227,7 @@
                                 <button class="btn btn-primary" ng-click="addmoreInclusions()">+</button>
                             </div>
                             <ul class="info-text">
-                                <li ng-repeat="x in pack.inclusionList">{{x.title}}&nbsp;<a href="javascript:void(0)" ng-click="removeInclusionList(x)" style="color:red">X</a></li>
+                                <li ng-repeat="x in pack.inclusionList">{{x}}&nbsp;<a href="javascript:void(0)" ng-click="removeInclusionList(x)" style="color:red">X</a></li>
                             </ul>
                             </div> 
                             <br />
@@ -238,7 +238,7 @@
                                 <button class="btn btn-primary" ng-click="addmoreExclusion()">+</button>
                             </div>
                             <ul class="info-text">
-                                <li ng-repeat="x in pack.exclusionList">{{x.title}}&nbsp;<a href="javascript:void(0)" ng-click="removeExclusionList(x)" style="color:red">X</a></li>
+                                <li ng-repeat="x in pack.exclusionList">{{x}}&nbsp;<a href="javascript:void(0)" ng-click="removeExclusionList(x)" style="color:red">X</a></li>
                             </ul>
                             </div> 
                      </div>

@@ -14,5 +14,9 @@ module.exports = function(app){
 		.get(categoryCtrl.getCategoryCtrl, error)   
 	app.route('/api/category/:id')
 		.delete( categoryCtrl.deleteCategoryCtrl, error)
+
+//WEB API
+	app.route('/v1/api/categories')
+		.get(categoryCtrl._getCategoriesCtrl, error)
 	 
 }

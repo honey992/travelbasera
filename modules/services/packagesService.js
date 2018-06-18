@@ -66,7 +66,8 @@ function savePackageImages(){
  function savePackageDetails(){
  	var deferred = Q.defer();
  	var self = this;
- 	var otherDetails = self.data;  
+ 	var otherDetails = self.data; 
+ 	console.log(JSON.stringify(otherDetails)) 
  	var reqObj = {
  		        'category':otherDetails.category,
  		        'type':otherDetails.type,
@@ -83,8 +84,10 @@ function savePackageImages(){
  				'imagesId':self.imagesId,
  				'descriptionId':self.descriptionId,
  				'itenaryId':self.itenaryId,
- 				'popular':self.popular,
- 				'mainImage':self.files['0'].path
+ 				'popular':otherDetails.popular,
+ 				'mainImage':self.files['0'].path,
+ 				'inclusions':otherDetails.inclusionList,
+ 				'exclusions':otherDetails.exclusionList
     }; 
  	var newPack = new packageModel(reqObj); 
  	newPack.save(function(err, data){
@@ -176,7 +179,7 @@ var packageServ = {
 			},
 			{
 				$lookup:{
-				   from: 'admin_package_description',
+				   from: 'admin_package_descriptions',
 			       localField: 'descriptionId',
 			       foreignField: '_id',
 			       as: 'description'
@@ -221,9 +224,10 @@ var packageServ = {
 		if(!options) 
 			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
 			var titleName = options.title.trim();
+			debugger;
 		packageModel.aggregate([
 			{
-				$match:{'title':titleName}
+				$match:{'title':titleName,'metadata.is_active':true}
 			},{
 				$lookup:{
 				   from: 'admin_packageimages',
@@ -263,9 +267,17 @@ var packageServ = {
 			}
 		], function(err, data){
 			if(err) cb(ec.Error({status:ec.DB_ERROR, message :"Unable to get data."}));
-			 
+			 debugger;
 			cb(null,data)
 		});
+	},
+	_getPopularService: function(options, cb){
+		if(!options) 
+			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
+		packageModel.find({popular:true, 'metadata.is_active':true}, function(err, data){
+			if(err) return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Unable to get data"}));
+			cb(null, data);
+		})
 	}
 };
 module.exports = packageServ;
