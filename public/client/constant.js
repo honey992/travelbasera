@@ -3,13 +3,16 @@
 app.constant("configuration", (function() {
     return {
 
-
+        EMAIL_subjectLine : "Email registered with TravelBasera",
+        EMAIL_updateUserSubjectLine : "User Information Updated with TravelBasera",
+        EMAIL_text1 : "Kindly log into Travel Basera with given below Username and Password\n\n",
+        EMAIL_text2 : "\n\nYou can change password after first login to ensure the Safety",
+        EMAIL_text3 : "you can log into your account with your registered username to see updated Information of your account",
          //BASE_URL: window.location.protocol + '//' + window.location.hostname + ':3000/',       //This is base url for HTTP POST, GET, PUT, DELETE Methods
         BASE_URL: window.location.protocol + '//' + window.location.hostname + '/',       //This is base url for HTTP POST, GET, PUT, DELETE Methods
          //SECOND_URL: window.location.protocol + '//' + window.location.hostname + ':3000/' ,      //This is second url for HTTP POST, GET, PUT, DELETE Methods
 
         SECOND_URL: window.location.protocol + '//' + window.location.hostname + '/' ,      //This is second url for HTTP POST, GET, PUT, DELETE Methods
-
         
         SIGN_UP_URL: "api/signup",
         LOGIN_URL : "api/login",
