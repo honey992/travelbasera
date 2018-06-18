@@ -24,9 +24,9 @@ var sendEmailService = {
 
                     var mailOptions = {
                         from: sendEmailModel.auth.user,
-                        to: options.userId ? options.singleUser.email : options.email,
-                        subject: options.userId ? sendEmailModel.updateUserSubjectLine :sendEmailModel.subjectLine, 
-                        text: options.userId ? (sendEmailModel.text3) : (sendEmailModel.text1 + "Username : " + options.email + "  Password : "+ options.password + sendEmailModel.text2)
+                        to: options.to,
+                        subject: options.subject,
+                        text: options.text
                     };
                     transporter.sendMail(mailOptions, function (error, info) {
                         if (error) {

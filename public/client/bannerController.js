@@ -1,6 +1,6 @@
 "use strict";
 
-app.controller('bannerController', function($scope, $http,configuration,$location,fileUpload){
+app.controller('bannerController', function($scope, $http,configuration,$location,fileUpload,Upload){
 		$scope.viewData = true; 
 		$scope.toggelView = function(){
 				$scope.viewData = !$scope.viewData;
@@ -51,27 +51,34 @@ app.controller('bannerController', function($scope, $http,configuration,$locatio
 		x.metadata.is_active = x.metadata.is_active.toString();
 		$scope.eData = x;
 	}
-	$scope.updateBanners = function(){
-		 	if($scope.updateBannerForm.$valid){ 
-	            var file = $scope.myFile;
-	            var details = $scope.eData; 
-	            
-	            var uploadUrl = configuration.UPLOAD_BANNER_URL;
-	           fileUpload.uploadFileToUrl(file, uploadUrl,details,'banner', function(d){
-	            if(d){
-	               $scope.successMsg = d.data.message;
-	               $scope.successPop = true;
+
+	$scope.editBanner = function(editableData){ 
+			$scope.eData = editableData
+			console.log($scope.eData,"KKKKKKKKKKK");
+		};
+
+	$scope.updateBanner = function(file){
+		 	if($scope.editBannerForm.$valid){  
+	           Upload.upload({
+			      url:configuration.UPLOAD_BANNER_URL, 
+			      method : 'PUT',
+			      data: {data:$scope.eData,file: file} 
+			    }).then(function (resp) {
+			       $scope.fetchBanners();
+		           $scope.successPop = true;
 	               $scope.errorPop = false;
-	               $scope.b = {};
-	            }else{
-	            	 $scope.errorPop = true;
-	                $scope.successPop = false;
-	               $scope.errorMsg = err.data.message;
-	            }
-	           }); 
+	               $scope.successMsg = resp.data.message;
+		        }, function (resp) {
+		             $scope.successPop = false;
+		               $scope.errorPop = true;
+		               $scope.successMsg = resp.data.message;
+		        }, function (evt) {
+		            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+		            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+		        }); 
           }
           else{
-          	angular.forEach($scope.updateBannerForm.$error, function(error){
+          	angular.forEach($scope.editBannerForm.$error, function(error){
                angular.forEach(error, function(control){
                    control.$setTouched();
                })

@@ -20,7 +20,7 @@
                         <div class="panel-body">
                            <div class="row">
                            
-                           <form ng-submit="addNewCity()"  name="addCityForm" novalidate >
+                           <form ng-submit="addNewCity(file)"  name="addCityForm" novalidate >
                             <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Country Name</label>
@@ -52,6 +52,14 @@
                                 </p> 
                             
                             </div>
+                            <div class="col-lg-4">
+                                <label>Choose Image</label>
+                                 <input type="file" class="form-control" ngf-select ng-model="file" name="file" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile"> 
+                                <p class="info-text">*Please upload City Image of 1305*500px</p>
+                                 <p class="__errorMsg" ng-show="addCityForm.file.$touched && addCityForm.file.$invalid ">
+                                  <span ng-show="addCityForm.file.$error.required">*Please choose a file.</span>
+                                </p>
+                            </div> 
                             <div class="col-lg-4"> 
                                 <label>Status</label>
 
@@ -85,20 +93,22 @@
                                 <thead>
 
                                     <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">Image </th>
                                     <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">City</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">State</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Country</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">City Code</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">is_Active</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Actions</th>  
                                 </tr>
                                 </thead>
                                 <tbody> 
                                     <tr class="gradeA odd" role="row" ng-repeat="x in cityList">
+                                        <td class="sorting_1">
+                                        <a target="_blank" href="{{x.ci_image}}"><img src="{{x.ci_image}}" width="70px" height="70px" /></a>
+                                        </td>
                                         <td class="sorting_1">{{x.ci_name}}</td>
                                         <td>{{x.c_id | splitName}}</td>
                                         <td>{{x.s_id | splitName}}</td>
-                                        <td>{{x.ci_code}}</td>
                                         <td>{{x.metadata.is_active | statusName}}</td>
                                         <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#myModal" ng-click="openEditPopup(x)"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                     </tr></tbody>
@@ -153,6 +163,17 @@
                         <span ng-show="updateCityForm.cityName.$error.pattern">*Please Enter valid City Name.</span>
             </p> 
             <br />
+            <label>Existing Image</label>
+            <br/>
+            <a target="_blank" href="{{eData.ci_image}}"><img src="{{eData.ci_image}}" width="70px" height="70px" /></a>
+            <br/>
+            <br/>
+         <label>Choose New Image</label>
+          <input type="file" class="form-control" ngf-select ng-model="file" name="file" accept="image/*" ngf-max-size="2MB" ngf-model-invalid="errorFile"> 
+            <p class="info-text">*Please upload City Image of 1305*500px</p>
+            <p class="__errorMsg" ng-show="updateCityForm.file.$touched && updateCityForm.file.$invalid ">
+        </p>
+        <br />
             <lable>Status</lable>
             <select ng-model="eData.metadata.is_active" ng-init="eData.metadata.is_active='true'" class="form-control" name="status">
                 <option value=true>Active</option>
@@ -161,7 +182,7 @@
         
       </div>
       <div class="modal-footer">
-       <button type="button" class="btn btn-success" ng-click="updateCity(eData)">Update</button>
+       <button type="button" class="btn btn-success" ng-click="updateCity(file)">Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
       </form>

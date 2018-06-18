@@ -79,8 +79,8 @@
                                 <thead>
                                     <tr role="row">
                                     <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">Inclusion Name</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Inclusion Code</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Inclusion Icon</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 196px;">Inclusion Code</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">is_Active</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 179px;">Actions</th>  </tr>
                                 </thead>
@@ -91,6 +91,7 @@
                                         <td>{{x.i_code}}</td>
                                         <td>{{x.metadata.is_active | statusName}}</td>
                                         <td class="center">
+                                            <i class="fa fa-pencil" data-toggle="modal" data-target="#inclusion-Modal" ng-click="editInclusion(x);"></i>&nbsp;&nbsp;
                                         <i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i>
                                     </td> 
                                     </tr></tbody>
@@ -110,8 +111,57 @@
     <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
   </div>
 
+
+  <!--Edit Modal-->
+<div id="inclusion-Modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+    <form name="editInclusionForm">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Inclusion </h4>
+      </div>
+      <div class="modal-body">
+
+        <label>Inclusion Name</label>
+        <input type="text" ng-model="eData.i_name"  name="i_name" required  class="form-control" ng-pattern="/^[a-zA-Z0-9 ]*$/">
+        <p class="__errorMsg" ng-show="editInclusionForm.i_name.$touched && editInclusionForm.i_name.$invalid ">
+           <span ng-show="editInclusionForm.i_name.$error.required">*Please enter Inclusion Name.</span>
+            <span ng-show="editInclusionForm.i_name.$error.pattern">*Please enter valid Inclusion Name.</span>
+        </p>
+        <br />
+        <label>Existing Image</label>
+        <br/>
+        <a target="_blank" href="{{eData.i_icon}}"><img src="{{eData.i_icon}}" width="70px" height="70px" /></a>
+        <br/>
+        <br/>
+         <label>Choose New Image</label>
+          <input type="file" class="form-control" ngf-select ng-model="file" name="file" accept="image/*" ngf-max-size="2MB" ngf-model-invalid="errorFile"> 
+            <p class="info-text">*Please upload Inclusion Image of 1305*500px</p>
+            <p class="__errorMsg" ng-show="editInclusionForm.file.$touched && editInclusionForm.file.$invalid ">
+        </p>
+        <br/>
+        <label>Status</label>
+        <select class="form-control" name="status" ng-model="eData.metadata.is_active">
+        <option ng-value="true">Active</option>
+        <option ng-value="false">De-Active</option>
+        </select>
+         <p class="__errorMsg" ng-show="editInclusionForm.status.$touched && editInclusionForm.status.$invalid ">
+        </p>
+      </div>
+      <div class="modal-footer">
+       <button type="button" class="btn btn-success" ng-click="updateInclusion(file)">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
 <!-- Modal -->
-<div class="modal" ng-show="deleteConfirmationModal">
+<div class="modal c" ng-show="deleteConfirmationModal">
 <div class="modal-dialog"> 
     <!-- Modal content-->
     <div class="modal-content">
@@ -131,8 +181,9 @@
 </div>
 </div>
 
+
 <style>
-.modal{
+.c{
     display:block;
 }
 </style>

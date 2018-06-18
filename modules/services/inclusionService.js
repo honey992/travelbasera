@@ -109,22 +109,16 @@ var inclusionService = {
         } 
 	},
 	
-	updateInclusionService:function(options, cb){
-
+	updateInclusionService: function(options,cb){
 		if(!options)
-            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to create State"}));
-
-       checkInclusionExist.call(options)
-            .then(updateInclusionData.bind(options)) 
-            .then(cb)
-            .fail(failureCb)
-            .catch(failureCb)
-
-        function failureCb(err){
-            var finalErr = new Error(err.message || 'Some Undefined Error Occurs.');
-            finalErr.status = err.status || 400;
-            return cb(finalErr);
-        } 
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to update Inclusion"}));
+        var updatedData = options.file.path ? {i_name:options.data.i_name, i_icon :options.file.path, metadata:{is_active:options.data.metadata.is_active}} : {i_name:options.data.i_name, metadata:{is_active:options.data.metadata.is_active}};
+		inclusionModel.update({_id:options.data._id},{$set:updatedData}, function(err, data){
+			if(err)
+				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update Inclusion'}));
+			cb(null, data);
+		});
+		 
 	},
 
 	deleteInclusionService: function(options, cb){

@@ -29,16 +29,14 @@ var bannersServ = {
 		})
 	},
 	updateBannerService: function(options,cb){
-		// var img_data = {metadata:{}};
-		// 	img_data.imageTitle = options.imageTitle;
-		// 	img_data.metadata.status = options.status;
-		// 	img_data.imageUrl = options.file.path;
-		console.log(options);
-		// var newData = bannersModel(img_data);
-		// 	newData.update({_id:options._id},updateData,function(err, data){
-		// 		if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable Save Image."}));
-		// 		cb(null, data);
-		// 	}) 
+		if(!options)
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Invalid data to update Banner"}));
+        var updatedData = options.file.path ? {imageTitle:options.data.imageTitle, imageUrl :options.file.path, metadata:{is_active:options.data.metadata.is_active}} : {imageTitle:options.data.imageTitle, metadata:{is_active:options.data.metadata.is_active}};
+		bannersModel.update({_id:options.data._id},{$set:updatedData}, function(err, data){
+			if(err)
+				return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to Update Banner'}));
+			cb(null, data);
+		});
 		 
 	},
 	deleteBanners: function(options, cb){

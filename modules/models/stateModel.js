@@ -8,6 +8,10 @@ var stateSchema = new db.Schema({
 	s_name:{
 		type:String
 	},
+	s_desc:{
+
+		type:String
+	},
 	s_code:{
 		type:Number
 	},

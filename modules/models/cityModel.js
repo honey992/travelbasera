@@ -15,6 +15,10 @@ var citySchema = new db.Schema({
 	ci_code:{
 		type:Number
 	},
+	ci_image:{
+
+		type:String
+	},
 	metadata:{
 		is_active:{ 
 			type:Boolean, 

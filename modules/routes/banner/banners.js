@@ -24,8 +24,7 @@ var bannersCtrl = {
 	},
 	updateBannerCtrl:function(req, res, next){
 		var options = {file:{}};
-		var filee = _.get(req, 'file');
-		_.assign(options.file,filee);
+		_.assign(options.file,req.file);
 		_.assign(options, req.body);
 		bannerServices.updateBannerService(options, function(err, data){
 			if(err) return next(err); 
