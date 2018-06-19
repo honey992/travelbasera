@@ -21,6 +21,8 @@
                            <div class="row">
                            
                            <form ng-submit="addNewCity(file)"  name="addCityForm" novalidate >
+                            
+                            <div class="col-md-12">
                             <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Country Name</label>
@@ -31,12 +33,7 @@
                                 <p class="__errorMsg" ng-show="addCityForm.cityCountry.$touched && addCityForm.cityCountry.$invalid ">
                                             <span ng-show="addCityForm.cityCountry.$error.required">*Please select county to Add City.</span>
                                 </p> 
-                                <label>City Name</label>
-                                <input type="text" ng-model="city.name" ng-pattern="/^[a-zA-Z ]*$/" name="cityName" ng-required="true" class="form-control" placeholder="Enter City Name">
-                                 <p class="__errorMsg" ng-show="addCityForm.cityName.$touched && addCityForm.cityName.$invalid ">
-                                            <span ng-show="addCityForm.cityName.$error.required">*Please Enter City Name.</span>
-                                            <span ng-show="addCityForm.cityName.$error.pattern">*Please Enter Valid City Name.</span>
-                                </p> 
+                                
                                  
                             </div>
                             
@@ -52,6 +49,18 @@
                                 </p> 
                             
                             </div>
+                            <div class="col-lg-4">
+                            <div class="form-group">
+                                 <label>City Name</label>
+                                <input type="text" ng-model="city.name" ng-pattern="/^[a-zA-Z ]*$/" name="cityName" ng-required="true" class="form-control" placeholder="Enter City Name">
+                                 <p class="__errorMsg" ng-show="addCityForm.cityName.$touched && addCityForm.cityName.$invalid ">
+                                            <span ng-show="addCityForm.cityName.$error.required">*Please Enter City Name.</span>
+                                            <span ng-show="addCityForm.cityName.$error.pattern">*Please Enter Valid City Name.</span>
+                                </p>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="col-md-12">
                             <div class="col-lg-4">
                                 <label>Choose Image</label>
                                  <input type="file" class="form-control" ngf-select ng-model="file" name="file" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile"> 
@@ -69,6 +78,9 @@
                                 <option value="false">De-Active</option>
                                 </select>
                             </div>
+                            <div class="col-lg-4"></div>
+                            </div>
+                            <br />
                             <div class="col-md-12 text-center">
                             <button type="submit" class="btn btn-success">Add</button>
                                         <button type="reset" ng-click="resetAll()" class="btn btn-default">Reset</button>
