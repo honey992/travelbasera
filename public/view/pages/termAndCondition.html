@@ -2,11 +2,11 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">About us</h3>
+            <h3 class="page-header">Term and Condition</h3>
         </div>
     </div>
 
- <div ng-show="viewData" ng-if="loggedInUser.permissions.about.add">
+ <div ng-show="viewData" ng-if="loggedInUser.permissions.termAndCondition.add">
         <button class="btn btn-primary btn-xs"  ng-click="toggelView()"><i class="fa fa-plus"></i> Add</button>
     </div>
     <div ng-hide="viewData" >
@@ -15,14 +15,14 @@
     <br />
 
     <div class="panel panel-default" ng-hide="viewData">
-                        <div class="panel-heading"><u><b> Add About us</b></u> </div>
+                        <div class="panel-heading"><u><b>Add TravelBasera's Terms and Conditions</b></u> </div>
                         <div class="panel-body">
                            <div class="row">
-                           <form  name="aboutusForm" novalidate enctype= "multipart/form-data">
+                           <form  name="termAndConditionForm" novalidate enctype= "multipart/form-data">
                             <div class="col-lg-12">
                             <div class="form-group">
                                 <div class="form-group editorr">
-	                     		<div text-angular ng-model="about.description" name="description"></div>
+	                     		<div text-angular ng-model="tnC.description" name="description"></div>
                      		</div>
                      		 <span ng-show="requiredDesc" class="__errorMsg">*Field is required</span>
                                
@@ -30,8 +30,8 @@
                             
                             </div> 
                             <div class="col-md-12">
-                            <button type="submit" class="btn btn-success" ng-click="addAbout()" ng-if="!editAbout">Add</button>
-                            <button type="submit" class="btn btn-success" ng-click="updateAboutContent()" ng-if="editAbout">Update</button>
+                            <button type="submit" class="btn btn-success" ng-click="addTnC()" ng-if="!editTnC">Add</button>
+                            <button type="submit" class="btn btn-success" ng-click="updateTnC()" ng-if="editTnC">Update</button>
                             <button ng-click="resetAll()" class="btn btn-default">Reset</button>
                             </div>
                            </form> 
@@ -44,7 +44,7 @@
     
     <div class="panel panel-default" ng-show="viewData">
                         <div class="panel-heading">
-                            <u><b>About TravelBasera</b></u>
+                            <u><b>About TravelBasera's Terms and Conditions</b></u>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -58,7 +58,7 @@
                                 </thead>
                                 <tbody> 
                                     <tr class="gradeA odd" role="row">
-                                        <td> <p ng-bind-html="aboutCb"></p></td>
+                                        <td> <p ng-bind-html="tncCb"></p></td>
                                         <td class="center">
                                         <i class="fa fa-pencil" ng-click="viewData = !viewData"></i>
                                         <!-- <i class="fa fa-trash" ng-click="deleteRole(x._id)"></i> -->

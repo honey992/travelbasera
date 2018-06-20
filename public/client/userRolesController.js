@@ -40,7 +40,7 @@ app.controller('userRolesController', function($scope, $http,configuration,$loca
 		$scope.fetchRoles();
 	$scope.openEditPopup = function(x){
 		x.metadata.is_active = x.metadata.is_active.toString();
-		$scope.eData = x;
+		$scope.eData = angular.copy(x);
 	}
 	$scope.updateRole = function(obj){
 		if($scope.updateRoleForm.$valid){

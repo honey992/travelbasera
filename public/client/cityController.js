@@ -107,7 +107,7 @@ app.controller('cityController', function($scope, $http,configuration,$location,
 	$scope.openEditPopup = function(x){
 		x.metadata.is_active = x.metadata.is_active.toString();
 		$scope.getStateData(x.c_id);
-		$scope.eData = x;
+		$scope.eData = angular.copy(x);
 	}
 		
 	$scope.updateCity = function(file){

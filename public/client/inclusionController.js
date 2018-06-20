@@ -44,7 +44,7 @@ app.controller('inclusionController', function($scope, $http,configuration,$loca
 
 
 		$scope.editInclusion = function(editableData){ 
-			$scope.eData = editableData
+			$scope.eData = angular.copy(editableData)
 		};
 
 

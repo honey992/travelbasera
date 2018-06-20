@@ -46,7 +46,7 @@ app.controller('countryController', function($scope, $http,configuration,$locati
 		
 
 		$scope.editCountry = function(editableData){ 
-			$scope.eData = editableData
+			$scope.eData = angular.copy(editableData)
 		};
 
 		$scope.updateCountry = function(upData){

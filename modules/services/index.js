@@ -13,5 +13,8 @@ module.exports = {
 	inclusionServices : require('./inclusionService'),
 	packageServices : require('./packagesService'),
 	categoryServices : require('./categoryService'),
-	sendEmailServices : require('./sendEmailService')
+	sendEmailServices : require('./sendEmailService'),
+	termAndConditionsService : require('./termAndConditionsService'),
+	faqService : require('./faqService'),
+	careerService : require('./careerService')
 }

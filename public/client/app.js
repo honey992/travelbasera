@@ -64,8 +64,16 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',fu
         }).when("/categories", {
             templateUrl: "/view/pages/category.html",
             controller: "categoryController"
-        })
-        .otherwise({
+        }).when("/termAndCondition", {
+            templateUrl: "/view/pages/termAndCondition.html",
+            controller: "termAndConditionController"
+        }).when("/faq", {
+            templateUrl: "/view/pages/faq.html",
+            controller: "faqController"
+        }).when("/career", {
+            templateUrl: "/view/pages/career.html",
+            controller: "careerController"
+        }).otherwise({
             redirectTo: "/"
         });
             $locationProvider.html5Mode({

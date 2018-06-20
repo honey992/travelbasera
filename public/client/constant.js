@@ -39,6 +39,9 @@ app.constant("configuration", (function() {
         PACKAGE_URL : "/api/packages",
         PACKAGE_IMAGES_URL : "/api/uploadImages",
         CATEGORY_URL  : "/api/category",
-        SENDEMAIL_URL  : "/api/sendEmail"
+        SENDEMAIL_URL  : "/api/sendEmail",
+        TERM_CONDITION_URL  : "/api/termAndConditions",
+        FAQ_URL  : "/api/faq",
+        CAREER_URL  : "/api/career"
     }
 })());

@@ -49,7 +49,7 @@ app.controller('bannerController', function($scope, $http,configuration,$locatio
 
     $scope.openEditPopup = function(x){
 		x.metadata.is_active = x.metadata.is_active.toString();
-		$scope.eData = x;
+		$scope.eData = angular.copy(x);
 	}
 
 	$scope.editBanner = function(editableData){ 
