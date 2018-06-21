@@ -16,7 +16,9 @@ module.exports = function(app){
 	require('./routes/package')(app);
 	require('./routes/category')(app);
 	require('./routes/sendEmail')(app);
-
+	require('./routes/termAndConditions')(app);
+	require('./routes/faq')(app);
+	//require('./routes/career')(app);
 
 	db.mongoose.connection.on('connected', function (err) {
 		if(err){

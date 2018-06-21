@@ -294,9 +294,18 @@
                         <li ng-if="loggedInUser.permissions.about.view">
                              <a href="#!/aboutUs"><i class="fa fa-bar-chart-o fa-fw"></i> About Us</a>
                         </li>
+                        <li ng-if="loggedInUser.permissions.termAndCondition.view">
+                             <a href="#!/termAndCondition"><i class="fa fa-bar-chart-o fa-fw"></i>Terms And Conditions</a>
+                        </li>
                         <li ng-if="loggedInUser.permissions.contact.view"> 
                             <a href="#!/contactDetails"><i class="fa fa-bar-chart-o fa-fw"></i> Contact Details</a>
                         </li>
+                        <li ng-if="loggedInUser.permissions.faq.view"> 
+                            <a href="#!/faq"><i class="fa fa-bar-chart-o fa-fw"></i> FAQ </a>
+                         </li>
+                         <li ng-if="loggedInUser.permissions.career.view"> 
+                            <a href="#!/career"><i class="fa fa-bar-chart-o fa-fw"></i> Career </a>
+                         </li>
                         <li ng-if="loggedInUser.permissions.inclusions.view"> 
                             <a href="#!/inclusion"><i class="fa fa-bar-chart-o fa-fw"></i> Inclusion </a>
                         </li>
@@ -366,6 +375,9 @@ else { document.getElementById('nav').style.display = 'block';}
      <script src="client/contactController.js"></script>
      <script src="client/cityController.js"></script>
      <script src="client/categoryController.js"></script>
+     <script src="client/termAndConditionController.js"></script>
+     <script src="client/faqController.js"></script>
+     <script src="client/careerController.js"></script>
 
 
 </body>

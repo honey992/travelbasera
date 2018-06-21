@@ -223,7 +223,7 @@ $scope.deleteConfirmation = function(id){
 						to: user.email,
                         subject: $scope.userId ? configuration.EMAIL_updateUserSubjectLine : configuration.EMAIL_subjectLine, 
                         text: $scope.userId ? (configuration.EMAIL_text3) : (configuration.EMAIL_text1 + "Username : " + user.email + "  Password : "+ user.password + configuration.EMAIL_text2)
-                    }
+                       };
 		      $http.post(configuration.SENDEMAIL_URL, obj).then(function success(res){
 						$scope.userId ? '' : $scope.resetAll();
 						$scope.emailToUser = true;

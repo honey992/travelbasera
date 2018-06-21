@@ -18,5 +18,8 @@ module.exports={
 	itenaryModel : require('./itenaryModel'),
 	categoryModel : require('./categoryModel'),
 	sendEmailModel : require('./sendEmailModel'),
-	policyModel : require('./policyModel')
+	policyModel : require('./policyModel'),
+	termAndConditionModel : require('./termAndConditionModel'),
+	faqModel : require('./faqModel'),
+	careerModel : require('./careerModel')
 }

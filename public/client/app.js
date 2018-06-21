@@ -63,17 +63,22 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',fu
         }).when("/categories", {
             templateUrl: "/view/pages/category.html",
             controller: "categoryController"
-        }).when("/categories", {
-            templateUrl: "/view/pages/category.html",
-            controller: "categoryController"
-        })
-        .otherwise({
+        }).when("/termAndCondition", {
+            templateUrl: "/view/pages/termAndCondition.html",
+            controller: "termAndConditionController"
+        }).when("/faq", {
+            templateUrl: "/view/pages/faq.html",
+            controller: "faqController"
+        }).when("/career", {
+            templateUrl: "/view/pages/career.html",
+            controller: "careerController"
+        }).otherwise({
             redirectTo: "/"
-        });
-            $locationProvider.html5Mode({
-            enabled: false,
-            requireBase: false
-        });
+        })
+        //   $locationProvider.html5Mode({
+        //     enabled: false,
+        //     requireBase: false
+        // });
          $httpProvider.interceptors.push('authInterceptor');
        $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions) { // $delegate is the taOptions we are decorating
                     // taRegisterTool('test', {
