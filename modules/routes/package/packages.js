@@ -71,6 +71,7 @@ var packCtrl = {
 	_getPackageDetailsCtrl: function(req,res, next){
 		var options  = {};
 		_.assign(options, req.params);
+		_.assign(options, req.query);
 		debugger;
 		packageServices._PackageDetailsService(options, function(err, result){
 			if(err) return next(err);

@@ -67,6 +67,9 @@ var packageSchema = new db.Schema({
 	itenaryId:{
 		type: db.Schema.Types.ObjectId ,ref: 'admin_itenaries'
 	},
+	policyId:{
+		type: db.Schema.Types.ObjectId ,ref: 'admin_package_policy'
+	},
 	metadata:{
 		is_active:{ 
 			type:Boolean, 

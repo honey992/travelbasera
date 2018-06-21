@@ -249,6 +249,37 @@
                             </div>
                         </div>
                      </div>
+                     <div class="divider"></div>
+                     <div class="section">
+                     <div class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                            <label>Payment Policy</label>
+                             <textarea rows="3" class="form-control" ng-model="pack.paymentPolicy" required name="paymentPolicy"></textarea>
+                             <p class="__errorMsg" ng-show="addNewPackageForm.title.$touched && addNewPackageForm.title.$invalid ">
+                              <span ng-show="addNewPackageForm.title.$error.required">*Title is required.</span>
+                              <span ng-show="addNewPackageForm.title.$error.pattern">*Enter valid title.</span>
+                            </p>
+                            </div> 
+                        </div>
+                         <div class="col-md-4">
+                            <div class="form-group">
+                            <label>Cancellation Policy</label>
+                             <textarea rows="3" class="form-control" ng-model="pack.cancellationPolicy" required name="cancellationPolicy"></textarea>
+                             <p class="__errorMsg" ng-show="addNewPackageForm.title.$touched && addNewPackageForm.title.$invalid ">
+                              <span ng-show="addNewPackageForm.title.$error.required">*Title is required.</span>
+                              <span ng-show="addNewPackageForm.title.$error.pattern">*Enter valid title.</span>
+                            </p>
+                            </div> 
+                        </div>
+                         <div class="col-md-4">
+                            <div class="form-group">
+                            <label>Other Policy(optional)</label>
+                             <textarea rows="3" class="form-control" ng-model="pack.otherPolicy" name="otherPolicy" ></textarea>
+                            </div> 
+                        </div>
+                     </div>
+                     </div>
                             <div class="col-md-12">
                             <button type="submit" class="btn btn-success" ng-click="saveNewPackage(mainImageFile,imagesFile)">Add</button>
                             <button type="reset" ng-click="resetAll()" class="btn btn-default">Reset</button>

@@ -1,14 +1,15 @@
-var _ 				= 	require('lodash');
-var Q 				=	require('q');
-var mongoose 				=	require('mongoose');
-var _models 		= 	require('../models');
-var packageModel    = _models.packageModel;
-var descriptionModel       = _models.descriptionModel;
-var imagesModel     = _models.imagesModel;
-var itenaryModel   = _models.itenaryModel;
-var ec 				= 	require('../../constants').errors;
-var lib 			=	require('../../lib');
-var middlewares 	= 	lib.middlewares; 
+var _ 					= 	require('lodash');
+var Q 					=	require('q');
+var mongoose 			=	require('mongoose');
+var _models 			= 	require('../models');
+var packageModel    	= 	_models.packageModel;
+var descriptionModel    = 	_models.descriptionModel;
+var imagesModel     	= 	_models.imagesModel;
+var itenaryModel   		= 	_models.itenaryModel;
+var policyModel	   		=   _models.policyModel;
+var ec 					= 	require('../../constants').errors;
+var lib 				=	require('../../lib');
+var middlewares 		= 	lib.middlewares; 
 
 
 function savePackageImages(){
@@ -63,6 +64,24 @@ function savePackageImages(){
  	});
  	return deferred.promise; 
  }
+
+ function savePackagePolicy(){
+ 	var deferred = Q.defer();
+ 	var self = this;
+ 	var otherDetails = self.data; 
+ 	var reqObj = {
+ 		'paymentPolicy' : otherDetails.paymentPolicy,
+		'cancellationPolicy' : otherDetails.cancellationPolicy,
+		'otherPolicy' : otherDetails.otherPolicy
+ 	};
+ 	var newPackagePolicy = new policyModel(reqObj);
+ 	newPackagePolicy.save(function(err, data){
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package Policy"}));
+ 		self.policyId = data._id;
+ 		deferred.resolve();
+ 	});
+ 	return deferred.promise; 
+ }
  function savePackageDetails(){
  	var deferred = Q.defer();
  	var self = this;
@@ -84,6 +103,7 @@ function savePackageImages(){
  				'imagesId':self.imagesId,
  				'descriptionId':self.descriptionId,
  				'itenaryId':self.itenaryId,
+ 				'policyId' : self.policyId,
  				'popular':otherDetails.popular,
  				'mainImage':self.files['0'].path,
  				'inclusions':otherDetails.inclusionList,
@@ -123,6 +143,7 @@ var packageServ = {
 		savePackageImages.call(options)
 		   .then(savePackageDescription.bind(options))
 		   .then(savePackageItenary.bind(options)) 
+		   .then(savePackagePolicy.bind(options)) 
            .then(savePackageDetails.bind(options)) 
             .then(cb)
             .fail(failureCb)
@@ -194,6 +215,14 @@ var packageServ = {
 				}
 			},
 			{
+				$lookup:{
+				   from: 'admin_package_policies',
+			       localField: 'policyId',
+			       foreignField: '_id',
+			       as: 'policies'
+				}
+			},
+			{
 				$project:{
 					'images._id':0,
 					'images.metadata':0,
@@ -204,6 +233,9 @@ var packageServ = {
 					'itenaries._id':0,
 					'itenaries.metadata':0,
 					'itenaries._v':0,
+					'policies._id':0,
+					'policies.metadata':0,
+					'policies._v':0,
 				}
 			}
 		], function(err, data){
@@ -251,6 +283,13 @@ var packageServ = {
 			       foreignField: '_id',
 			       as: 'itenaries'
 				}
+			},{
+				$lookup:{
+				   from: 'admin_package_policies',
+			       localField: 'policyId',
+			       foreignField: '_id',
+			       as: 'policies'
+				}
 			},
 			{
 				$project:{
@@ -263,6 +302,9 @@ var packageServ = {
 					'itenaries._id':0,
 					'itenaries.metadata':0,
 					'itenaries._v':0,
+					'policies._id':0,
+					'policies.metadata':0,
+					'policies._v':0,
 				}
 			}
 		], function(err, data){

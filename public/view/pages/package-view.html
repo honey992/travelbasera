@@ -7,6 +7,10 @@
     </div>  
  <table border="1"  width="100%" class="table  table-bordered table-hover" width="100%">
  <tr>
+     <td width="20%"><b>Package Id:</b></td>
+     <td width="80%">{{packageDetails._id | splitId}}</td>
+ </tr>
+ <tr>
      <td width="20%"><b>Title:</b></td>
      <td width="80%">{{packageDetails.title}}</td>
  </tr>
@@ -36,6 +40,12 @@
         <ul>
             <li ng-repeat="x in packageDetails.highlights">{{x.title}}</li>
         </ul>
+     </td>
+ </tr>
+  <tr>
+     <td width="20%"><b>Main Image:</b></td>
+     <td width="80%">
+       <a href="{{packageDetails.mainImage}}" target="_blank"> <img src="{{packageDetails.mainImage}}" width="20%"></a>
      </td>
  </tr>
   <tr>
@@ -80,9 +90,27 @@
      <td width="20%"><b>Itenary:</b></td>
      <td width="80%">
      <div ng-repeat="x in packageDetails.itenaries[0].package_itenary">
-        <p style="margin:0px; font-weight: 100px">{{x.title}}</p>
+        <b>{{x.title}}</b>
         <div>{{x.description}}</div>
      </div>
+        </td>
+ </tr>
+ <tr>
+     <td width="20%"><b>Policies</b></td>
+     <td width="80%">
+     <div >
+        <b>Payment Policy</b>
+        <p>{{packageDetails.policies[0].paymentPolicy}}</p>
+     </div>
+     <div >
+        <b>Cancellation Policy</b>
+        <p>{{packageDetails.policies[0].cancellationPolicy}}</p>
+     </div>
+     <div >
+        <b>Other Policy</b>
+        <p>{{packageDetails.policies[0].otherPolicy}}</p>
+     </div>
+
         </td>
  </tr>
  </table>
