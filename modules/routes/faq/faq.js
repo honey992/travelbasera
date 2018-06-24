@@ -35,6 +35,13 @@ var faqCtrl = {
 			if(err) return next(err); 
 			res.json({'status':1,'message':'FAQs Deleted Successfully'});
 		})
+	},
+	_getFaqsCtrl: function(req,res,next){
+		var options= {};
+		faqServices._getFaqsServce(options, function(err, result){
+			if(err) return next(err); 
+			res.json({'status':'S','data':result});
+		})
 	}
 };
 

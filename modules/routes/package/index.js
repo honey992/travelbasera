@@ -29,6 +29,7 @@ module.exports = function(app){
 		.get(packagesCtrl._getPackageByCategoryCtrl, error)
 	app.route('/v1/api/search')
 		.get(packagesCtrl._searchPackages, error)
+	 
 
 	 
 }

@@ -5,6 +5,9 @@ var aboutSchema = new db.Schema({
 	description:{
 		type:String
 	}, 
+	sort_description:{
+		type:String
+	},
 	metadata:{
 		is_active:{ 
 			type:Boolean, 

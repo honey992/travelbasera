@@ -49,6 +49,12 @@ var faqService = {
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to delete FAQs'}));
 			cb(null, result);
 		});
+	},
+	_getFaqsServce: function(options, cb){
+		faqModel.find({'metadata.is_active':true}, function(err, result){
+			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get FAQs'}));
+			cb(null, result);
+		});
 	}
 };
 module.exports = faqService;

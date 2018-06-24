@@ -27,8 +27,14 @@
                      		 <span ng-show="requiredDesc" class="__errorMsg">*Field is required</span>
                                
                             </div>
+                            <div>
+                            <label>Sort About</label>
+                            <textarea rows="3" class="form-control" ng-model="about.sort_description"></textarea>
+                            <span ng-show="requiredSortDesc" class="__errorMsg">*Field is required</span>
+                            </div>
                             
                             </div> 
+                            <div style="height:20px; float:left; width:100%"></div>
                             <div class="col-md-12">
                             <button type="submit" class="btn btn-success" ng-click="addAbout()" ng-if="!editAbout">Add</button>
                             <button type="submit" class="btn btn-success" ng-click="updateAboutContent()" ng-if="editAbout">Update</button>

@@ -34,6 +34,16 @@ var termAndConditionsCtrl = {
 		
 			res.json({'status':1,'message':'Terms and conditions Updated Successfully', data:data});
 		})
+	},
+	_gettermConditionsCtrl: function(req,res,next){
+		var options = {};
+		termAndConditionsServices._getTermsConditionService(options, function(err,result){
+			if(err){
+				return next(err);
+			}
+		
+			res.json({'status':'S', data:result});
+		})
 	}
 };
 

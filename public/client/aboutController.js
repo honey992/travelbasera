@@ -10,7 +10,8 @@ $scope.about = {};
 
 		 $scope.addAbout = function(){
 		 	$scope.requiredDesc = false;
-		 	if($scope.about.description){
+      $scope.requiredSortDesc = false;
+		 	if($scope.about.description && $scope.about.sortDescription){
 		 		$http.post(configuration.ABOUT_US_URL, $scope.about).then(function success(res){
                $scope.successPop = true;
                $scope.errorPop = false;
@@ -23,6 +24,7 @@ $scope.about = {};
  			});
 		 	}else{
 		 		$scope.requiredDesc = true;
+        if(!$scope.about.sortDescription) $scope.requiredSortDesc = true;
 		 	}
 		 	 
 		 };

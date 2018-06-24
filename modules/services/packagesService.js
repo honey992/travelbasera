@@ -334,8 +334,7 @@ var packageServ = {
 			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
 	 var searchQuery = {'metadata.is_active':true};
 	 if(options.source) searchQuery.sourceCity = options.source;
-	 if(options.destination) searchQuery.city = {$regex:options.destination,$options: '-i'};
-	 if(options.category) searchQuery.category = options.category; 
+	 if(options.destination) searchQuery.city = {$regex:options.destination,$options: '-i'}; 
 		packageModel.aggregate([
 			{
 				$match:searchQuery
@@ -391,6 +390,6 @@ var packageServ = {
 			 debugger;
 			cb(null,data)
 		});
-	}
+	} 
 };
 module.exports = packageServ;

@@ -14,4 +14,9 @@ module.exports = function(app){
 		
 	app.route('/api/faq/:id')
 	 	.delete(faqCtrl.deleteFaqCtrl,error) 
+
+
+//APi for web
+ app.route('/v1/api/faq')
+ 	.get(faqCtrl._getFaqsCtrl, error)
 }

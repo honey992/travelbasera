@@ -3,6 +3,7 @@ var jwt				=	require('jsonwebtoken');
 var Q 				=	require('q');
 var _models    	   = 	require('../models');
 var cityModel     =  _models.cityModel;
+var stateModel     =  _models.stateModel;
 var ec 				= 	require('../../constants').errors;
 const lib 			=	require('../../lib');
 const middlewares 	= 	lib.middlewares; 
@@ -33,7 +34,9 @@ function fetchLastCity(){
  		if(data.length){
             var lastElm = data[data.length-1];
      		self.ci_code = parseInt(lastElm.ci_code)+1;
+     		debugger;
        } 
+       debugger;
  		deferred.resolve();
  	});
  	return deferred.promise;
@@ -43,7 +46,7 @@ function saveCity(){
 	var deferred = Q.defer();
 	console.log(self);
 
-	 var rejObj = {ci_name:self.data.name,ci_code:self.data.ci_code,ci_image: self.file.path, c_id:self.data.country, s_id:self.data.state,'metadata.is_active':self.data.status};
+	 var rejObj = {ci_name:self.data.name,ci_code:self.ci_code,ci_image: self.file.path, c_id:self.data.country, s_id:self.data.state,'metadata.is_active':self.data.status};
 	var addCityData = new cityModel(rejObj);
 		addCityData.save(function(err, data){
 			if(err)
@@ -78,6 +81,8 @@ function updateCityData(){
 	return deferred.promise; 
 };
 
+
+ 
 var cityService = {
 
 	getCityService:function(options, cb){
@@ -156,10 +161,20 @@ var cityService = {
 		});
 	},
 	cityByStatesService: function(options, cb){
-		cityModel.find({'metadata.is_active':true, 's_id':options.stateId}, function(err, result){
-			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
-			cb(null, result);
-		});
+		var code = options.stateId.split('-')[0];
+		console.log({'metadata.is_active':true,s_code:code});
+	    stateModel.findOne({'metadata.is_active':true,s_code:code}, function(err, stateData){
+	    	 
+	    	var resObj = {stateDesc:stateData.s_desc, result:[]};
+	    	if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+	    	cityModel.find({'metadata.is_active':true, 's_id':options.stateId}, function(err, result){
+				if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
+				console.log(result)
+				resObj.result = result;
+				cb(null, resObj);
+			});
+	    })
+		
 	}
 };
 module.exports = cityService;

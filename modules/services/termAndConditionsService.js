@@ -32,6 +32,13 @@ var TermAndConditionServ = {
             return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Update Term and Condition."}));
         cb(null, data);
     });
+	},
+	_getTermsConditionService: function(options, cb){
+		termAndConditionModel.findOne({'metadata.is_active':true}, function(err, data){
+			 if(err) 
+            return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to get Term and Condition."}));
+        cb(null, data);
+		})
 	}
 };
 module.exports = TermAndConditionServ;

@@ -4,91 +4,9 @@ var aboutModel 		= 	require('../models').aboutModel;
 var ec 				= 	require('../../constants').errors;
 var lib 			=	require('../../lib');
 var middlewares 	= 	lib.middlewares; 
-
  
- function checkNewRole(){
- 	var self = this;
- 	var deferred = Q.defer();
- 	self.r_code = '1';
- 	rolesModel.find({r_name:self.r_name}, function(err, data){
- 		if(err)
- 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch About us"}));
- 		if(data.length)
- 			return deferred.reject(ec.Error({status:ec.DATA_ALREADY_EXISTS, message :"About us Already exist"}));
- 		deferred.resolve();
 
- 	});
- 	return deferred.promise;
- }
- 
- function fetchAllRoles(){
- 	var self = this;
- 	var deferred = Q.defer();
- 	rolesModel.find(function(err, data){
- 		if(err)
- 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch About us"}));
- 		
- 		if(data.length){
-            var lastElm = data[data.length-1];
-     		self.r_code = parseInt(lastElm.r_code)+1;
-       } 
- 		deferred.resolve();
- 	});
- 	return deferred.promise;
- }
-
- function saveNewRoles(){
- 	var self = this;
- 	var deferred = Q.defer();
- 	
- 	var newRole = new rolesModel(self);
- 	newRole.save(function(err, result){
- 		if(err)
- 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save About us"}));
- 		deferred.resolve();
-
- 	});
- 	return deferred.promise;
- }
-
- function fetchRole(){
-    var self = this;
-    var deferred = Q.defer();
-    rolesModel.find({_id:self._id}, function(err, data){
-     if(err)
-            return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch About us"}));
-        deferred.resolve();
-
-    });
-    return deferred.promise;
- }
-
-function updateRole(){
-    var self = this;
-    var deferred = Q.defer();
-    var updateData = {r_name:self.r_name, metadata:{is_active:self.metadata.is_active}};
-    rolesModel.update({_id:self._id},{$set:self}, function(err, data){
-        if(err) 
-            return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Update About us"}));
-        if(data)    
-            deferred.resolve();
-    });
-    return deferred.promise; 
-};
-
-function deleteRole(){
-    var self = this;
-    var deferred = Q.defer();
-    rolesModel.remove({_id:self.id}, function(err, data){
-     if(err) 
-            return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Update about us"}));
-        if(data)    
-            deferred.resolve();
-    });
-    return deferred.promise; 
-};
-
-var userServ = {
+var aboutServ = {
 	addAboutService:function(options, cb){
 
 		 if(!options || !options.description)
@@ -110,7 +28,7 @@ var userServ = {
 		 if(!options || !options.description )
             return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to update About us"}));
 
-		 var updateData = {description:options.description};
+		 var updateData = {description:options.description, sort_description:options.sort_description};
     aboutModel.update({_id:options._id},{$set:updateData}, function(err, data){
         if(err) 
             return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Update About us"}));
@@ -135,4 +53,4 @@ var userServ = {
         } 
     }
 };
-module.exports = userServ;
+module.exports = aboutServ;

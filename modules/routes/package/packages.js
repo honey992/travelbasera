@@ -101,7 +101,7 @@ var packCtrl = {
 			if(err) return next(err);
 			res.json({'status':"S", data:result});
 		})
-	}
+	} 
 };
 
 module.exports = packCtrl;
