@@ -86,7 +86,10 @@ var contactServicex = {
         						contactno:options.contactno,
         						email:options.email,
         						address:options.address,
-        						website:options.website, 
+        						website:options.website,
+        						fblink:options.fblink,
+								twrlink:options.twrlink,
+								instId:options.instId, 
         						metadata:{is_active:options.metadata.is_active}
         					};
 		contactModel.update({_id:options._id},{$set:updateAbleData}, function(err, data){

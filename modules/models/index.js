@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports={
-	userModel : require('./userModel'),
+	adminUserModel : require('./admin-userModel'),
 	rolesModel : require('./rolesModel'),
 	countryModel : require('./countryModel'),
 	stateModel : require('./stateModel'),
@@ -21,5 +21,6 @@ module.exports={
 	policyModel : require('./policyModel'),
 	termAndConditionModel : require('./termAndConditionModel'),
 	faqModel : require('./faqModel'),
-	careerModel : require('./careerModel')
+	careerModel : require('./careerModel'),
+	userModel : require('./usersModel')
 }

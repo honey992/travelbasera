@@ -14,6 +14,15 @@ var contactSchema = new db.Schema({
 	website:{
 		type:String
 	},
+	fblink:{
+		type:String
+	},
+	twrlink:{
+		type:String
+	},
+	instId:{
+		type:String
+	},
 	metadata:{
 		is_active:{ 
 			type:Boolean, 

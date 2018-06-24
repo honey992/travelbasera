@@ -62,6 +62,31 @@
                                     <span ng-show="addContactusForm.web.$error.required">*Please Enter Website URL.</span>
                                 </p> 
                             </div>
+                            <div class="col-md-4">
+                            <label>Facebook Link</label>
+                                <input type="text" ng-model="contactD.fblink" name="fblink" ng-required="true" class="form-control" placeholder="Enter Facebook Link">
+                                 <p class="__errorMsg" ng-show="addContactusForm.fblink.$touched && addContactusForm.fblink.$invalid ">
+                                    <span ng-show="addContactusForm.fblink.$error.required">*Please Enter Facebook Link.</span>
+                                </p> 
+                            </div>
+                            <div class="col-md-4">
+                            <label>Twitter Link</label>
+                                <input type="text" ng-model="contactD.twrlink" name="twrlink"  class="form-control" placeholder="Enter Twitter Link"> 
+                            </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+                            <div class="col-md-4">
+                            <label>Instagram ID</label>
+                                <input type="text" ng-model="contactD.instId" name="instId"   class="form-control" placeholder="Enter Instagram ID"> 
+                            </div>
+                            <div class="col-md-4">  
+                            </div>
+                            <div class="col-md-4">
+                             
+                            </div>
+
                             </div>
                             <div class="col-md-12 text-center">
                             <button type="submit" class="btn btn-success" ng-click="addContactDetails()" ng-if="!editContactBtn">Add</button>

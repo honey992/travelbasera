@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	usersServices 	: require('./usersServices'),
+	adminUsersServices 	: require('./adminUsersServices'),
 	roleServices 	: require('./rolesService'),
 	countryServices : require('./countryService'),
 	stateServices   : require('./stateService'),
@@ -16,5 +16,6 @@ module.exports = {
 	sendEmailServices : require('./sendEmailService'),
 	termAndConditionsService : require('./termAndConditionsService'),
 	faqService : require('./faqService'),
-	careerService : require('./careerService')
+	careerService : require('./careerService'),
+	userServices : require('./usersService')
 }

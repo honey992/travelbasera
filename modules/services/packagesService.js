@@ -254,7 +254,7 @@ var packageServ = {
 		},
 	_PackageDetailsService: function(options, cb){
 		if(!options) 
-			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
+			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to get Data."}));
 			var titleName = options.title.trim();
 			debugger;
 		packageModel.aggregate([
@@ -315,11 +315,82 @@ var packageServ = {
 	},
 	_getPopularService: function(options, cb){
 		if(!options) 
-			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
+			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to get Data."}));
 		packageModel.find({popular:true, 'metadata.is_active':true}, function(err, data){
 			if(err) return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Unable to get data"}));
 			cb(null, data);
 		})
+	},
+	_getPackageByCategory: function(options, cb){
+		if(!options.id)
+			return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to get Data."}));
+		packageModel.find({category:options.id,'metadata.is_active':true}, function(err, data){
+			if(err) return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Unable to get data"}));
+			cb(null, data);
+		}) 
+	},
+	_searchPackageService: function(options, cb){
+		if(!options) 
+			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
+	 var searchQuery = {'metadata.is_active':true};
+	 if(options.source) searchQuery.sourceCity = options.source;
+	 if(options.destination) searchQuery.city = {$regex:options.destination,$options: '-i'};
+	 if(options.category) searchQuery.category = options.category; 
+		packageModel.aggregate([
+			{
+				$match:searchQuery
+			},{
+				$lookup:{
+				   from: 'admin_packageimages',
+			       localField: 'imagesId',
+			       foreignField: '_id',
+			       as: 'images'
+				}
+			},
+			{
+				$lookup:{
+				   from: 'admin_package_descriptions',
+			       localField: 'descriptionId',
+			       foreignField: '_id',
+			       as: 'description'
+				}
+			},
+			{
+				$lookup:{
+				   from: 'admin_itenaries',
+			       localField: 'itenaryId',
+			       foreignField: '_id',
+			       as: 'itenaries'
+				}
+			},{
+				$lookup:{
+				   from: 'admin_package_policies',
+			       localField: 'policyId',
+			       foreignField: '_id',
+			       as: 'policies'
+				}
+			},
+			{
+				$project:{
+					'images._id':0,
+					'images.metadata':0,
+					'images._v':0,
+					'description._id':0,
+					'description.metadata':0,
+					'description._v':0,
+					'itenaries._id':0,
+					'itenaries.metadata':0,
+					'itenaries._v':0,
+					'policies._id':0,
+					'policies.metadata':0,
+					'policies._v':0,
+				}
+			}
+		], function(err, data){
+			if(err) cb(ec.Error({status:ec.DB_ERROR, message :"Unable to get data."}));
+			 debugger;
+			cb(null,data)
+		});
 	}
 };
 module.exports = packageServ;

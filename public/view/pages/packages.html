@@ -255,20 +255,18 @@
                         <div class="col-md-4">
                             <div class="form-group">
                             <label>Payment Policy</label>
-                             <textarea rows="3" class="form-control" ng-model="pack.paymentPolicy" required name="paymentPolicy"></textarea>
-                             <p class="__errorMsg" ng-show="addNewPackageForm.title.$touched && addNewPackageForm.title.$invalid ">
-                              <span ng-show="addNewPackageForm.title.$error.required">*Title is required.</span>
-                              <span ng-show="addNewPackageForm.title.$error.pattern">*Enter valid title.</span>
+                             <textarea rows="3" class="form-control" ng-model="pack.paymentPolicy" required name="paymentPolicy" required></textarea>
+                             <p class="__errorMsg" ng-show="addNewPackageForm.paymentPolicy.$touched && addNewPackageForm.paymentPolicy.$invalid ">
+                              <span ng-show="addNewPackageForm.paymentPolicy.$error.required">*Field is required.</span> 
                             </p>
                             </div> 
                         </div>
                          <div class="col-md-4">
                             <div class="form-group">
                             <label>Cancellation Policy</label>
-                             <textarea rows="3" class="form-control" ng-model="pack.cancellationPolicy" required name="cancellationPolicy"></textarea>
+                             <textarea rows="3" class="form-control" ng-model="pack.cancellationPolicy" required name="cancellationPolicy" required></textarea>
                              <p class="__errorMsg" ng-show="addNewPackageForm.title.$touched && addNewPackageForm.title.$invalid ">
-                              <span ng-show="addNewPackageForm.title.$error.required">*Title is required.</span>
-                              <span ng-show="addNewPackageForm.title.$error.pattern">*Enter valid title.</span>
+                              <span ng-show="addNewPackageForm.cancellationPolicy.$error.required">*Field is required.</span> 
                             </p>
                             </div> 
                         </div>

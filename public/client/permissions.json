@@ -63,5 +63,24 @@
 		"edit":false,
 		"view":false,
 		"delete":false
+	},
+	"termAndCondition":{
+		"add":false,
+		"edit":false,
+		"view":false,
+		"delete":false
+	},
+	"faq":{
+		"add":false,
+		"edit":false,
+		"view":false,
+		"delete":false
+	},
+	"career":{
+		"add":false,
+		"edit":false,
+		"view":false,
+		"delete":false
 	}
+
 }

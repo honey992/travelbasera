@@ -25,7 +25,10 @@ module.exports = function(app){
 		.get(packagesCtrl._getPackageDetailsCtrl, error)
 	app.route('/v1/api/isPopularPackages')
 		.get(packagesCtrl._getPopularPackagesCtrl, error)
-
+	app.route('/v1/api/packageByCategory/:id')
+		.get(packagesCtrl._getPackageByCategoryCtrl, error)
+	app.route('/v1/api/search')
+		.get(packagesCtrl._searchPackages, error)
 
 	 
 }

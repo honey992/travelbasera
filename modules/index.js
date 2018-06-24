@@ -3,7 +3,7 @@
 var db = require('../config/db');
 
 module.exports = function(app){
-	require('./routes/users')(app);
+	require('./routes/adminUsers')(app);
 	require('./routes/country')(app);
 	require('./routes/state')(app);
 	require('./routes/city')(app);
@@ -18,7 +18,8 @@ module.exports = function(app){
 	require('./routes/sendEmail')(app);
 	require('./routes/termAndConditions')(app);
 	require('./routes/faq')(app);
-	//require('./routes/career')(app);
+	// require('./routes/career')(app);
+	require('./routes/users')(app);
 
 	db.mongoose.connection.on('connected', function (err) {
 		if(err){

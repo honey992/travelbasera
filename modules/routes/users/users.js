@@ -1,78 +1,22 @@
 'use strict';
 
-var userServices = require('../../services').usersServices;
+var userServices = require('../../services').userServices;
 var _ = require('lodash');
 
-var userCtrl = {
+var usersCtrl = {
 
-	userSignupCtrl:function(req, res, next){
+	registerUserCtrl: function(req, res, next){
 		var options = {};
 		_.assign(options, req.body);
-		userServices.userSignupService(options, function(err, data){
-			if(err){
-				return next(err);
-			}
-			res.json({status:1, message:'User Created Successfully', data:data});
+		userServices.registerUserService(options, function(err, data){
+			if(err) return next(err);
+			res.json({ 'status':'S',data:'User Registered Successfully !!!'});
 		})
 	},
-
-	userLoginCtrl: function(req, res, next){
+	loginUserCtrl: function(req,res,next){
 		var options = {};
-		_.assign(options, req.body);
-		debugger;
-		userServices.userLoginService(options, function(err){
-			if(err){
-				console.log(err)
-				return next(err);
-			}
-			debugger;
-			res.json({status:1,message:'User Loggedin Successfully', token:options.token});
-		})
-	}, 
-	getAllUsersCtrl: function(req, res, next){
-		var options = {};
-		userServices.getAllUsers(options, function(err, data){
-			if(err) return next(err);
-			res.json({status:1, users:data});
-		})
-	},
-	changePasswordCtrl: function(req,res,next){
-		var options = {};
-		_.assign(options, req.body);
-		console.log(options);
-		userServices.changePasswordService(options, function(err, data){
-			if(err) return next(err);
-			res.json({status:1,message:'Password Changed Successfully'});
-		})
-	},
-	fetchUserByIdCtrl: function(req,res,next){
-		var options = {};
-		_.assign(options, req.params);
-		userServices.fetchUserByIdService(options, function(err, data){
-			if(err) return next(err);
-			res.json({status:1,result:data});
-		})
-	},
-	userEditCtrl: function(req,res,next){
-		var options = {u:{}};
-		_.assign(options, req.params);
-		_.assign(options.u, req.body);
-		delete req.body._id;
-		userServices.userEditService(options, function(err, data){
-			if(err) return next(err);
-			res.json({status:1,message:'User Updated Successfully'});
-		})
-	},
-	deleteUserCtrl: function(req,res,next){
-		var options = {};
-		_.assign(options, req.params);
-		debugger;
-		userServices.deleteUserService(options, function(err, data){
-			if(err) return next(err);
-			res.json({status:1,message:'User Deleted Successfully'});
-		})
+		_.assign(options, req.body)
 	}
-	
 };
 
-module.exports = userCtrl;
+module.exports = usersCtrl;

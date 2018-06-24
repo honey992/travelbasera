@@ -84,6 +84,23 @@ var packCtrl = {
 			if(err) return next(err);
 			res.json({'status':"S", data:result});
 		})
+	},
+	_getPackageByCategoryCtrl: function(req,res,next){
+		var options  = {};
+		_.assign(options, req.params);
+		packageServices._getPackageByCategory(options, function(err, result){
+			if(err) return next(err);
+			res.json({'status':"S", data:result});
+		})
+	},
+	_searchPackages: function(req,res,next){
+		var options = {};
+		_.assign(options, req.query);
+		console.log(options)
+		packageServices._searchPackageService(options, function(err, result){
+			if(err) return next(err);
+			res.json({'status':"S", data:result});
+		})
 	}
 };
 

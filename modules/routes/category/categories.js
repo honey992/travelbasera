@@ -9,8 +9,10 @@ var categoryCtrl = {
 		var options = {file:{}}; 
 		_.assign(options.file,req.file);
 		_.assign(options, req.body); 
+		debugger;
 		categoryServices.addCategoryService(options, function(err, data){
 			if(err) return next(err); 
+			debugger;
 			res.json({status:1,message:'Category Added Successfully'});
 		})
 	},
