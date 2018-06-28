@@ -24,7 +24,7 @@
                      <div class="form-group">
                             <label>Type</label>
                             <div >
-                                <select  class="form-control" name="type" ng-model="pack.type"> 
+                                <select  class="form-control" name="type" ng-model="pack.type" required> 
                                     <option ng-repeat="x in packageTypes" value="{{x.code}}-{{x.name}}">{{x.name}}</option>
  
                                 </select>
@@ -59,12 +59,12 @@
                      <div class="form-group">
                             <label>Category</label>
                             <div >
-                                <select class="form-control"  name="type" ng-model="pack.category" > 
+                                <select class="form-control"  name="category" ng-model="pack.category" required > 
                                     <option ng-repeat="x in catData" value="{{x.cat_code}}-{{x.cat_name}}">{{x.cat_name}}</option>
                                 </select>
                             </div>
-                             <p class="__errorMsg" ng-show="showHighlightError">
-                              <span>*Please select package Category</span>
+                             <p class="__errorMsg" ng-show="addNewPackageForm.category.$touched && addNewPackageForm.category.$invalid">
+                              <span ng-show="addNewPackageForm.category.$error.required">*Please select package category</span>
                             </p> 
                             </div> 
             			<div class="form-group">
@@ -90,13 +90,12 @@
             		</div>
             		</div>
 
-            		<div class="divider"></div>
-                	
+            		<div class="divider"></div> 
                 <div class="section">
                 	<div class="col-lg-6">
 						 <div class="form-group">
                             <label>Package Title</label>
-                            <input type="text" ng-model="pack.title"  name="title" ng-required='true'  class="form-control" ng-pattern="/^[a-zA-Z0-9-_ ]*$/" placeholder="Enter Package Title">
+                            <input type="text" ng-model="pack.title"  name="title" required  class="form-control" ng-pattern="/^[a-zA-Z0-9-_ ]*$/" placeholder="Enter Package Title">
                             <p class="__errorMsg" ng-show="addNewPackageForm.title.$touched && addNewPackageForm.title.$invalid ">
                               <span ng-show="addNewPackageForm.title.$error.required">*Title is required.</span>
                               <span ng-show="addNewPackageForm.title.$error.pattern">*Enter valid title.</span>
@@ -166,7 +165,7 @@
 	                     		<button class="btn btn-primary" ng-click="addmorehighlights()">+</button>
                      		</div>
                              <p class="__errorMsg" ng-show="showHighlightError">
-                              <span>*{{showHighlightErrorMsg}}</span>
+                              <span>*{{emptyErrorMsg}}</span>
                             </p>
                      		<ul class="info-text">
                      			<li ng-repeat="x in pack.highlights">{{x.title}}&nbsp;<a href="javascript:void(0)" style="color:red" ng-click="removeHighlights(x, $index)">X</a></li>
@@ -265,14 +264,14 @@
                             <div class="form-group">
                             <label>Cancellation Policy</label>
                              <textarea rows="3" class="form-control" ng-model="pack.cancellationPolicy" required name="cancellationPolicy" required></textarea>
-                             <p class="__errorMsg" ng-show="addNewPackageForm.title.$touched && addNewPackageForm.title.$invalid ">
+                             <p class="__errorMsg" ng-show="addNewPackageForm.cancellationPolicy.$touched && addNewPackageForm.cancellationPolicy.$invalid ">
                               <span ng-show="addNewPackageForm.cancellationPolicy.$error.required">*Field is required.</span> 
                             </p>
                             </div> 
                         </div>
                          <div class="col-md-4">
                             <div class="form-group">
-                            <label>Other Policy(optional)</label>
+                            <label>Other Policy(Optional)</label>
                              <textarea rows="3" class="form-control" ng-model="pack.otherPolicy" name="otherPolicy" ></textarea>
                             </div> 
                         </div>
@@ -321,7 +320,11 @@
                                     <td><a href="#!/package-details?packageId={{x._id}}">{{x.title}}</a></td>
                                     <td>{{x.metadata.created_at | date:'dd-MM-yyyy, hh:mm'}}</td>
                                     <td>{{x.metadata.created_by.name}}</td>
-                                    <td>Edit</td>
+                                    <td>
+                                    <i class="fa fa-pencil" data-toggle="modal" data-target="#banner-Modal" ng-click="editPackage(x._id);"></i>&nbsp;&nbsp;
+                                        <i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i>
+
+                                    </td>
                                 </tr>
                                </tbody>
                                </table>
@@ -343,3 +346,31 @@
     <strong>Error!</strong><br /> {{errorMsg}}
     <a class="close" ng-click="errorPop = !errorPop" data-dismiss="alert" aria-label="close" title="close">×</a>
   </div>
+
+
+  <!-- Delete Modal Confirmation -->
+<div class="modal c" ng-show="deleteConfirmationModal">
+<div class="modal-dialog"> 
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" ng-click="deleteConfirmationModal =!deleteConfirmationModal">&times;</button>
+      <h4 class="modal-title">Delete</h4>
+    </div>
+    <div class="modal-body">
+        <p>You really want to delete this Package?</p>
+       
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="deletePackage()">Yes</button>
+      <button type="button" class="btn btn-default" ng-click="deleteConfirmationModal =!deleteConfirmationModal">No</button>
+    </div>
+    </div> 
+</div>
+</div>
+
+<style>
+.c{
+    display:block;
+}
+</style>

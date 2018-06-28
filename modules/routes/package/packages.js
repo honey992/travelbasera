@@ -13,7 +13,7 @@ var packCtrl = {
 			if(err){
 				return next(err);
 			}
-			res.json({status:1, data:options});
+			res.json({status:1, message:'Package Added Successfully.', data:options});
 		})
 	},
 	uploadImagesCtrl : function(req,res,next){
@@ -52,10 +52,10 @@ var packCtrl = {
 			res.json({data:options});
 		})
 	},
-	deleteReviewsCtrl:function(req, res, next){
+	deletePackageCtrl:function(req, res, next){
 		var options = {};
 		_.assign(options, req.params);
-		testimonialServ.deleteReviewsService(options, function(err,result){
+		packageServices.deletePackageService(options, function(err,result){
 			if(err) return next(err);
 			res.json({'status':1,message:'Package Deleted Successfully'});
 		})

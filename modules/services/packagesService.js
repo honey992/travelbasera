@@ -126,10 +126,67 @@ function savePackageImages(){
  	packageModel.find({},function(err, data){
  		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Package details"}));
  		self.packages = {};
- 		self.packages = data; 
+ 		self.packages = data;
 		deferred.resolve();
 	});
 	return deferred.promise;  
+ }
+
+ function fetchPackageDetails(){
+ 	var deferred = Q.defer();
+ 	var self = this;  
+ 	packageModel.findOne({_id:self.id},function(err, data){ if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Package details"}));
+ 		self.packages = {};
+ 		self.package = data._doc;  
+		deferred.resolve();
+	});
+	return deferred.promise;  
+
+ }
+ function deletePackageImages(){
+ 	var deferred = Q.defer();
+ 	var self = this;  
+ 	imagesModel.remove({_id:self.package.imagesId},function(err, data){
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to deleter Package images"}));
+		deferred.resolve();
+	});
+	return deferred.promise; 
+ }
+ function deletePackageDescription(){
+ 	var deferred = Q.defer();
+ 	var self = this;  
+ 	descriptionModel.remove({_id:self.package.descriptionId},function(err, data){
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to deleter Package description"}));
+		deferred.resolve();
+	});
+	return deferred.promise; 
+ }
+ function deletePackageItenary(){
+ 	var deferred = Q.defer();
+ 	var self = this;  
+ 	itenaryModel.remove({_id:self.package.itenaryId},function(err, data){
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to deleter Package itenary"}));
+		deferred.resolve();
+	});
+	return deferred.promise; 
+ }
+ function deletePackagePolicy(){
+ 	var deferred = Q.defer();
+ 	var self = this;  
+ 	policyModel.remove({_id:self.package.policyId},function(err, data){
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to delete Package Policies"}));
+		deferred.resolve();
+	});
+	return deferred.promise; 
+ }
+ function deletePackageDetails(){
+ 	var deferred = Q.defer();
+ 	var self = this;  
+ 	packageModel.remove({_id:self.id},function(err, data){
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to deleter Package"}));
+		deferred.resolve();
+	});
+	return deferred.promise; 
  }
   
 
@@ -174,7 +231,23 @@ var packageServ = {
 	},
 	fetchPackagesService: function(options, cb){
 		getPackageDetails.call(options)
-            //.then(getOtherDetails.bind(options)) 
+            //.then(getOtherDetails.bind(options))   
+            .then(cb)
+            .fail(failureCb)
+            .catch(failureCb) 
+        function failureCb(err){
+            var finalErr = new Error(err.message || 'Some Undefined Error Occurs.');
+            finalErr.status = err.status || 400;
+            return cb(finalErr);
+        }  
+	},
+	deletePackageService:function(options, cb){
+		fetchPackageDetails.call(options)
+            .then(deletePackageImages.bind(options))
+		   .then(deletePackageDescription.bind(options))
+		   .then(deletePackageItenary.bind(options)) 
+		   .then(deletePackagePolicy.bind(options)) 
+           .then(deletePackageDetails.bind(options)) 
             .then(cb)
             .fail(failureCb)
             .catch(failureCb) 

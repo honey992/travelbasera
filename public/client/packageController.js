@@ -152,13 +152,11 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		$scope.saveNewPackage = function(mainImg,files){
 			console.log("data==", $scope.pack)
 			if($scope.addNewPackageForm.$valid ){ 
-				// $http.post(configuration.PACKAGE_URL, {data:$scope.pack}).then(function success(res){
-    //            $scope.incList = res.data.inclusions;
-    //         }, function errorCallback(err){
-    //             $scope.errorPop = true;
-    //             $scope.successPop = false;
-    //             $scope.errorMsg = err.data.message;
- 			// });
+			 if(!$scope.pack.highlights.length){
+			 	$scope.showHighlightError = true;
+			 	$scope.emptyErrorMsg = 'Highlus'
+			 	return;
+			 }  
 					Upload.upload({
 					      url:configuration.PACKAGE_URL, 
 					      arrayKey: '',
@@ -177,9 +175,6 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			        });
 			 
 				}else{
-					// $scope.showHighlightError = true;
-					// $scope.itenaryError = true;
-					// $scope.showHighlightErrorMsg = 'Atleast 3 Highlights are required';
 					angular.forEach($scope.addNewPackageForm.$error, function(error){
 		               angular.forEach(error, function(control){
 		                   control.$setTouched();
@@ -187,8 +182,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			        });
 					
 				}
-		}
-	
+		} 
 	$scope.uploadImages = function(files, packId){  
 		if($scope.addNewPackageForm.$valid){   
 			  Upload.upload({
@@ -252,7 +246,32 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		$scope.pack.selectedInclusion = [];
 		$scope.addNewPackageForm.$setPristine();
 		$scope.addNewPackageForm.$setUntouched();
+	};
+
+	$scope.editPackage = function(id){
+		$location.path('/edit-package/'+id);
 	}
+
+	$scope.deleteConfirmation = function(id){
+		$scope.deleteId = id;
+		$scope.deleteConfirmationModal = true;
+	}
+	
+	$scope.deletePackage = function(){
+		var obj = {id:$scope.deleteId};
+		$http.delete(configuration.PACKAGE_URL+"/"+$scope.deleteId).then(function success(res){
+               $scope.successPop = true;
+               $scope.errorPop = false;
+               $scope.successMsg = res.data.message;
+               $scope.deleteConfirmationModal = false;
+               $scope.fetchAllPackages();
+            }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+                $scope.errorMsg = err.data.message;
+ 			});
+	}
+		
 	 
 
 });

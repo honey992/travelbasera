@@ -16,6 +16,8 @@ module.exports = function(app){
 		.post(uploadFiles.multiUpload,packagesCtrl.uploadImagesCtrl, error)
 	app.route('/api/fetchPackageDetail')
 		.get(packagesCtrl.packDetailsCtrl, error)
+	app.route('/api/packages/:id')
+		.delete(packagesCtrl.deletePackageCtrl, error)
 
 //For Web
 	app.route('/v1/api/packages/:cityId')

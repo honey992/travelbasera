@@ -1,6 +1,5 @@
 /node_modules
-/bower_components
-/public/lib
+/bower_components 
 /test
 /uploads
 /package-lock.json

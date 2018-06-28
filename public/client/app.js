@@ -46,7 +46,6 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',fu
         }).when("/inclusion", {
             templateUrl: "/view/pages/inclusion.html",
             controller: "inclusionController"
- 
         }).when("/aboutUs", {
             templateUrl: "/view/pages/about.html",
             controller: "aboutController"
@@ -56,10 +55,12 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',fu
         }).when("/city", {
             templateUrl: "/view/pages/city.html",
             controller: "cityController"
-        })
-        .when("/package-details", {
+        }).when("/package-details", {
             templateUrl: "/view/pages/package-view.html",
             controller: "packageController"
+        }).when("/edit-package/:id", {
+            templateUrl: "/view/pages/edit-package.html",
+            controller: "editPackageController"
         }).when("/categories", {
             templateUrl: "/view/pages/category.html",
             controller: "categoryController"
