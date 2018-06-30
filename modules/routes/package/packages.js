@@ -101,7 +101,14 @@ var packCtrl = {
 			if(err) return next(err);
 			res.json({'status':"S", data:result});
 		})
-	} 
+	} ,
+	_getDiscountedPackages: function(req,res,next){
+		var options = {}; 
+		packageServices._discountedPackageService(options, function(err, result){
+			if(err) return next(err);
+			res.json({'status':"S", data:result});
+		})
+	}
 };
 
 module.exports = packCtrl;

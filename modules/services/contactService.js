@@ -87,6 +87,7 @@ var contactServicex = {
         						email:options.email,
         						address:options.address,
         						website:options.website,
+        						whatsapp:options.whatsapp,
         						fblink:options.fblink,
 								twrlink:options.twrlink,
 								instId:options.instId, 

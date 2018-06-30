@@ -81,7 +81,12 @@
                             <label>Instagram ID</label>
                                 <input type="text" ng-model="contactD.instId" name="instId"   class="form-control" placeholder="Enter Instagram ID"> 
                             </div>
-                            <div class="col-md-4">  
+                            <div class="col-md-4"> 
+                            <label>Whatsapp No.</label>
+                                <input type="text" ng-model="contactD.whatsapp" name="whatsapp" ng-required="true" class="form-control" placeholder="Enter Whatsapp No.">
+                                 <p class="__errorMsg" ng-show="addContactusForm.whatsapp.$touched && addContactusForm.whatsapp.$invalid ">
+                                    <span ng-show="addContactusForm.whatsapp.$error.required">*Please Enter Whatsapp No.</span>
+                                </p>  
                             </div>
                             <div class="col-md-4">
                              

@@ -2,9 +2,9 @@ var db = require('../../config/db');
 //var mongoose = require('mongoose');
 
 var packageSchema = new db.Schema({
-	category:{
+	category:[{
 		type:String
-	},
+	}],
 	type:{
 		type:String
 	},
@@ -48,6 +48,15 @@ var packageSchema = new db.Schema({
 	},
 	mainImage:{
 		type:String
+	},
+	discountApplied:{
+		type:String
+	},
+	discountImage:{
+		type:String
+	},
+	discountRate:{
+		type:Number
 	},
 	rate:{
 		type:Number

@@ -97,8 +97,7 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',fu
                     // });
                     // add the button to the default toolbar definition
                     taOptions.toolbar = [['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
-      ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
-      ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent']];
+      ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear']];
                     return taOptions;
                 }]);
     }]);
@@ -214,3 +213,6 @@ function authInterceptor($q, $location) {
           }
         };
       }
+
+
+ 

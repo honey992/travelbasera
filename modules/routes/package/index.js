@@ -31,6 +31,8 @@ module.exports = function(app){
 		.get(packagesCtrl._getPackageByCategoryCtrl, error)
 	app.route('/v1/api/search')
 		.get(packagesCtrl._searchPackages, error)
+	app.route('/v1/api/discounted')
+		.get(packagesCtrl._getDiscountedPackages, error)
 	 
 
 	 

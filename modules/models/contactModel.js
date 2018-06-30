@@ -14,6 +14,9 @@ var contactSchema = new db.Schema({
 	website:{
 		type:String
 	},
+	whatsapp:{
+		type:String
+	},
 	fblink:{
 		type:String
 	},

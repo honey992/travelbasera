@@ -2,15 +2,15 @@ var db = require('../../config/db');
 //var mongoose = require('mongoose');
 
 var policySchema = new db.Schema({
-	paymentPolicy:{
+	paymentPolicy:[{
 		type:String
-	},
-	cancellationPolicy:{
+	}],
+	cancellationPolicy:[{
 		type:String
-	},
-	otherPolicy:{
+	}],
+	otherPolicy:[{
 		type:String
-	}, 
+	}], 
 	metadata:{
 		is_active:{ 
 			type:Boolean, 

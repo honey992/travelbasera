@@ -6,7 +6,23 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		$scope.showHighlightError = false;
 		$scope.itenaryError = false;
 		$scope.packageTypes = [{name:'Domestic', code:'1'},{name:'International', code:'2'}];
-		$scope.pack = {highlights:[], inclusions:[],itenary:[], inclusionList :[], exclusionList:[]};
+		$scope.pack = {category :[],highlights:[], inclusions:[],itenary:[], inclusionList :[], exclusionList:[],paymentPolicy:[],cancellationPolicy:[],otherPolicy:[]};
+
+		$scope.selectedObj = {}; 
+		$scope.selectOption = function(x){
+			if(!$scope.selectedObj[x.cat_code]){
+				$scope.selectedObj[x.cat_code] = true;
+			    $scope.pack.category.push(x.cat_code+'-'+x.cat_name); 
+			}else{ 
+				$scope.selectedObj[x.cat_code] = false;
+				var indx = $scope.pack.category.indexOf(x.cat_code+'-'+x.cat_name);
+				 $scope.pack.category.splice(indx,1)
+
+
+			}
+			
+		}
+
 
  		$scope.addmorehighlights = function(){
 			if($scope.pack.highlights.length <= 4 && $scope.pack.highlightsTitle){
@@ -77,7 +93,20 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			$scope.pack.itenary.splice(index,1);
 		}
 
-		$scope.getAllCountry= function(){ 
+		$scope.isDiscounted = function(val){
+			if(val == 'Yes'){
+				$scope.showDiscountForm = true;
+			} 
+			else{
+				$scope.showDiscountForm = false;
+				if($scope.discountImage || $scope.pack.discountRate){
+					$scope.discountImage = '';
+					$scope.pack.discountRate = '';
+				}
+			}  
+		}
+
+		$scope.getAllCountry = function(){ 
 	      	$http.get(configuration.GET_ALL_COUNTRY_URL).then(function success(res){
                $scope.countryList = res.data.country;
             }, function errorCallback(err){
@@ -145,22 +174,71 @@ app.controller('packageController', function($scope, $http,configuration,$locati
       	})
       }
 
-       $scope.fetchCategories();
+       $scope.fetchCategories(); 
+
+		$scope.addPaymentPolicy = function($event, val){
+			var keyCode = $event.which || $event.keyCode;
+		    if (keyCode === 13 && val && $scope.pack.paymentPolicy.length<10) {
+		    	$scope.pack.paymentPolicy.push(val);
+		    	$scope.paymentPolicy = ''; 
+		    }
+			
+		}
+		$scope.removePaymentPolicy = function(i){
+			if($scope.pack.paymentPolicy.length>1){
+				$scope.pack.paymentPolicy.splice(i,1);
+			}else{
+				$scope.pack.paymentPolicy = [];
+			}
+		}
+		$scope.addCancelPolicy = function($event, val){
+			var keyCode = $event.which || $event.keyCode;
+		    if (keyCode === 13 && val && $scope.pack.cancellationPolicy.length<10) {
+		    	$scope.pack.cancellationPolicy.push(val);
+		    	$scope.cancelPolicy = ''; 
+		    }
+			
+		}
+		$scope.removeCancelPolicy = function(i){
+			if($scope.pack.cancellationPolicy.length>1){
+				$scope.pack.cancellationPolicy.splice(i,1);
+			}else{
+				$scope.pack.cancellationPolicy = [];
+			}
+		}
+		$scope.addOtherPolicy = function($event, val){
+			var keyCode = $event.which || $event.keyCode;
+		    if (keyCode === 13 && val && $scope.pack.otherPolicy.length<10) {
+		    	$scope.pack.otherPolicy.push(val);
+		    	$scope.otherPolicy = ''; 
+		    }
+			
+		}
+		$scope.removeOtherPolicy = function(i){
+			if($scope.pack.otherPolicy.length>1){
+				$scope.pack.otherPolicy.splice(i,1);
+			}else{
+				$scope.pack.otherPolicy = [];
+			}
+		}
 
 
 
-		$scope.saveNewPackage = function(mainImg,files){
-			console.log("data==", $scope.pack)
+
+		$scope.saveNewPackage = function(mainImg,files,discountImages){
+			console.log("data==", $scope.pack) 
 			if($scope.addNewPackageForm.$valid ){ 
 			 if(!$scope.pack.highlights.length){
 			 	$scope.showHighlightError = true;
 			 	$scope.emptyErrorMsg = 'Highlus'
 			 	return;
 			 }  
+			 var fileArray = [mainImg,files];
+			 if(discountImages) var fileArray = [mainImg,files,discountImages];
 					Upload.upload({
 					      url:configuration.PACKAGE_URL, 
 					      arrayKey: '',
-					      data: {data:JSON.stringify($scope.pack),file: [mainImg,files]} 
+					      data: {data:JSON.stringify($scope.pack),file:fileArray} 
 					    }).then(function (resp) {
 		            			$scope.successPop = true;
 			                   $scope.errorPop = false;

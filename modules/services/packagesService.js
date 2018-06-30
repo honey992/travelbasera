@@ -18,10 +18,17 @@ function savePackageImages(){
 	var reqObj = {
 			package_images:[]
 		} 
-		debugger;
-		for(var k in self.files){
-			if(k != '0')
-			 reqObj.package_images.push(self.files[k].path);
+		console.log('Files========', self.files);
+		self.mainImage = self.files['0'].path;
+		delete self.files['0'];
+		var fileLen = Object.keys(self.files).length.toString();
+		if(self.data.discount == 'Yes'){
+			self.discountImage = self.files[fileLen].path;
+		   delete self.files[fileLen];
+		} 
+		console.log('Final Images=', self.files)
+		for(var k in self.files){ 
+			reqObj.package_images.push(self.files[k].path); 
 		};
 	 var newPackImages = new imagesModel(reqObj);
  	newPackImages.save(function(err, data){
@@ -101,11 +108,17 @@ function savePackageImages(){
 		 		'nights':otherDetails.nights,
  				'selectedInclusion':otherDetails.selectedInclusion,
  				'imagesId':self.imagesId,
+ 				'discountRate':self.discountRate,
+ 				'discountApplied':self.discount,
+ 				'discountRate':self.discountRate,
  				'descriptionId':self.descriptionId,
  				'itenaryId':self.itenaryId,
  				'policyId' : self.policyId,
  				'popular':otherDetails.popular,
- 				'mainImage':self.files['0'].path,
+ 				'mainImage':self.mainImage,
+ 				'discountImage':self.discountImage,
+ 				'discountApplied':otherDetails.discount,
+ 				'discountRate':otherDetails.discountRate,
  				'inclusions':otherDetails.inclusionList,
  				'exclusions':otherDetails.exclusionList
     }; 
@@ -395,9 +408,10 @@ var packageServ = {
 		})
 	},
 	_getPackageByCategory: function(options, cb){
+	debugger; 
 		if(!options.id)
 			return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to get Data."}));
-		packageModel.find({category:options.id,'metadata.is_active':true}, function(err, data){
+		packageModel.find({category:{$in:[options.id]},'metadata.is_active':true}, function(err, data){
 			if(err) return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Unable to get data"}));
 			cb(null, data);
 		}) 
@@ -463,6 +477,14 @@ var packageServ = {
 			 debugger;
 			cb(null,data)
 		});
-	} 
+	} ,
+	_discountedPackageService: function(options, cb){
+		if(!options)
+			return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to get Data."}));
+		packageModel.find({discountApplied:'Yes','metadata.is_active':true}, function(err, data){
+			if(err) return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Unable to get data"}));
+			cb(null, data);
+		}) 
+	}
 };
 module.exports = packageServ;

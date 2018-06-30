@@ -23,7 +23,7 @@
             		<div class="col-md-6">
                      <div class="form-group">
                             <label>Type</label>
-                            <div >
+                            <div>
                                 <select  class="form-control" name="type" ng-model="pack.type" required> 
                                     <option ng-repeat="x in packageTypes" value="{{x.code}}-{{x.name}}">{{x.name}}</option>
  
@@ -35,6 +35,7 @@
                         </div> 
             			<div class="form-group">
                             <label>Country</label>
+
                                 <select class="form-control" ng-required="true" name="country" ng-model="pack.country" ng-change="getStateList(pack.country)">  
                                     <option ng-repeat="x in countryList" value="{{x.c_code}}-{{x.c_name}}">{{x.c_name}}</option>
                             	</select>
@@ -53,15 +54,18 @@
                                 </p>
 						</div>
                          
-            		</div>
+            		</div> 
 
             		<div class="col-md-6">
-                     <div class="form-group">
+                     <div class="form-group"> 
                             <label>Category</label>
-                            <div >
-                                <select class="form-control"  name="category" ng-model="pack.category" required > 
-                                    <option ng-repeat="x in catData" value="{{x.cat_code}}-{{x.cat_name}}">{{x.cat_name}}</option>
-                                </select>
+                            <div  style="position: relative">
+                                <input type="text" readonly style="cursor:pointer;" class="form-control" ng-click="cat_list = !cat_list" /> 
+                                <div class="catList" ng-if="cat_list">
+                                <ul> 
+                                    <li ng-repeat="x in catData" ng-click="selectOption(x)" ng-class="{'selected':selectedObj[x.cat_code]}">{{x.cat_name}}</li>
+                                </ul>
+                                </div>
                             </div>
                              <p class="__errorMsg" ng-show="addNewPackageForm.category.$touched && addNewPackageForm.category.$invalid">
                               <span ng-show="addNewPackageForm.category.$error.required">*Please select package category</span>
@@ -151,6 +155,36 @@
                             	</div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label>Discount</label><br /> 
+                            <input type="radio"  id="yes" ng-model="pack.discount" value="Yes" name="discount" ng-click="isDiscounted(pack.discount)" />
+                            <label>Yes</label>
+                            <input type="radio"  id="no" ng-model="pack.discount" value="No" name="discount" ng-click="isDiscounted(pack.discount)"  />
+                            <label>No</label> 
+                             <p class="__errorMsg" ng-show="addNewPackageForm.discount.$touched && addNewPackageForm.discount.$invalid">
+                              <span ng-show="addNewPackageForm.discount.$error.required">*Please select discount is applied or not.</span>
+                            </p>
+                          </div>
+                          <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Discount Image</label>
+                             <input ng-disabled="!showDiscountForm" type="file" ngf-multiple="false" ngf-select ng-model="discountImage" name="file1" accept="image/*" ngf-max-size="2MB" ng-required="{{pack.discount == 'Yes'}}" ngf-model-invalid="errorFile" class="form-control">  
+                             <p class="info-text">*Please upload 360*225 px size image.</p>
+                             <p class="__errorMsg" ng-show="addNewPackageForm.file1.$touched && addNewPackageForm.file1.$invalid ">
+                              <span ng-show="addNewPackageForm.file1.$error.required">*Discount Image is required.</span>
+                            </p>
+                            </div>
+                            <div class="col-md-6">
+                                    <label>Discount Rate(in %)</label>
+                             <input type="number" ng-disabled="!showDiscountForm" min="1" ng-required="{{pack.discount == 'Yes'}}"  ng-model="pack.discountRate" name="discountRate" class="form-control">  
+                             <p class="__errorMsg" ng-show="addNewPackageForm.discountRate.$touched && addNewPackageForm.discountRate.$invalid ">
+                              <span ng-show="addNewPackageForm.discountRate.$error.required">*Discount Image is required.</span>
+                            </p>
+                            </div>
+                            </div>
+                             
+                          </div>
 
                      	</div>
                      </div>
@@ -254,7 +288,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                             <label>Payment Policy</label>
-                             <textarea rows="3" class="form-control" ng-model="pack.paymentPolicy" required name="paymentPolicy" required></textarea>
+                                <input type="text" class="form-control" ng-model="paymentPolicy" name="paymentPolicy" ng-keypress="addPaymentPolicy($event, paymentPolicy)"  > 
+                                <p class="info-text">* After fill the field please press enter to add more.</p>
+                                <ul class="info-text">
+                                    <li ng-repeat="x in pack.paymentPolicy track by $index">{{x}} &nbsp;<a href="javascript:void(0)" ng-click="removePaymentPolicy($index)" style="color:red">X</a></li>
+                                </ul>
                              <p class="__errorMsg" ng-show="addNewPackageForm.paymentPolicy.$touched && addNewPackageForm.paymentPolicy.$invalid ">
                               <span ng-show="addNewPackageForm.paymentPolicy.$error.required">*Field is required.</span> 
                             </p>
@@ -263,7 +301,11 @@
                          <div class="col-md-4">
                             <div class="form-group">
                             <label>Cancellation Policy</label>
-                             <textarea rows="3" class="form-control" ng-model="pack.cancellationPolicy" required name="cancellationPolicy" required></textarea>
+                            <input type="text" class="form-control" ng-model="cancelPolicy" name="cancelPolicy" ng-keypress="addCancelPolicy($event, cancelPolicy)"  > 
+                                <p class="info-text">* After fill the field please press enter to add more.</p>
+                                <ul class="info-text">
+                                    <li ng-repeat="x in pack.cancellationPolicy track by $index">{{x}} &nbsp;<a href="javascript:void(0)" ng-click="removeCancelPolicy($index)" style="color:red">X</a></li>
+                                </ul>
                              <p class="__errorMsg" ng-show="addNewPackageForm.cancellationPolicy.$touched && addNewPackageForm.cancellationPolicy.$invalid ">
                               <span ng-show="addNewPackageForm.cancellationPolicy.$error.required">*Field is required.</span> 
                             </p>
@@ -272,13 +314,17 @@
                          <div class="col-md-4">
                             <div class="form-group">
                             <label>Other Policy(Optional)</label>
-                             <textarea rows="3" class="form-control" ng-model="pack.otherPolicy" name="otherPolicy" ></textarea>
+                           <input type="text" class="form-control" ng-model="otherPolicy" name="otherPolicy" ng-keypress="addOtherPolicy($event, otherPolicy)"  > 
+                                <p class="info-text">* After fill the field please press enter to add more.</p>
+                                <ul class="info-text">
+                                    <li ng-repeat="x in pack.otherPolicy track by $index">{{x}} &nbsp;<a href="javascript:void(0)" ng-click="removeOtherPolicy($index)" style="color:red">X</a></li>
+                                </ul>
                             </div> 
                         </div>
                      </div>
                      </div>
                             <div class="col-md-12">
-                            <button type="submit" class="btn btn-success" ng-click="saveNewPackage(mainImageFile,imagesFile)">Add</button>
+                            <button type="submit" class="btn btn-success" ng-click="saveNewPackage(mainImageFile,imagesFile,discountImage)">Add</button>
                             <button type="reset" ng-click="resetAll()" class="btn btn-default">Reset</button>
                             </div>
                            </form> 
@@ -372,5 +418,17 @@
 <style>
 .c{
     display:block;
+}
+.catList{width: 100%; 
+    top: 35px;
+    bottom: 0px; 
+    background: #fff;
+    height: auto !important;border: 1px solid #ddd}
+    .catList ul{padding-left: 35px;}
+.catList li{list-style-type: none; cursor: pointer;}
+.selected:before{
+    content:'\2714';
+    position: absolute;
+    left:20px;
 }
 </style>
