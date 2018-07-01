@@ -323,12 +323,52 @@
 		 <div ng-view class="ng-cloak"></div>
     <!-- /#wrapper -->
 </div>
+<div id="loader">
+    <div class="popup">
+    Please wait...
+    </div>
+  
+</div>
 <style>
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+#loader{
+    display: none;
+    background-color: #00000038;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    width: 100%; 
+    left: 0px;
+    z-index: 9999;
+    height: 100%;
+    text-align: center;
+}
+#loader .popup{
+    background: #fff;
+    width: 150px;
+    height: 65px;
+    border-radius: 3px;
+    /* margin: auto; */
+    top: 50%;
+    left: 50%;
+    margin-top: -32px;
+    position: fixed;
+    margin-left: -75px;
+    text-align: center;
+    padding: 22px;
+}
 </style>
 <script>
+var loader = document.getElementById('loader');
+       function showLoader(){
+        loader.style.display = 'block';
+
+       };
+       function hideLoader(){
+        loader.style.display = 'none';
+       }
 var _url = window.location.toString();
  var path = _url.split('#')[1] ;
  

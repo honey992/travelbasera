@@ -7,21 +7,39 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		$scope.itenaryError = false;
 		$scope.packageTypes = [{name:'Domestic', code:'1'},{name:'International', code:'2'}];
 		$scope.pack = {category :[],highlights:[], inclusions:[],itenary:[], inclusionList :[], exclusionList:[],paymentPolicy:[],cancellationPolicy:[],otherPolicy:[]};
-
+		$scope.formErrors = {};
+		$scope.openCategoryList = function(event){
+			$scope.cat_list = true;
+		event.stopPropagation();
+		}
 		$scope.selectedObj = {}; 
-		$scope.selectOption = function(x){
+		$scope.selectedCategories = '';
+		
+		$scope.selectOption = function(x, event){
+			event.stopPropagation();
 			if(!$scope.selectedObj[x.cat_code]){
 				$scope.selectedObj[x.cat_code] = true;
-			    $scope.pack.category.push(x.cat_code+'-'+x.cat_name); 
+			    $scope.pack.category.push(x.cat_code+'-'+x.cat_name);
+			   if($scope.formErrors.category)   $scope.formErrors.category=false; 
 			}else{ 
 				$scope.selectedObj[x.cat_code] = false;
 				var indx = $scope.pack.category.indexOf(x.cat_code+'-'+x.cat_name);
-				 $scope.pack.category.splice(indx,1)
-
-
-			}
+				 $scope.pack.category.splice(indx,1) 
+			};  
+			var d = [];
+			$scope.pack.category.forEach(function(o){
+				d.push(o.split('-')[1]);
+			})
+				$scope.selectedCategories = d.join(',') 
 			
-		}
+		};
+
+		window.onclick = function() {
+			if ($scope.cat_list) {
+				$scope.cat_list = false; 
+				$scope.$apply();
+			}
+		};
 
 
  		$scope.addmorehighlights = function(){
@@ -29,6 +47,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 				$scope.showHighlightError = false;
 				$scope.pack.highlights.push({title:$scope.pack.highlightsTitle});
 				$scope.pack.highlightsTitle = '';
+				if($scope.formErrors.highlights) $scope.formErrors.highlights=false;
 			}else{
 				$scope.showHighlightError = true;
 				$scope.showHighlightErrorMsg = 'Please fill the field.';
@@ -61,7 +80,8 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			$scope.incList = $scope.incList.filter(function(_p){
 				return _p.i_code !== obj.i_code
 			});
-			$scope._inclusionList = false; 
+			$scope._inclusionList = false;
+			if($scope.formErrors.selectedInclusion) $scope.formErrors.selectedInclusion=false; 
 		};
 		 $scope.removeHighlights = function(highLgts){ 
 		 	  $scope.pack.highlights = $scope.pack.highlights.filter(function(o){ 
@@ -88,11 +108,12 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			else{
 				$scope.itenaryError = true;  
 			} 
+			if($scope.formErrors.itenary) $scope.formErrors.itenary=false;
 		}
 		$scope.removeItenary = function(index){
 			$scope.pack.itenary.splice(index,1);
 		}
-
+		$scope.pack.discount = 'No';
 		$scope.isDiscounted = function(val){
 			if(val == 'Yes'){
 				$scope.showDiscountForm = true;
@@ -107,8 +128,10 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		}
 
 		$scope.getAllCountry = function(){ 
+			showLoader()
 	      	$http.get(configuration.GET_ALL_COUNTRY_URL).then(function success(res){
                $scope.countryList = res.data.country;
+				hideLoader()               
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
@@ -119,8 +142,10 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		$scope.getAllCountry();
 
 		$scope.getStateList = function(c_code){
+			showLoader()
 			$http.get(configuration.STATE_URL+"/"+c_code).then(function success(res){
                $scope.stateList = res.data.states;
+               hideLoader()
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
@@ -128,8 +153,10 @@ app.controller('packageController', function($scope, $http,configuration,$locati
  			});
 		}
 		$scope.getCityByState = function(s_code){
+				showLoader()
 				$http.get(configuration.CITY_URL+"/"+s_code).then(function success(res){
                $scope.cityList = res.data.cities ;
+               hideLoader()
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
@@ -143,6 +170,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			if($scope.inclusionTxt){
 				$scope.pack.inclusionList.push($scope.inclusionTxt);
 				$scope.inclusionTxt = '';
+				if($scope.formErrors.inclusionDetails) $scope.formErrors.inclusionDetails=false;
 			}
 			
 		};
@@ -156,6 +184,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			if($scope.excluionTxt){
 				$scope.pack.exclusionList.push($scope.excluionTxt);
 				$scope.excluionTxt = '';
+				if($scope.formErrors.exclusionDetails) $scope.formErrors.exclusionDetails=false;
 			}
 			
 		};
@@ -181,6 +210,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		    if (keyCode === 13 && val && $scope.pack.paymentPolicy.length<10) {
 		    	$scope.pack.paymentPolicy.push(val);
 		    	$scope.paymentPolicy = ''; 
+		    	if ($scope.formErrors.paymentPolicy) $scope.formErrors.paymentPolicy=false;
 		    }
 			
 		}
@@ -195,7 +225,8 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			var keyCode = $event.which || $event.keyCode;
 		    if (keyCode === 13 && val && $scope.pack.cancellationPolicy.length<10) {
 		    	$scope.pack.cancellationPolicy.push(val);
-		    	$scope.cancelPolicy = ''; 
+		    	$scope.cancelPolicy = '';
+		    	if ($scope.formErrors.cancellationPolicy)$scope.formErrors.cancellationPolicy=false; 
 		    }
 			
 		}
@@ -222,17 +253,55 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			}
 		}
 
-
+		function checkFormValidation(data){ 
+			var resp = {};
+			if(!data.category.length) resp.category = true;
+			else resp.category = false;
+			if(!data.highlights.length) resp.highlights = true;
+			else resp.highlights = false;
+			if(!data.selectedInclusion.length) resp.selectedInclusion = true;
+			else resp.selectedInclusion = false;
+			if(!data.itenary[0].title && !data.itenary[0].description) resp.itenary = true;
+			else resp.itenary = false;
+			if(!data.inclusionList.length) resp.inclusionDetails = true;
+			else resp.inclusionDetails = false;
+			if(!data.exclusionList.length) resp.exclusionDetails  = true;
+			else resp.exclusionDetails  = false;
+			if(!data.paymentPolicy.length) resp.paymentPolicy = true;
+			else resp.paymentPolicy  = false;
+			if(!data.cancellationPolicy.length) resp.cancellationPolicy = true;
+			else resp.cancellationPolicy = false;
+			if(!data.description) resp.description = true;
+			else resp.description = false;
+			if(data.discount == 'Yes'){
+				if(!$scope.discountImage) resp.discountImage = true;
+				else resp.discountImage = false;
+				if(!data.discountRate) resp.discountRate = true;
+				else resp.discountRate = false;
+			}else{
+				resp.discountImage = false;
+				resp.discountRate = false;
+			}
+			var notValid = false;
+			for(var k in resp){
+				if(resp[k]) notValid = true;
+			}
+			if(notValid) resp.valid = false;
+			else resp.valid = true;
+			return resp;
+		}
 
 
 		$scope.saveNewPackage = function(mainImg,files,discountImages){
 			console.log("data==", $scope.pack) 
+			showLoader();
 			if($scope.addNewPackageForm.$valid ){ 
-			 if(!$scope.pack.highlights.length){
-			 	$scope.showHighlightError = true;
-			 	$scope.emptyErrorMsg = 'Highlus'
-			 	return;
-			 }  
+			var formValidation =  checkFormValidation($scope.pack);
+			if(!formValidation.valid){
+				$scope.formErrors = formValidation;
+				return; 
+			}
+			
 			 var fileArray = [mainImg,files];
 			 if(discountImages) var fileArray = [mainImg,files,discountImages];
 					Upload.upload({
@@ -240,6 +309,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 					      arrayKey: '',
 					      data: {data:JSON.stringify($scope.pack),file:fileArray} 
 					    }).then(function (resp) {
+					    	hideLoader()
 		            			$scope.successPop = true;
 			                   $scope.errorPop = false;
 			                   $scope.successMsg = resp.data.message;

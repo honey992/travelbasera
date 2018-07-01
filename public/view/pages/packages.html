@@ -12,8 +12,7 @@
 <div ng-hide="viewData">
 	<button class="btn btn-success btn-xs" ng-click="viewData = !viewData"><i class="fa fa-arrow-left"></i> View All</button>
 </div>
-<br />
-
+<br /> 
 <div class="panel panel-default" ng-hide="viewData">
 	<div class="panel-heading"><u><b> Add Package</b></u> </div>
     	<div class="panel-body">
@@ -60,15 +59,15 @@
                      <div class="form-group"> 
                             <label>Category</label>
                             <div  style="position: relative">
-                                <input type="text" readonly style="cursor:pointer;" class="form-control" ng-click="cat_list = !cat_list" /> 
+                                <input type="text" readonly style="cursor:pointer;" class="form-control" ng-model="selectedCategories" ng-click="openCategoryList($event)" /> 
                                 <div class="catList" ng-if="cat_list">
                                 <ul> 
-                                    <li ng-repeat="x in catData" ng-click="selectOption(x)" ng-class="{'selected':selectedObj[x.cat_code]}">{{x.cat_name}}</li>
+                                    <li ng-repeat="x in catData" ng-click="selectOption(x, $event)" ng-class="{'selected':selectedObj[x.cat_code]}">{{x.cat_name}}</li>
                                 </ul>
                                 </div>
                             </div>
-                             <p class="__errorMsg" ng-show="addNewPackageForm.category.$touched && addNewPackageForm.category.$invalid">
-                              <span ng-show="addNewPackageForm.category.$error.required">*Please select package category</span>
+                             <p class="__errorMsg" ng-show="formErrors.category">
+                              <span>*Please select a category</span>
                             </p> 
                             </div> 
             			<div class="form-group">
@@ -170,16 +169,16 @@
                                 <div class="col-md-6">
                                     <label>Discount Image</label>
                              <input ng-disabled="!showDiscountForm" type="file" ngf-multiple="false" ngf-select ng-model="discountImage" name="file1" accept="image/*" ngf-max-size="2MB" ng-required="{{pack.discount == 'Yes'}}" ngf-model-invalid="errorFile" class="form-control">  
-                             <p class="info-text">*Please upload 360*225 px size image.</p>
-                             <p class="__errorMsg" ng-show="addNewPackageForm.file1.$touched && addNewPackageForm.file1.$invalid ">
-                              <span ng-show="addNewPackageForm.file1.$error.required">*Discount Image is required.</span>
+                             <p class="info-text">*Please upload 555*240 px size image.</p>
+                             <p class="__errorMsg" ng-show="formErrors.discountImage">
+                              <span>*Discount Image is required.</span>
                             </p>
                             </div>
                             <div class="col-md-6">
                                     <label>Discount Rate(in %)</label>
                              <input type="number" ng-disabled="!showDiscountForm" min="1" ng-required="{{pack.discount == 'Yes'}}"  ng-model="pack.discountRate" name="discountRate" class="form-control">  
-                             <p class="__errorMsg" ng-show="addNewPackageForm.discountRate.$touched && addNewPackageForm.discountRate.$invalid ">
-                              <span ng-show="addNewPackageForm.discountRate.$error.required">*Discount Image is required.</span>
+                             <p class="__errorMsg" ng-show="formErrors.discountRate">
+                              <span >*Discount Rate is required.</span>
                             </p>
                             </div>
                             </div>
@@ -198,8 +197,8 @@
 	                     		<input type="text" class="form-control" ng-model="pack.highlightsTitle" name="highlightsTitle"  >
 	                     		<button class="btn btn-primary" ng-click="addmorehighlights()">+</button>
                      		</div>
-                             <p class="__errorMsg" ng-show="showHighlightError">
-                              <span>*{{emptyErrorMsg}}</span>
+                             <p class="__errorMsg" ng-show="formErrors.highlights">
+                              <span>*Please enter highlights</span>
                             </p>
                      		<ul class="info-text">
                      			<li ng-repeat="x in pack.highlights">{{x.title}}&nbsp;<a href="javascript:void(0)" style="color:red" ng-click="removeHighlights(x, $index)">X</a></li>
@@ -213,8 +212,8 @@
                      		 <div class="form-group" style="position: relative;">
                             <label>Inclusions</label>
                             <input type="text" class="form-control" ng-model="selectedIncModel" ng-click="_inclusionList=!_inclusionList" readonly="true" name="inclusions">
-                            <p class="__errorMsg" ng-show="showInclusionsError">
-                              <span ng-show="addNewPackageForm.inclusions.$error.required">*Inclusions are required.</span>
+                            <p class="__errorMsg" ng-show="formErrors.selectedInclusion">
+                              <span >*Please select Inclusions.</span>
                             </p>
                             <div class="" ng-show="_inclusionList" style="background: #fff;z-index: 9;top: 59px;border: 1px solid #ddd; position:absolute; width:100%">
                               <ul>
@@ -240,18 +239,21 @@
                          <input type="text" class="form-control" placeholder="Itenary Title" name="title" ng-model="x.title"/><br />
                          <textarea rows="3" placeholder="Itenary Description" class="form-control" ng-model="x.description"></textarea> 
                          </div> 
-                           <p class="__errorMsg" ng-show="itenaryError">
-                              <span >*Inclusions are required.</span>
+                           <p class="__errorMsg" ng-show="formErrors.itenary">
+                              <span >*Please enter Itenary.</span>
                             </p>
                          <div class="text-right"><button class="btn btn-primary" ng-click="addItenary()">+</button></div>
                      </div>
                      <div class="col-md-6">
                       <div class="form-group">
                             <label>Is this package is popular?</label>
-                             <select ng-model="pack.popular" class="form-control">
+                             <select ng-model="pack.popular" class="form-control" name="popular">
                                 <option value="true">Yes</option>
                                 <option value="false" selected="selected">No</option>
                              </select>
+                             <p class="__errorMsg" ng-show="addNewPackageForm.popular.$touched && addNewPackageForm.popular.$invalid ">
+                              <span ng-show="addNewPackageForm.popular.$error.required">*Please choose package is popular or not.</span>
+                            </p>
                             </div> 
                         <div class="form-group">
                             <label>Add Inclusions</label>
@@ -259,6 +261,9 @@
                                 <input type="text" class="form-control" ng-model="inclusionTxt" name="inclusionTxt"  >
                                 <button class="btn btn-primary" ng-click="addmoreInclusions()">+</button>
                             </div>
+                            <p class="__errorMsg" ng-show="formErrors.inclusionDetails">
+                              <span >*Please add Inclusions.</span>
+                            </p>
                             <ul class="info-text">
                                 <li ng-repeat="x in pack.inclusionList">{{x}}&nbsp;<a href="javascript:void(0)" ng-click="removeInclusionList(x)" style="color:red">X</a></li>
                             </ul>
@@ -270,6 +275,9 @@
                                 <input type="text" class="form-control" ng-model="excluionTxt" name="excluionTxt"  >
                                 <button class="btn btn-primary" ng-click="addmoreExclusion()">+</button>
                             </div>
+                            <p class="__errorMsg" ng-show="formErrors.exclusionDetails">
+                              <span >*Please add Exclusions.</span>
+                            </p>
                             <ul class="info-text">
                                 <li ng-repeat="x in pack.exclusionList">{{x}}&nbsp;<a href="javascript:void(0)" ng-click="removeExclusionList(x)" style="color:red">X</a></li>
                             </ul>
@@ -278,7 +286,10 @@
                       <div class="col-md-12">
                             <div class="form-group editorr">
                             <label>Destination Overview</label>
-                                <div text-angular ng-model="pack.description" ></div>
+                                 <div text-angular ng-model="pack.description" ></div>
+                                <p class="__errorMsg" ng-show="formErrors.description">
+                              <span >*Please add description.</span>
+                            </p>
                             </div>
                         </div>
                      </div>
@@ -293,8 +304,8 @@
                                 <ul class="info-text">
                                     <li ng-repeat="x in pack.paymentPolicy track by $index">{{x}} &nbsp;<a href="javascript:void(0)" ng-click="removePaymentPolicy($index)" style="color:red">X</a></li>
                                 </ul>
-                             <p class="__errorMsg" ng-show="addNewPackageForm.paymentPolicy.$touched && addNewPackageForm.paymentPolicy.$invalid ">
-                              <span ng-show="addNewPackageForm.paymentPolicy.$error.required">*Field is required.</span> 
+                             <p class="__errorMsg" ng-show="formErrors.paymentPolicy">
+                              <span >*Please add payment policy.</span> 
                             </p>
                             </div> 
                         </div>
@@ -306,8 +317,8 @@
                                 <ul class="info-text">
                                     <li ng-repeat="x in pack.cancellationPolicy track by $index">{{x}} &nbsp;<a href="javascript:void(0)" ng-click="removeCancelPolicy($index)" style="color:red">X</a></li>
                                 </ul>
-                             <p class="__errorMsg" ng-show="addNewPackageForm.cancellationPolicy.$touched && addNewPackageForm.cancellationPolicy.$invalid ">
-                              <span ng-show="addNewPackageForm.cancellationPolicy.$error.required">*Field is required.</span> 
+                             <p class="__errorMsg" ng-show="formErrors.cancellationPolicy">
+                              <span >*Please add cancellation policy.</span> 
                             </p>
                             </div> 
                         </div>
@@ -430,5 +441,8 @@
     content:'\2714';
     position: absolute;
     left:20px;
+}
+ul.info-text{
+    word-wrap: break-word;
 }
 </style>

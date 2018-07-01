@@ -70,7 +70,7 @@
                                <tbody>
                                 <tr ng-repeat="x in faqList">
                                     <td>{{x.question}}</td>
-                                    <td><a><i data-toggle="modal" data-target="#answerModal" ng-click="openAnsEditPopup(x.answer);">{{x.answer.substring(0,45)}} (to view more click)</i></a></td>
+                                    <td><a><i data-toggle="modal" data-target="#answerModal" ng-click="openAnsEditPopup(x.answer);">{{x.answer.substring(0,45)}} ...</i></a></td>
                                     <td>{{x.metadata.is_active | statusName}}</td>
                                     <td class="center"><i class="fa fa-pencil" data-toggle="modal" data-target="#faqModal"  ng-click="openEditPopup(x);"></i>&nbsp;&nbsp;<i class="fa fa-trash" ng-click="deleteConfirmation(x._id)"></i></td> 
                                 </tr>

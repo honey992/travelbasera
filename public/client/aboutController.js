@@ -9,10 +9,12 @@ app.controller('aboutController', function($scope, $http,configuration,$location
 $scope.about = {};
 
 		 $scope.addAbout = function(){
+      showLoader()
 		 	$scope.requiredDesc = false;
       $scope.requiredSortDesc = false;
 		 	if($scope.about.description && $scope.about.sortDescription){
 		 		$http.post(configuration.ABOUT_US_URL, $scope.about).then(function success(res){
+            hideLoader()
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;
@@ -30,7 +32,9 @@ $scope.about = {};
 		 };
 
 		 $scope.getAboutus= function(){ 
+      showLoader()
 	      	$http.get(configuration.ABOUT_US_URL).then(function success(res){
+hideLoader()
                $scope.aboutUsData = res.data.data;
                $scope.aboutCb = $sce.trustAsHtml($scope.aboutUsData.description);
                $scope.editAbout = false;
