@@ -294,7 +294,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 
 		$scope.saveNewPackage = function(mainImg,files,discountImages){
 			console.log("data==", $scope.pack) 
-			showLoader();
+			
 			if($scope.addNewPackageForm.$valid ){ 
 			var formValidation =  checkFormValidation($scope.pack);
 			if(!formValidation.valid){
@@ -304,6 +304,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 			
 			 var fileArray = [mainImg,files];
 			 if(discountImages) var fileArray = [mainImg,files,discountImages];
+			 showLoader();
 					Upload.upload({
 					      url:configuration.PACKAGE_URL, 
 					      arrayKey: '',
