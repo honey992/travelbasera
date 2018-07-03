@@ -34,7 +34,7 @@ $scope.about = {};
 		 $scope.getAboutus= function(){ 
       showLoader()
 	      	$http.get(configuration.ABOUT_US_URL).then(function success(res){
-hideLoader()
+               hideLoader()
                $scope.aboutUsData = res.data.data;
                $scope.aboutCb = $sce.trustAsHtml($scope.aboutUsData.description);
                $scope.editAbout = false;

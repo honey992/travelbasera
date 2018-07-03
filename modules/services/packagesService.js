@@ -107,10 +107,7 @@ function savePackageImages(){
 		 		'days'  :otherDetails.days,
 		 		'nights':otherDetails.nights,
  				'selectedInclusion':otherDetails.selectedInclusion,
- 				'imagesId':self.imagesId,
- 				'discountRate':self.discountRate,
- 				'discountApplied':self.discount,
- 				'discountRate':self.discountRate,
+ 				'imagesId':self.imagesId,  
  				'descriptionId':self.descriptionId,
  				'itenaryId':self.itenaryId,
  				'policyId' : self.policyId,
@@ -196,12 +193,110 @@ function savePackageImages(){
  	var deferred = Q.defer();
  	var self = this;  
  	packageModel.remove({_id:self.id},function(err, data){
- 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to deleter Package"}));
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to delete Package"}));
 		deferred.resolve();
 	});
 	return deferred.promise; 
  }
+
+ function updatePackageImages(){
+ 	var deferred = Q.defer();
+ 	var self = this;  
+ 	var imagesId  = self.data.imagesId;
+ 	var package_images = []; 
+ 	if(self.data.mainImageChanged){
+ 		self.mainImage = self.files['0'].path;
+		delete self.files['0'];
+ 	}
+ 	if(self.data.discountImageChanged && self.data.discount == 'Yes'){
+ 		var fileLen = Object.keys(self.files).length;
+ 		if(!self.data.mainImageChanged) fileLen = fileLen-1;
+		self.discountImage = self.files[fileLen.toString()].path;
+		delete self.files[fileLen];
+ 	}   
+	for(var k in self.files){ 
+		package_images.push(self.files[k].path); 
+	};  
+ 	imagesModel.update({_id:imagesId}, {$push:{'package_images':{$each:package_images}}}, function(err, data){
+ 		if(err)  return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to update images "}));
+ 		deferred.resolve();
+ 	});
+ 	return deferred.promise;
+ }
+
+ function updatePackageDescription(){
+ 	var deferred = Q.defer();
+ 	var self = this;
+ 	var descId = self.data.descriptionId;
+ 	descriptionModel.update({_id:descId}, {$set:{'package_description':self.data.description}}, function(err, data){
+ 		if(err)  return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to update description of package"}));
+ 		deferred.resolve();
+ 	});
+ 	return deferred.promise;
+ }
+
+ function updatePackageItenary(){
+ 	var deferred = Q.defer();
+ 	var self = this;
+ 	var _id = self.data.itenaryId;
+ 	itenaryModel.update({_id:_id}, {$set:{'package_itenary':self.data.itenary}}, function(err, data){
+ 		if(err)  return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to update itenaries"}));
+ 		deferred.resolve();
+ 	});
+ 	return deferred.promise;
+ }
   
+  function updatePackagePolicy(){
+ 	var deferred = Q.defer();
+ 	var self = this;
+ 	var otherDetails = self.data; 
+ 	var updateData = {
+ 		'paymentPolicy' : otherDetails.paymentPolicy,
+		'cancellationPolicy' : otherDetails.cancellationPolicy,
+		'otherPolicy' : otherDetails.otherPolicy
+ 	};
+ 	var _id = otherDetails.policyId; 
+ 	policyModel.update({_id:_id},{$set:updateData},function(err, data){
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Update Package Policy"})); 
+ 		deferred.resolve();
+ 	});
+ 	return deferred.promise; 
+ }
+
+ function updatePackageDetails(){
+ 	var deferred = Q.defer();
+ 	var self = this;
+ 	var otherDetails = self.data; 
+ 	var updateData = {
+ 		        'category':otherDetails.category,
+ 		        'type':otherDetails.type,
+ 				'country':otherDetails.country,
+ 				'state':otherDetails.state,
+ 				'city':otherDetails.city,
+ 				'sourceCity':otherDetails.sourceCity,
+ 				'title':otherDetails.title,
+ 				'highlights':otherDetails.highlights,
+ 				'rate'  :otherDetails.rate,
+		 		'days'  :otherDetails.days,
+		 		'nights':otherDetails.nights,
+ 				'selectedInclusion':otherDetails.selectedInclusion,  
+ 				'popular':otherDetails.popular, 
+ 				'discountApplied':otherDetails.discount,
+ 				'discountRate':otherDetails.discountRate,
+ 				'inclusions':otherDetails.inclusionList,
+ 				'exclusions':otherDetails.exclusionList
+    };
+    if(self.data.mainImageChanged) updateData['mainImage'] = self.mainImage;
+ 	if(self.data.discountImageChanged && self.data.discount == 'Yes')  updateData['discountImage'] = self.discountImage;; 
+    debugger;   
+    console.log(updateData)
+ 	packageModel.update({_id:self.data._id},{$set:updateData},function(err, data){
+ 		debugger;
+ 		if(err) return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package details"}));
+ 		  deferred.resolve();
+	});
+	return deferred.promise; 
+ }
 
 
 var packageServ = {
@@ -225,22 +320,24 @@ var packageServ = {
             return cb(finalErr);
         }    
 	} , 
-	uploadImagesService: function(options, cb){
-		if(!options && !options.packId)
-			return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to upload images."}));
-		var reqObj = {
-			package_images:[],
-			package_id:options.packId || ''
-		} 
-		for(var k in options.files){
-			reqObj.package_images.push(options.files[k].path);
-		}; 
-	   var newPackImages = new imagesModel(reqObj);
- 	newPackImages.save(function(err, data){
- 		if(err) return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Save Package images"}));
-  			cb();
- 			
-	});
+	updatePackageService: function(options, cb){
+		options.data = JSON.parse(options.data);
+		if(!options)
+			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to add Package"}));
+		updatePackageImages.call(options)
+		   .then(updatePackageDescription.bind(options))
+		   .then(updatePackageItenary.bind(options)) 
+		   .then(updatePackagePolicy.bind(options)) 
+           .then(updatePackageDetails.bind(options)) 
+            .then(cb)
+            .fail(failureCb)
+            .catch(failureCb)
+
+        function failureCb(err){
+            var finalErr = new Error(err.message || 'Some Undefined Error Occurs.');
+            finalErr.status = err.status || 400;
+            return cb(finalErr);
+        }
 	},
 	fetchPackagesService: function(options, cb){
 		getPackageDetails.call(options)
@@ -338,6 +435,24 @@ var packageServ = {
 			cb(null, data);
 		})
 		},
+	removeImageService: function(options, cb){
+		if(!options.id)
+			return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to delete Image."}));
+		var updateData = {$set:{'mainImage':'null'}};
+		var updateModel = packageModel;
+		if(options.type =='multiImages'){
+			updateData = {$pull:{"package_images":options.imgPath}};
+			updateModel = imagesModel; 
+		}
+		if(options.type == 'discountImg') 
+			updateData= {$set:{'discountImage':'null'}};
+
+		console.log(updateData); 
+		updateModel.update({_id:options.id, 'metadata.is_active':true},updateData, function(err, data){
+			if(err) return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Unable to remove Image"}));
+			cb(null, data);
+		})
+	},
 	_PackageDetailsService: function(options, cb){
 		if(!options) 
 			 return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to get Data."}));

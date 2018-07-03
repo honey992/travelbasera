@@ -60,6 +60,29 @@ var packCtrl = {
 			res.json({'status':1,message:'Package Deleted Successfully'});
 		})
 	},
+	removeImageCtrl: function(req,res,next){
+		var options = {};
+		_.assign(options, req.params);
+		_.assign(options, req.query);
+		packageServices.removeImageService(options, function(err, result){
+			if(err) return next(err);
+			console.log(result);
+			if(result.nModified && result.ok) res.json({'status':1, message:'Image deleted Successfully'});
+			else res.json({'status':0, message:'Error in delete file'});
+		});
+	},
+	updatePackageCtrl: function(req,res,next){
+		var options = {files:{}};  
+		_.assign(options.files, req.files);
+		_.assign(options, req.body); 
+		console.log("==========",JSON.stringify(options)); 
+		packageServices.updatePackageService(options, function(err, result){
+			if(err){
+				return next(err);
+			}
+			res.json({status:1, message:'Package Updated Successfully.', data:options});
+		})
+	},
 	_getPackagesByCity: function(req,res,next){
 		var options = {};
 		_.assign(options, req.params);

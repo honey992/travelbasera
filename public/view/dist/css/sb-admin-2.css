@@ -577,5 +577,16 @@ table.dataTable thead .sorting:after {
     cursor: se-resize;
     background-color: white;
 }
-
- 
+.image_container{ position: relative; width:80px;height:80px; }
+.removeIcon i{ 
+    background-color: #6f6f6f;
+    color: #fff;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    text-align: center;
+        top: -5px;
+    left: 70px;
+    cursor: pointer;
+ }

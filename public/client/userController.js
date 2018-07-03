@@ -71,14 +71,38 @@ $scope.successPop = false;
 	   }
     }
 
+    	$scope.sendEmail = function(user){ 
+    		showLoader();
+			var obj =  {
+						to: user.email,
+                        subject: $scope.userId ? configuration.EMAIL_updateUserSubjectLine : configuration.EMAIL_subjectLine, 
+                        text: $scope.userId ? (configuration.EMAIL_text3) : (configuration.EMAIL_text1 + "Username : " + user.email + "  Password : "+ user.password + configuration.EMAIL_text2)
+                       };
+		      $http.post(configuration.SENDEMAIL_URL, obj).then(function success(res){
+						$scope.userId ? '' : $scope.resetAll();
+						$scope.errorPop = false;
+	                    $scope.successPop = true;
+	                    $scope.successMsg = res.data.message;
+	                    hideLoader();	       
+	                }, function errorCallback(err){
+	                    $scope.errorPop = true;
+	                    $scope.successPop = false;
+	                   $scope.errorMsg = err.data.message;
+
+	                }); 
+	}
+
+
 	$scope.addNewUser = function(newUser){
 			if($scope.addnewUserForm.$valid && !$scope.samePasswordError){
+				showLoader();
 		      $http.post(configuration.SIGN_UP_URL, $scope.user).then(function success(res){
 		      		   $scope.fetchUsers();
-		      		   $scope.emailToUser = false;
+		      		   $scope.sendEmail(newUser);
 	                   $scope.successPop = true;
 	                   $scope.errorPop = false;
 	                   $scope.successMsg = res.data.message;
+	                   hideLoader();
 	                }, function errorCallback(err){
 	                    $scope.errorPop = true;
 	                    $scope.successPop = false;
@@ -169,12 +193,14 @@ if($location.url().split('/')[1] == 'editUser'){
 
 $scope.editUser = function(){
 	if($scope.editUserForm.$valid){
+		showLoader();
 		$http.put(configuration.UPDATE_USER_URL+"/"+$scope.userId, $scope.singleUser).then(function success(res){
                $scope.successMsg = res.data.message;
                $scope.successPop = true;
                $scope.errorPop = false;
-               $scope.emailToUser = false;
+               $scope.sendEmail($scope.singleUser);
                $scope.singleUser.permissions = $scope.user.permissions;
+               hideLoader();
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
@@ -217,35 +243,6 @@ $scope.deleteConfirmation = function(id){
             });
 	}
 
-	$scope.sendEmail = function(formName,user){
-		if(formName.$valid){
-			var obj =  {
-						to: user.email,
-                        subject: $scope.userId ? configuration.EMAIL_updateUserSubjectLine : configuration.EMAIL_subjectLine, 
-                        text: $scope.userId ? (configuration.EMAIL_text3) : (configuration.EMAIL_text1 + "Username : " + user.email + "  Password : "+ user.password + configuration.EMAIL_text2)
-                       };
-		      $http.post(configuration.SENDEMAIL_URL, obj).then(function success(res){
-						$scope.userId ? '' : $scope.resetAll();
-						$scope.emailToUser = true;
-						$scope.errorPop = false;
-	                    $scope.successPop = true;
-	                    $scope.successMsg = res.data.message;	       
-	                }, function errorCallback(err){
-	                    $scope.errorPop = true;
-	                    $scope.successPop = false;
-	                   $scope.errorMsg = err.data.message;
-
-	                });
-		 }else{
-		 	 
-			angular.forEach(formName.$error, function(error){
-				               angular.forEach(error, function(control){
-				                   control.$setTouched();
-				               })
-				               
-				           });
-		}
-	}
 
 	$scope.resetAll = function(){
 		$scope.user = {};

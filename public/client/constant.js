@@ -42,6 +42,7 @@ app.constant("configuration", (function() {
         SENDEMAIL_URL  : "/api/sendEmail",
         TERM_CONDITION_URL  : "/api/termAndConditions",
         FAQ_URL  : "/api/faq",
-        CAREER_URL  : "/api/career"
+        CAREER_URL  : "/api/career",
+        REMOVE_IMAGE : "/api/removeImages"
     }
 })());

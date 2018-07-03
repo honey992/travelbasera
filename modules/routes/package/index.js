@@ -17,12 +17,14 @@ module.exports = function(app){
 	app.route('/api/fetchPackageDetail')
 		.get(packagesCtrl.packDetailsCtrl, error)
 	app.route('/api/packages/:id')
-		.delete(packagesCtrl.deletePackageCtrl, error)
+		.put(uploadFiles.multiUpload,packagesCtrl.updatePackageCtrl, error)
+		.delete(packagesCtrl.deletePackageCtrl, error) 
+	app.route('/api/removeImages/:id')
+		.put(packagesCtrl.removeImageCtrl, error)
 
 //For Web
 	app.route('/v1/api/packages/:cityId')
-		.get(packagesCtrl._getPackagesByCity, error)
-
+		.get(packagesCtrl._getPackagesByCity, error) 
 	app.route('/v1/api/package-details/:title')
 		.get(packagesCtrl._getPackageDetailsCtrl, error)
 	app.route('/v1/api/isPopularPackages')

@@ -17,6 +17,8 @@
 	<div class="panel-heading"><u><b> Add Package</b></u> </div>
     	<div class="panel-body">
         	<div class="row">
+            {{addNewPackageForm.$valid}}
+            {{addNewPackageForm.$error}}
             	<form  name="addNewPackageForm" novalidate enctype="multipart/form-data">
             		<div class="section">
             		<div class="col-md-6">

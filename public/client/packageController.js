@@ -1,3 +1,4 @@
+
 "use strict";
 
 app.controller('packageController', function($scope, $http,configuration,$location,Upload,$sce){
@@ -10,7 +11,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		$scope.formErrors = {};
 		$scope.openCategoryList = function(event){
 			$scope.cat_list = true;
-		event.stopPropagation();
+		    event.stopPropagation();
 		}
 		$scope.selectedObj = {}; 
 		$scope.selectedCategories = '';
@@ -419,7 +420,9 @@ app.controller('packageController', function($scope, $http,configuration,$locati
                 $scope.successPop = false;
                 $scope.errorMsg = err.data.message;
  			});
-	}
+	};
+
+	
 		
 	 
 
