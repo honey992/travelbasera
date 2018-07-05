@@ -43,6 +43,7 @@ app.constant("configuration", (function() {
         TERM_CONDITION_URL  : "/api/termAndConditions",
         FAQ_URL  : "/api/faq",
         CAREER_URL  : "/api/career",
-        REMOVE_IMAGE : "/api/removeImages"
+        REMOVE_IMAGE : "/api/removeImages",
+        CAREER_URL : "/api/career"
     }
 })());

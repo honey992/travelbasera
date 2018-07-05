@@ -54,6 +54,7 @@ app.controller('editPackageController', function($scope, $http,configuration,$lo
 			}
 			
 		}; 
+		
 		$scope.getInclusions= function(){ 
 	      	$http.get(configuration.INCLUSION_URL).then(function success(res){
                $scope.incList = res.data.inclusions;

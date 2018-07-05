@@ -3,41 +3,48 @@
 app.controller('careerController', function($scope, $http,configuration,$location,fileUpload,$sce){
 
 		$scope.viewData = true; 
-	$scope.toggelView = function(){
-		$scope.viewData = !$scope.viewData;
-	}
-$scope.about = {};
+  	$scope.toggelView = function(){
+  		$scope.viewData = !$scope.viewData;
+	   }
+    $scope.career = {};
 
-		 $scope.addAbout = function(){
-		 	$scope.requiredDesc = false;
-		 	if($scope.about.description){
-		 		$http.post(configuration.ABOUT_US_URL, $scope.about).then(function success(res){
+		 $scope.addOpening = function(){
+		 	$scope.jobDescription = false;
+		 	if($scope.careersForm.$valid){
+        if(!$scope.career.description){
+          $scope.jobDescription = true;
+          return;
+        }
+        var reqObj = {
+          job_title:$scope.career.title,
+          job_location :$scope.career.location,
+          job_function : $scope.career.function,
+          job_experience : $scope.career.experience,
+          job_description :$scope.career.description
+        };
+		 		$http.post(configuration.CAREER_URL, reqObj).then(function success(res){
                $scope.successPop = true;
                $scope.errorPop = false;
-               $scope.successMsg = res.data.message;
-               $scope.getAboutus();
+               $scope.successMsg = res.data.message; 
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
                 $scope.errorMsg = err.data.message;
- 			});
+ 			  });
 		 	}else{
-		 		$scope.requiredDesc = true;
+		 		angular.forEach($scope.careersForm.$error, function(error){
+               angular.forEach(error, function(control){
+                   control.$setTouched();
+               })
+               
+           });
 		 	}
 		 	 
 		 };
 
-		 $scope.getAboutus= function(){ 
-	      	$http.get(configuration.ABOUT_US_URL).then(function success(res){
-               $scope.aboutUsData = res.data.data;
-               $scope.aboutCb = $sce.trustAsHtml($scope.aboutUsData.description);
-               $scope.editAbout = false;
-               for(var k in $scope.aboutUsData){
-               	if( k == 'description' && $scope.aboutUsData[k]){
-               		$scope.editAbout = true;
-               		$scope.about = $scope.aboutUsData;
-               	} 
-               }
+		 $scope.getJobs= function(){ 
+	      	$http.get(configuration.CAREER_URL).then(function success(res){
+               $scope.careerData = res.data.data; 
             }, function errorCallback(err){
                 $scope.errorPop = true;
                 $scope.successPop = false;
@@ -45,7 +52,7 @@ $scope.about = {};
  			});
 		 
 		};
-		$scope.getAboutus();
+		$scope.getJobs();
 
 		 $scope.updateAboutContent = function(){
 
