@@ -26,7 +26,7 @@ var sendEmailService = {
                         from: sendEmailModel.auth.user,
                         to: options.to,
                         subject: options.subject,
-                        text: options.text
+                        html: options.text
                     };
                     transporter.sendMail(mailOptions, function (error, info) {
                         if (error) {

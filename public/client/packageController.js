@@ -208,7 +208,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 
 		$scope.addPaymentPolicy = function($event, val){
 			var keyCode = $event.which || $event.keyCode;
-		    if (keyCode === 13 && val && $scope.pack.paymentPolicy.length<10) {
+		    if (keyCode === 13 && val && $scope.pack.paymentPolicy.length<20) {
 		    	$scope.pack.paymentPolicy.push(val);
 		    	$scope.paymentPolicy = ''; 
 		    	if ($scope.formErrors.paymentPolicy) $scope.formErrors.paymentPolicy=false;
@@ -224,7 +224,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		}
 		$scope.addCancelPolicy = function($event, val){
 			var keyCode = $event.which || $event.keyCode;
-		    if (keyCode === 13 && val && $scope.pack.cancellationPolicy.length<10) {
+		    if (keyCode === 13 && val && $scope.pack.cancellationPolicy.length<20) {
 		    	$scope.pack.cancellationPolicy.push(val);
 		    	$scope.cancelPolicy = '';
 		    	if ($scope.formErrors.cancellationPolicy)$scope.formErrors.cancellationPolicy=false; 
@@ -240,7 +240,7 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		}
 		$scope.addOtherPolicy = function($event, val){
 			var keyCode = $event.which || $event.keyCode;
-		    if (keyCode === 13 && val && $scope.pack.otherPolicy.length<10) {
+		    if (keyCode === 13 && val && $scope.pack.otherPolicy.length<20) {
 		    	$scope.pack.otherPolicy.push(val);
 		    	$scope.otherPolicy = ''; 
 		    }
