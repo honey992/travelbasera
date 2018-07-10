@@ -83,7 +83,7 @@
                         <div class="form-group">
                                 <label>Source City</label> 
                                 <select class="form-control" ng-model="pack.sourceCity" name="sourceCity" required> 
-                                    <option ng-repeat="x in sourceCity" value="{{x.code}}-{{x.name}}">{{x.name}}</option> 
+                                    <option ng-repeat="x in sourceCity" value="{{x.ci_code}}-{{x.ci_name}}">{{x.ci_name}}</option> 
                                 </select>
                                 <p class="__errorMsg" ng-show="addNewPackageForm.sourceCity.$touched && addNewPackageForm.sourceCity.$invalid ">
                                   <span ng-show="addNewPackageForm.sourceCity.$error.required">*Please select Source City.</span>

@@ -67,12 +67,23 @@ app.controller('packageController', function($scope, $http,configuration,$locati
 		};
 		$scope.getInclusions();
 
-		$scope.getSourceCity = function(){
-			$http.get('client/sourceCity.json').then(function(res){
-				$scope.sourceCity = res.data;
-			})
+		// $scope.getSourceCity = function(){
+		// 	$http.get('client/sourceCity.json').then(function(res){
+		// 		$scope.sourceCity = res.data;
+		// 	})
+		// };
+		//$scope.getSourceCity();
+		$scope.getSourceCities= function(){ 
+	      	$http.get(configuration.CITY_URL).then(function success(res){
+               $scope.sourceCity = res.data.cities;
+            }, function errorCallback(err){
+                $scope.errorPop = true;
+                $scope.successPop = false;
+                $scope.errorMsg = err.data.message;
+ 			});
+		 
 		};
-		$scope.getSourceCity();
+		$scope.getSourceCities(); 
 		// $scope.sourceCity = [{code:"1", name:"Delhi"},{code:"2", name:"Mumbai"}];
 
 		$scope.pack.selectedInclusion = [];
