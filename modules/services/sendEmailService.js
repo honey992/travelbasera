@@ -29,6 +29,7 @@ var sendEmailService = {
                         html: options.text
                     };
                     transporter.sendMail(mailOptions, function (error, info) {
+                        console.log(error);
                         if (error) {
                              return cb(ec.Error({status:ec.DB_ERROR, message :"Unable to Send Email"}));
                         }

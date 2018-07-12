@@ -10,6 +10,7 @@ var policyModel	   		=   _models.policyModel;
 var ec 					= 	require('../../constants').errors;
 var lib 				=	require('../../lib');
 var middlewares 		= 	lib.middlewares; 
+var fs 					=   require('fs');
 
 
 function savePackageImages(){
@@ -436,6 +437,7 @@ var packageServ = {
 		})
 		},
 	removeImageService: function(options, cb){
+		debugger;
 		if(!options.id)
 			return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Insufficiant data to delete Image."}));
 		var updateData = {$set:{'mainImage':'null'}};
@@ -446,11 +448,17 @@ var packageServ = {
 		}
 		if(options.type == 'discountImg') 
 			updateData= {$set:{'discountImage':'null'}};
-
+debugger;
 		console.log(updateData); 
 		updateModel.update({_id:options.id, 'metadata.is_active':true},updateData, function(err, data){
 			if(err) return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Unable to remove Image"}));
-			cb(null, data);
+			
+			else{
+				debugger;
+				fs.unlink(options.imgPath, function(err, res){
+					cb(null, data);
+				});
+			}
 		})
 	},
 	_PackageDetailsService: function(options, cb){
