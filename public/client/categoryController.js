@@ -88,13 +88,12 @@ app.controller('categoryController', function($scope, $http,configuration,$locat
           }
       };
 
-      $scope.deleteConfirmation = function(id){
-		$scope.deleteId = id;
+      $scope.deleteConfirmation = function(d){
+		$scope.deleteData = d;
 		$scope.deleteConfirmationModal = true;
 	}
-	$scope.deleteCategory = function(){
-		var obj = {id:$scope.deleteId};
-		$http.delete(configuration.CATEGORY_URL+"/"+$scope.deleteId).then(function success(res){
+	$scope.deleteCategory = function(){ 
+		$http.delete(configuration.CATEGORY_URL+"/"+$scope.deleteData._id+"?imgPath="+$scope.deleteData.cat_image).then(function success(res){
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;

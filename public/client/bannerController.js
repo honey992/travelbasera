@@ -87,13 +87,12 @@ app.controller('bannerController', function($scope, $http,configuration,$locatio
           }
       };
 
-      $scope.deleteConfirmation = function(id){
-		$scope.deleteId = id;
+      $scope.deleteConfirmation = function(d){
+		$scope.deleteData = d;
 		$scope.deleteConfirmationModal = true;
 	}
-	$scope.deleteBanner = function(){
-		var obj = {id:$scope.deleteId};
-		$http.delete(configuration.UPLOAD_BANNER_URL+"/"+$scope.deleteId).then(function success(res){
+	$scope.deleteBanner = function(){ 
+		$http.delete(configuration.UPLOAD_BANNER_URL+"/"+$scope.deleteData._id+"?imgPath="+$scope.deleteData.imageUrl).then(function success(res){
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;

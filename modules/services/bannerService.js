@@ -4,6 +4,7 @@ var bannersModel    = 	require('../models').bannerModel;
 var ec 				= 	require('../../constants').errors;
 var lib 			=	require('../../lib');
 var middlewares 	= 	lib.middlewares; 
+var fs 				=	require('fs');
 
  
  
@@ -41,11 +42,13 @@ var bannersServ = {
 	},
 	deleteBanners: function(options, cb){
 		console.log(options);
-		debugger;
 		bannersModel.remove({_id:options.id}, function(err, data){
 		if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable to delete Banner"}));
-		debugger;
-			cb(null, data);
+			else{
+				fs.unlink(options.imgPath, function(err, res){
+					cb(null, data);
+				})
+			}
 
 		})
 	},

@@ -4,6 +4,7 @@ var categoryModel    = 	require('../models').categoryModel;
 var ec 				= 	require('../../constants').errors;
 var lib 			=	require('../../lib');
 var middlewares 	= 	lib.middlewares; 
+var fs				=	 require('fs');
 
 function checkCategoryName(){
 
@@ -92,7 +93,11 @@ var categoryServ = {
 	deleteCategory: function(options, cb){
 		categoryModel.remove({_id:options.id}, function(err, data){
 		if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable to delete Categories"}));
-			cb(null, data);
+			else{
+				fs.unlink(options.imgPath, function(err, res){
+					cb(null, data);
+				})
+			}
 
 		})
 	},

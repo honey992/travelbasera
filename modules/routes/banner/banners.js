@@ -34,6 +34,7 @@ var bannersCtrl = {
 	deleteBannersCtrl:function(req,res,next){
 		var options = {};
 		_.assign(options, req.params);
+		_.assign(options, req.query);
 		bannerServices.deleteBanners(options, function(err, result){
 			if(err) return next(err); 
 			res.json({'status':1,'message':'Banner Deleted Successfully'});

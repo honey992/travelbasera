@@ -7,6 +7,7 @@ var stateModel     =  _models.stateModel;
 var ec 				= 	require('../../constants').errors;
 const lib 			=	require('../../lib');
 const middlewares 	= 	lib.middlewares; 
+var fs 				= require('fs');
 
 function checkCityName(){
 	var self = this;
@@ -141,7 +142,12 @@ var cityService = {
 		
 		cityModel.remove({_id:options.id}, function(err, result){
 			if(err) return cb(ec.Error({status:ec.DB_ERROR, message:'Unable to get results'}));
-			cb(null, result);
+			else{
+				fs.unlink(options.imgPath, function(err, res){
+					cb(null, result);
+				})
+			}
+			
 		});
 	},
 

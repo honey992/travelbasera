@@ -160,13 +160,12 @@ app.controller('cityController', function($scope, $http,configuration,$location,
           }
 		
 	};
-	$scope.deleteConfirmation = function(id){
-		$scope.deleteId = id;
+	$scope.deleteConfirmation = function(d){
+		$scope.deleteData = d;
 		$scope.deleteConfirmationModal = true;
 	}
 	$scope.deleteCity = function(){
-		var obj = {id:$scope.deleteId};
-		$http.delete(configuration.CITY_URL+"/"+$scope.deleteId).then(function success(res){
+		$http.delete(configuration.CITY_URL+"/"+$scope.deleteData._id+"?imgPath="+$scope.deleteData.ci_image).then(function success(res){
                $scope.successPop = true;
                $scope.errorPop = false;
                $scope.successMsg = res.data.message;

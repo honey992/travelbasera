@@ -43,6 +43,7 @@ var cityCtrl = {
 	deleteCityCtrl: function(req,res,next){
 		var options = {};
 		_.assign(options, req.params);
+		_.assign(options, req.query);
  
 		console.log('delete options',options);
 		cityServices.deleteCityService(options, function(err, data){
