@@ -93,12 +93,12 @@ $scope.successPop = false;
 	}
 
 
-	$scope.addNewUser = function(newUser){
+	$scope.addNewUser = function(){
 			if($scope.addnewUserForm.$valid && !$scope.samePasswordError){
 				showLoader();
 		      $http.post(configuration.SIGN_UP_URL, $scope.user).then(function success(res){
 		      		   $scope.fetchUsers();
-		      		   $scope.sendEmail(newUser);
+		      		   $scope.sendEmail($scope.user);
 	                   $scope.successPop = true;
 	                   $scope.errorPop = false;
 	                   $scope.successMsg = res.data.message;
