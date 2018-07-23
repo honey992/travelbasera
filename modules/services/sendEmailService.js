@@ -16,24 +16,24 @@ var sendEmailService = {
 		 if(!options)
             return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to send a mail"}));
 
-		      var transporter = nodemailer.createTransport(smtpTransport({
+		      var transporter = nodemailer.createTransport({
                             service: sendEmailModel.service,
                             host: sendEmailModel.host,
                             port:sendEmailModel.port,
-                            secure:sendEmailModel.secure,
-                            requireTLS:sendEmailModel.requireTLS,
+                            secure:sendEmailModel.secure, 
                             auth: {
                                 user: sendEmailModel.auth.user,
                                 pass: sendEmailModel.auth.pass
                             }
-                        }));
-
+                        }); 
+debugger;
                     var mailOptions = {
                         from: sendEmailModel.auth.user,
                         to: options.to,
                         subject: options.subject,
                         html: options.text
                     };
+                    debugger;
                     transporter.sendMail(mailOptions, function (error, info) {
                         console.log(error);
                         if (error) {
