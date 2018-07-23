@@ -19,6 +19,9 @@ var sendEmailService = {
 		      var transporter = nodemailer.createTransport(smtpTransport({
                             service: sendEmailModel.service,
                             host: sendEmailModel.host,
+                            port:sendEmailModel.port,
+                            secure:sendEmailModel.secure,
+                            requireTLS:sendEmailModel.requireTLS,
                             auth: {
                                 user: sendEmailModel.auth.user,
                                 pass: sendEmailModel.auth.pass
