@@ -8,7 +8,7 @@ var nodemailer      =   require('nodemailer');
 var smtpTransport   =   require('nodemailer-smtp-transport');
 var ses             =   require('nodemailer-ses-transport');
 var middlewares 	= 	lib.middlewares; 
-var transporter     =   nodemailer.createTransport(ses(sesConfig));
+// var transporter     =   nodemailer.createTransport(ses(sesConfig));
 
 var sendEmailService = {
 	sendEmailService:function(options, cb){
@@ -16,14 +16,14 @@ var sendEmailService = {
 		 if(!options)
             return cb(ec.Error({status:ec.INSUFFICENT_DATA, message :"Invalid data to send a mail"}));
 
-		    //   var transporter = nodemailer.createTransport(smtpTransport({
-            //                 service: sendEmailModel.service,
-            //                 host: sendEmailModel.host,
-            //                 auth: {
-            //                     user: sendEmailModel.auth.user,
-            //                     pass: sendEmailModel.auth.pass
-            //                 }
-            //             }));
+		      var transporter = nodemailer.createTransport(smtpTransport({
+                            service: sendEmailModel.service,
+                            host: sendEmailModel.host,
+                            auth: {
+                                user: sendEmailModel.auth.user,
+                                pass: sendEmailModel.auth.pass
+                            }
+                        }));
 
                     var mailOptions = {
                         from: sendEmailModel.auth.user,
