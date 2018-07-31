@@ -5,53 +5,8 @@ var ec 				= 	require('../../constants').errors;
 var lib 			=	require('../../lib');
 var middlewares 	= 	lib.middlewares; 
 
-function checkCategoryName(){
 
-	var deferred = Q.defer();
-	var self = this;
-	self.cat_code = 1;
-	categoryModel.find({c_name:self.data.name}, function(err, data){
-		if(err) return deferred.reject();
-		if(data.length)
-			 return deferred.reject(ec.Error({status:ec.DATA_ALREADY_EXISTS, message:'Category Already Exist.'}));
-		deferred.resolve();
-			});
-	return deferred.promise;
-}
-function getLastCode(){
-	var self = this;
- 	var deferred = Q.defer();
- 	categoryModel.find(function(err, data){
- 		if(err)
- 			return deferred.reject(ec.Error({status:ec.DB_ERROR, message :"Unable to Fetch Categories"}));
- 		
- 		if(data.length){
-            var lastElm = data[data.length-1];
-     		self.cat_code = parseInt(lastElm.cat_code)+1;
-       } 
- 		deferred.resolve();
- 	});
- 	return deferred.promise;
-}
-function saveNewCategory(){
-	var deferred = Q.defer();
-	var self = this;
-	var reqObj = {
-			'cat_name': self.data.name,
-			'cat_code': self.cat_code,
-			'cat_image': self.file.path,
-			'cat_desc' : self.data.description,
-			'metadata':{'is_active' : self.data.status}
-		}
-		var newData = new categoryModel(reqObj);
-			newData.save(function(err, data){
-				if(err)return deferred.reject(ec.Error({status:ec.DB_ERROR, message:"Unable Save Category."}));
-				deferred.resolve();
-			}) ;
-	return deferred.promise; 
-}
-
-var categoryServ = {
+var careerServ = {
 	 
 	addNewOpening: function(options,cb){  
 		if(!options)
@@ -88,11 +43,11 @@ var categoryServ = {
 
 		})
 	},
-	_getCategoriesService: function(options, cb){
-		categoryModel.find({'metadata.is_active':true}, function(err, data){
-			if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable to delete Categories"}));
+	_getCareerService: function(options, cb){
+		 careerModel.find({'metadata.is_active':true}, function(err, data){
+			if(err)return cb(ec.Error({status:ec.DB_ERROR, message:"Unable to jobs"}));
 			cb(null, data);
 		})
 	}
 };
-module.exports = categoryServ;
+module.exports = careerServ;

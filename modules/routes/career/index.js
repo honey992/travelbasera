@@ -11,6 +11,9 @@ module.exports = function(app){
 		.post(careerCtrl.addOpeningCtrl, error)
 		.get(careerCtrl.getOpeningCtrl, error) 
 
+	app.route('/v1/api/career')
+		.get(careerCtrl._fetchCareersCtrl, error)
+
  
 	 
 }

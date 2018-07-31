@@ -26,7 +26,7 @@ var categoryCtrl = {
 		_.assign(options, req.body);
 		categoryServices.updateCategoryService(options, function(err, data){
 			if(err) return next(err); 
-			res.json({message:'Category Updated Successfully'});
+			res.json({status:'S',message:'Category Updated Successfully'});
 		})
 	},
 	deleteCategoryCtrl:function(req,res,next){
@@ -37,9 +37,9 @@ var categoryCtrl = {
 			res.json({'status':1,'message':'Category Deleted Successfully'});
 		})
 	},
-	_getCategoriesCtrl: function(req, res,next){
+	_fetchCareersCtrl: function(req, res,next){
 		var options = {};
-		categoryServices._getCategoriesService(options, function(err, result){
+		careerService._getCareerService(options, function(err, result){
 			if(err) return next(err);
 			res.json({'status':'S',data:result});
 
