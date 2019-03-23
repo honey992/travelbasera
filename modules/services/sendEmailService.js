@@ -27,8 +27,8 @@ var sendEmailService = {
                             }
                         });  
                     var mailOptions = {
-                        from: sendEmailModel.auth.user,
-                        to: options.to,
+                        from: options.to,
+                        to: sendEmailModel.auth.user,
                         subject: options.subject,
                         html: options.text
                     };
