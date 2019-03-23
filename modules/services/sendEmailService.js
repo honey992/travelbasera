@@ -36,7 +36,7 @@ var sendEmailService = {
                     transporter.sendMail(mailOptions, function (error, info) {
                         console.log(error);
                         if (error) {
-                             return cb(ec.Error({status:ec.DB_ERROR, message : error}));
+                             return cb(ec.Error({status:ec.DB_ERROR, message : mailOptions}));
                         }
                         transporter.close();
                         return cb(null,info);
