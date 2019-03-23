@@ -9,7 +9,6 @@ app.config(["$routeProvider", "$locationProvider", "$httpProvider",'$provide',fu
             controller: "userController"
         }).when("/dashboard", {
             templateUrl: "/view/dashboard.html",
-            controller: "dashboardController"
         }).when("/profile", {
             templateUrl: "/view/pages/profile.html",
             controller: "userController"
