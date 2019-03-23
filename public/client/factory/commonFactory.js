@@ -11,7 +11,7 @@ app.factory('commonFactory', function(){
       //                  })
                        
       //              });
-    };
+    }
 
 
   }
