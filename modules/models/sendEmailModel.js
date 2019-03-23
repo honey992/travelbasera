@@ -1,9 +1,9 @@
 var mailInfo = {
 	service:      "Gmail",
 	host:         "smtp.gmail.com",
-	port:         587,
-	secure:       false,
-    requireTLS: false,
+	port:         465,
+	secure:       true,
+    requireTLS: true,
     auth: {
         user: "baseraholidays@gmail.com",
         pass: "Basera@#4141"
