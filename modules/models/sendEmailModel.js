@@ -5,8 +5,8 @@ var mailInfo = {
 	secure:       true,
     requireTLS: true,
     auth: {
-        user: "Travelbaseraholidays@gmail.com",
-        pass: "Basera@#1234"
+        user: "baseraholidays@gmail.com",
+        pass: "Basera@#4141"
     } 
 }
 
